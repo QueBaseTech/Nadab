@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +23,10 @@ import com.example.karokojnr.nadab_seller.MainActivity;
 import com.example.karokojnr.nadab_seller.ProfileActivity;
 import com.example.karokojnr.nadab_seller.R;
 import com.example.karokojnr.nadab_seller.model.Response;
+import com.example.karokojnr.nadab_seller.model.User;
 import com.example.karokojnr.nadab_seller.network.NetworkUtil;
+import com.example.karokojnr.nadab_seller.utils.APIService;
+import com.example.karokojnr.nadab_seller.utils.Api;
 import com.example.karokojnr.nadab_seller.utils.Constants;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -54,6 +58,7 @@ public class LoginFragment extends Fragment {
 
     private CompositeSubscription mSubscriptions;
     private SharedPreferences mSharedPreferences;
+    private APIService mAPIService;
 
 
 
@@ -81,6 +86,8 @@ public class LoginFragment extends Fragment {
         mBtLogin.setOnClickListener(view -> login());
         mTvRegister.setOnClickListener(view -> goToRegister());
         mTvForgotPassword.setOnClickListener(view -> showDialog());
+
+        mAPIService = Api.getAPIService();
     }
 
     private void initSharedPreferences() {
@@ -129,22 +136,36 @@ public class LoginFragment extends Fragment {
     }
 
     private void loginProcess(String email, String password) {
+        mAPIService.login(email, password).enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, retrofit2.Response<User> response) {
+                if(response.isSuccessful()) {
+                    showResponse(response.body().toString());
+                    Log.i(TAG, "post submitted to API." + response.body().toString());
+                }
+                if(response.code() == 404){
+                    Log.i(TAG, "Res code:: " + response.errorBody());
+                }
+            }
 
-        mSubscriptions.add(NetworkUtil.getRetrofit(email, password).Login (email, password, cb)
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Log.i(TAG, "Unable to submit post to API."+ t.getMessage());
+            }
+        });
+
+        /*mSubscriptions.add(NetworkUtil.getRetrofit(email, password).Login (email, password, cb)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(this::handleResponse,this::handleError));
+                .subscribe(this::handleResponse,this::handleError));*/
     }
-    Callback cb = new Callback () {
-        @Override
-        public void onResponse(Call call, retrofit2.Response response) {
-            Toast.makeText ( this,"Successful",Toast.LENGTH_SHORT ).show ();
-        }
 
-        @Override
-        public void onFailure(Call call, Throwable t) {
-
+    public void showResponse(String response) {
+        Log.d(response, "JOEDS");
+        /*if(mResponseTv.getVisibility() == View.GONE) {
+            mResponseTv.setVisibility(View.VISIBLE);
         }
+        mResponseTv.setText(response);*/
     }
 
     private void handleResponse(Response response) {
