@@ -152,8 +152,9 @@ public class Items extends AppCompatActivity {
 
                     /* Edited */
                 }else{
-                    for (Products products: response.body ()){
-                        productsList.add(products);
+                    assert response.body () != null;
+                    for (Products products: response.body ()) {
+                        productList.add ( products );
                     }
 
                     Log.i ( "RESPONSE: ", "" + response.toString () );
