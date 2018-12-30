@@ -38,9 +38,9 @@ public class HomeActivity extends AppCompatActivity implements
         Fragment fragment = null;
 
         switch (item.getItemId()) {
-            case R.id.navigation_home:
-                fragment = new MealsFragment ();
-                break;
+//            case R.id.navigation_home:
+//                fragment = new MealsFragment ();
+//                break;
 
             case R.id.navigation_dashboard:
                 fragment = new DashboardFragment();

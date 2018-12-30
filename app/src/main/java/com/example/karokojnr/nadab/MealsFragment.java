@@ -1,3 +1,4 @@
+/*
 package com.example.karokojnr.nadab;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -14,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.karokojnr.nadab.adapter.ItemsAdapter;
-import com.example.karokojnr.nadab.adapter.ProductsAdapter;
 import com.example.karokojnr.nadab.api.HotelService;
 import com.example.karokojnr.nadab.api.RetrofitInstance;
 import com.example.karokojnr.nadab.model.Products;
@@ -43,7 +43,7 @@ public class MealsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_meals, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        itemsAdapter = new ItemsAdapter (productsList, getActivity());
+        itemsAdapter = new ItemsAdapter (productsList );
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -84,7 +84,9 @@ public class MealsFragment extends Fragment {
                     Toast.makeText(getActivity(), "Somthing Went Wrong...!!", Toast.LENGTH_SHORT).show();
 
 
-                    /* Edited */
+                    */
+/* Edited *//*
+
 //                }else{
 //                    for (Products products: response.body ()){
 //                        productsList.add(products);
@@ -104,4 +106,4 @@ public class MealsFragment extends Fragment {
     }
     public interface OnFragmentInteractionListener {
     }
-}
+}*/

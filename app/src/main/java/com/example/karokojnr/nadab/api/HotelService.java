@@ -38,7 +38,7 @@ public interface HotelService {
     Call<Login> login(@Field("email") String email, @Field("password") String password);
 
     @GET("products/")
-    Call<Products> getProduct();
+    Call<ProductRegister> getProduct();
 /*
 
     *//**

@@ -2,9 +2,27 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
-    <LinearLayout
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="@dimen/child_margin_top"
+        tools:ignore="NotSibling">
+
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableRight="@drawable/ic_password"
+            android:ems="10"
+            android:hint="Name"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <!--<LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -22,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:inputType="textCapSentences" />
-    </LinearLayout>
+    </LinearLayout>-->
 
 
     <LinearLayout
@@ -41,8 +59,7 @@
             android:id="@+id/unitMeasure"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:inputType="text" />
+            android:layout_weight="0.5" />
     </LinearLayout>
 
     <LinearLayout
@@ -62,8 +79,7 @@
             android:id="@+id/price"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:inputType="text" />
+            android:layout_weight="0.5" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
