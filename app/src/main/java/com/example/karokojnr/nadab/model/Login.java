@@ -25,6 +25,17 @@ public class Login {
         @SerializedName("token")
         private String token;
 
+        @SerializedName("hotelId")
+        private String hotelId;
+
+        public String getHotelId() {
+            return hotelId;
+        }
+
+        public void setHotelId(String hotelId) {
+            this.hotelId = hotelId;
+        }
+
         public String getToken() {
             return token;
         }

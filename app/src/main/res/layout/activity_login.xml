@@ -85,16 +85,15 @@
                 android:textAlignment="center" />
 
 
-
             <ProgressBar
-                android:id="@+id/progress"
+                android:id="@+id/login_loading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_register"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/button_margin"
                 android:layout_marginBottom="@dimen/button_margin"
-                android:visibility="gone"/>
+                android:layout_marginTop="@dimen/button_margin"
+                android:visibility="invisible" />
 
         </RelativeLayout>
     </LinearLayout>
