@@ -10,14 +10,14 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.karokojnr.nadab.R;
-import com.example.karokojnr.nadab.model.Products;
+import com.example.karokojnr.nadab.model.Product;
 
 import java.util.List;
 
 public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.MyViewHolder> {
-    List<Products> productList;
+    List<Product> productList;
     Context context;
-    public ProductsAdapter(List<Products> productsList, Context context) {
+    public ProductsAdapter(List<Product> productsList, Context context) {
         this.productList = productsList;
         this.context = context;
     }
@@ -29,10 +29,10 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.MyView
     }
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Products products = productList.get(position);
-        holder.tvName.setText(products.getName ());
+        Product product = productList.get(position);
+        holder.tvName.setText(product.getName ());
         Glide.with(context)
-                .load(products.getImage())
+                .load(product.getImage())
                 .centerCrop()
                 .into(holder.imageView);
     }

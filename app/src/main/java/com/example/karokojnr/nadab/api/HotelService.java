@@ -6,14 +6,17 @@ import com.example.karokojnr.nadab.model.Hotel;
 import com.example.karokojnr.nadab.model.HotelRegister;
 import com.example.karokojnr.nadab.model.HotelsList;
 import com.example.karokojnr.nadab.model.Login;
-import com.example.karokojnr.nadab.model.ProductRegister;
+import com.example.karokojnr.nadab.model.Product;
 import com.example.karokojnr.nadab.model.Products;
+import com.example.karokojnr.nadab.utils.utils;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
 public interface HotelService {
@@ -31,14 +34,14 @@ public interface HotelService {
     Call<HotelRegister> addHotel(@Body Hotel hotel);
 
     @POST("products/add")
-    Call<ProductRegister> addProduct(@Body Products products);
+    Call<Products> addProduct(@Body Product product);
 
     @FormUrlEncoded
     @POST("login/")
     Call<Login> login(@Field("email") String email, @Field("password") String password);
 
     @GET("products/")
-    Call<ProductRegister> getProduct();
+    Call<Products> getProducts(@Header("x-token") String token);
 /*
 
     *//**

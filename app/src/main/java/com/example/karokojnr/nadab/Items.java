@@ -21,8 +21,11 @@ import android.widget.Toast;
 import com.example.karokojnr.nadab.adapter.ItemsAdapter;
 import com.example.karokojnr.nadab.api.HotelService;
 import com.example.karokojnr.nadab.api.RetrofitInstance;
-import com.example.karokojnr.nadab.model.ProductRegister;
+import com.example.karokojnr.nadab.model.Product;
 import com.example.karokojnr.nadab.model.Products;
+import com.example.karokojnr.nadab.model.Products;
+import com.example.karokojnr.nadab.utils.Constants;
+import com.example.karokojnr.nadab.utils.utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,8 +39,15 @@ public class Items extends AppCompatActivity {
     private ItemsAdapter adapter;
     RecyclerView recyclerView;
 
+<<<<<<< HEAD
     private List<Products> productList = new ArrayList<> ();
+=======
+    private List<Product> productList = new ArrayList<> ();
+    private ActionBar toolbar;
+>>>>>>> 7386a09b52482302edc398a9e8c8872d75d09229
     FloatingActionButton fab;
+
+    private static final String TAG = "Items";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,54 +62,88 @@ public class Items extends AppCompatActivity {
         /*Create handle for the RetrofitInstance interface*/
         HotelService service = RetrofitInstance.getRetrofitInstance ().create ( HotelService.class );
         /*Call the method with parameter in the interface to get the employee data*/
-        Call<ProductRegister> call = service.getProduct ();
+        Call<Products> call = service.getProducts(utils.getToken(getApplicationContext()));
         /*Log the URL called*/
         Log.wtf ( "URL Called", call.request ().url () + "" );
 
-
-        call.enqueue ( new Callback<ProductRegister> () {
+        call.enqueue ( new Callback<Products> () {
             @Override
-            public void onResponse(Call<ProductRegister> call, Response<ProductRegister> response) {
+            public void onResponse(Call<Products> call, Response<Products> response) {
                 generateProductsList ( response.body ().getProductArrayList () );
             }
 
             @Override
-            public void onFailure(Call<ProductRegister> call, Throwable t) {
+            public void onFailure(Call<Products> call, Throwable t) {
                 Toast.makeText ( Items.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT ).show ();
             }
         } );
-        recyclerView = (RecyclerView) findViewById ( R.id.recycler_view );
+<<<<<<< HEAD
+=======
 
+
+        //FLOATING BUTTON
+
+        fab = (FloatingActionButton) findViewById ( R.id.fab );
+        fab.setOnClickListener ( new View.OnClickListener () {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make ( view, "Fill in the details of the Item you want to add", Snackbar.LENGTH_LONG ).setAction ( "Action", null ).show ();
+
+                final Dialog dialog = new Dialog ( Items.this );
+                dialog.setContentView ( R.layout.dialog_items ); //layout for dialog
+                dialog.setTitle ( "Add a new products" );
+                dialog.setCancelable ( false ); //none-dismiss when touching outside Dialog
+
+                // set the custom dialog components - texts and image
+                EditText name = (EditText) dialog.findViewById ( R.id.name );
+                EditText unitMeasure = (EditText) dialog.findViewById ( R.id.unitMeasure );
+                EditText price = (EditText) dialog.findViewById ( R.id.price );
+                EditText hotel = (EditText) dialog.findViewById ( R.id.hotel );
+                EditText image = (EditText) dialog.findViewById ( R.id.image );
+                EditText sellingStatus = (EditText) dialog.findViewById ( R.id.sellingStatus );
+
+
+                EditText servedWith = (EditText) dialog.findViewById ( R.id.servedWith );
+                View btnAdd = dialog.findViewById ( R.id.btn_ok );
+                View btnCancel = dialog.findViewById ( R.id.btn_cancel );
+
+                //set handling event for 2 buttons and spinner
+                btnAdd.setOnClickListener ( onConfirmListener ( name, unitMeasure, price, hotel, image, sellingStatus, servedWith, dialog ) );
+                btnCancel.setOnClickListener ( onCancelListener ( dialog ) );
+
+                //show dialog box
+                dialog.show ();
+            }
+        } );
+
+
+>>>>>>> 7386a09b52482302edc398a9e8c8872d75d09229
+        recyclerView = (RecyclerView) findViewById ( R.id.recycler_view );
         adapter = new ItemsAdapter ( productList, this );
+<<<<<<< HEAD
 
 
         recyclerView.setHasFixedSize ( false );
 
         // vertical RecyclerView
         // keep movie_list_row.xml width to `match_parent`
+=======
+        recyclerView.setHasFixedSize ( true );
+>>>>>>> 7386a09b52482302edc398a9e8c8872d75d09229
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager ( getApplicationContext () );
-
-        // horizontal RecyclerView
-        // keep movie_list_row.xml width to `wrap_content`
-        // RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
-
         recyclerView.setLayoutManager ( mLayoutManager );
-
         // adding inbuilt divider line
         recyclerView.addItemDecoration ( new DividerItemDecoration ( this, LinearLayoutManager.VERTICAL ) );
-
         // adding custom divider line with padding 16dp
         // recyclerView.addItemDecoration(new MyDividerItemDecoration(this, LinearLayoutManager.VERTICAL, 16));
         recyclerView.setItemAnimator ( new DefaultItemAnimator () );
-
         recyclerView.setAdapter ( adapter );
-
         // row click listener
         recyclerView.addOnItemTouchListener ( new RecyclerTouchListener ( getApplicationContext (), recyclerView, new RecyclerTouchListener.ClickListener () {
             @Override
             public void onClick(View view, int position) {
-                Products products = productList.get ( position );
-                Toast.makeText ( getApplicationContext (), products.getName () + " is selected!", Toast.LENGTH_SHORT ).show ();
+                Product product = productList.get ( position );
+                Toast.makeText ( getApplicationContext (), product.getName () + " is selected!", Toast.LENGTH_SHORT ).show ();
             }
 
             @Override
@@ -152,10 +196,15 @@ public class Items extends AppCompatActivity {
     }
 
 
+<<<<<<< HEAD
 
 
     /*Method to generate List of Meals using RecyclerView with custom adapter*/
     private void generateProductsList(ArrayList<Products> empDataList) {
+=======
+    /*Method to generate List of employees using RecyclerView with custom adapter*/
+    private void generateProductsList(ArrayList<Product> empDataList) {
+>>>>>>> 7386a09b52482302edc398a9e8c8872d75d09229
         recyclerView = (RecyclerView) findViewById ( R.id.recycler_view );
 
         adapter = new ItemsAdapter ( empDataList );
@@ -168,44 +217,26 @@ public class Items extends AppCompatActivity {
     }
 
     public void getProductList() {
-
-//        // display a progress dialog
-//        final ProgressDialog progressDialog = new ProgressDialog (this);
-//        progressDialog.setCancelable(false); // set cancelable to false
-//        progressDialog.setMessage("Please Wait"); // set message
-//        progressDialog.show(); // show progress dialog
-        //made changes
         HotelService apiInterface = RetrofitInstance.getRetrofitInstance ().create ( HotelService.class );
-        Call<ProductRegister> call = apiInterface.getProduct ();
-        call.enqueue ( new Callback<ProductRegister> () {
+        Call<Products> call = apiInterface.getProducts(utils.getToken(getApplicationContext()));
+        call.enqueue ( new Callback<Products> () {
             @Override
-            public void onResponse(Call<ProductRegister> call, Response<ProductRegister> response) {
+            public void onResponse(Call<Products> call, Response<Products> response) {
                 if (response == null) {
                     Toast.makeText ( getApplicationContext (), "Something Went Wrong...!!", Toast.LENGTH_SHORT ).show ();
-
-
                     //edited
-
                 } else {
                     assert response.body () != null;
-
-                    //productList ( response.body ().getProductArrayList() );
-
-
-//                    for (Products products : response.body () != null) {
-//                        productList.add ( products );
-//                    }
-//                    Products products = response.body ();
-//                    productList.add ( products );
-
+                    for (int i = 0; i < response.body().getProductArrayList().size(); i++) {
+                        productList.add(response.body().getProductArrayList().get(i));
+                    }
                     Log.i ( "RESPONSE: ", "" + response.toString () );
                 }
                 adapter.notifyDataSetChanged ();
             }
 
-
             @Override
-            public void onFailure(Call<ProductRegister> call, Throwable t) {
+            public void onFailure(Call<Products> call, Throwable t) {
                 Toast.makeText ( getApplicationContext (), "Unable to fetch json: " + t.getMessage (), Toast.LENGTH_LONG ).show ();
                 Log.e ( "ERROR: ", t.getMessage () );
             }
@@ -220,79 +251,46 @@ public class Items extends AppCompatActivity {
         };
     }
 
-    //
-//        // notify adapter about data set changes
-//        // so that it will render the list with new data
-//        mAdapter.notifyDataSetChanged();
-//    }
-    //add items to recyclerView using the dialog box
     private View.OnClickListener onConfirmListener(final EditText name, final EditText unitMeasure, final EditText price, final EditText hotel, final EditText image, final EditText sellingStatus, final EditText servedWith, final Dialog dialog) {
         return new View.OnClickListener () {
             @Override
             public void onClick(final View v) {
                 HotelService service = RetrofitInstance.getRetrofitInstance ().create ( HotelService.class );
-                // Product products = new Product ( name.getText ().toString ().trim (), unitMeasure.getText ().toString ().trim (), servedWith.getText ().toString ().trim () );
-                Products products = new Products ( name.getText ().toString ().trim (), unitMeasure.getText ().toString ().trim (), price.getText ().toString ().trim (), hotel.getText ().toString ().trim (),
-
-                        image.getText ().toString ().trim ()
-
-//                        sellingStatus.getText().toString().trim (),
-//                        servedWith.getText().toString().trim ()
-
-
+                Product product = new Product(
+                        name.getText ().toString ().trim (), 
+                        unitMeasure.getText ().toString ().trim (), 
+                        price.getText ().toString ().trim ()
                 );
-
-                //adding new object to arraylist
-                productList.add ( products );
-
+                
+                //Set defaults
+                product.setHotel(getApplicationContext()
+                        .getSharedPreferences(Constants.M_SHARED_PREFERENCE, MODE_PRIVATE)
+                        .getString(Constants.M_SHARED_PREFERENCE_HOTEL_ID, ""));
+                productList.add (product);
                 //notify data set changed in RecyclerView adapter
                 adapter.notifyDataSetChanged ();
-
-                //close dialog after all
                 dialog.dismiss ();
 
+                Call<Products> call = service.addProduct(product);
 
-//    String name = name.getText ().toString();
-//    String unitMeasure = unitMeasure.getText().toString();
-//    String price = price.getText().toString();
-//    String hotel = hotel.getText().toString();
-//    String image = image.getText().toString();
-//    String sellingStatus = sellingStatus.getText().toString();
-//    String servedWith = servedWith.getText().toString();
-
-
-                /*// TODO:: Fetch fields from form
-                products.setName ( String.valueOf ( name ) );
-                products.setUnitMeasure ( String.valueOf ( unitMeasure ) );
-                products.setPrice ( String.valueOf ( price ) );
-                products.setHotel ( String.valueOf ( hotel ) );
-                products.setImage ( String.valueOf ( image ) );
-                //products.setSellingStatus( String.valueOf ( sellingStatus ) );
-                // products.setServedWith ( String.valueOf ( servedWith ) );
-
-                // TODO :: Remove all the hard coded values*/
-
-                Call<ProductRegister> call = service.addProduct ( products );
-
-                call.enqueue ( new Callback<ProductRegister> () {
+                call.enqueue ( new Callback<Products> () {
                     @Override
-                    public void onResponse(Call<ProductRegister> call, Response<ProductRegister> response) {
-//                        Products products = new Products(name, unitMeasure, price, hotel, image, sellingStatus, servedWith);
-//                        productList.add(products);
-
+                    public void onResponse(Call<Products> call, Response<Products> response) {
                         if (response.isSuccessful ()) {
                             assert response.body () != null;
-                            Log.d ( "JOA", "Hotel:: " + response.body ().getProductArrayList ().toString () );
+                            Log.d ( TAG, "Hotel:: " + response.body ().getProductArrayList ().toString () );
                             Toast.makeText ( Items.this, "Added Successfully...", Toast.LENGTH_SHORT ).show ();
-                        } else
+                        } else {
                             Toast.makeText ( Items.this, "Error adding...", Toast.LENGTH_SHORT ).show ();
+                        }
                     }
 
                     @Override
-                    public void onFailure(Call<ProductRegister> call, Throwable t) {
+                    public void onFailure(Call<Products> call, Throwable t) {
                         Toast.makeText ( Items.this, "Something went wrong...Error message: " + t.getMessage (), Toast.LENGTH_SHORT ).show ();
                     }
                 } );
+                
             }
 
             //cancel button on dialog box
