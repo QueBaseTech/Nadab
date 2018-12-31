@@ -11,7 +11,9 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -35,13 +37,17 @@ public class Items extends AppCompatActivity {
     RecyclerView recyclerView;
 
     private List<Products> productList = new ArrayList<> ();
-    private ActionBar toolbar;
     FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate ( savedInstanceState );
         setContentView ( R.layout.activity_items );
+
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
 
         /*Create handle for the RetrofitInstance interface*/
         HotelService service = RetrofitInstance.getRetrofitInstance ().create ( HotelService.class );
@@ -62,6 +68,48 @@ public class Items extends AppCompatActivity {
                 Toast.makeText ( Items.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT ).show ();
             }
         } );
+        recyclerView = (RecyclerView) findViewById ( R.id.recycler_view );
+
+        adapter = new ItemsAdapter ( productList, this );
+
+
+        recyclerView.setHasFixedSize ( false );
+
+        // vertical RecyclerView
+        // keep movie_list_row.xml width to `match_parent`
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager ( getApplicationContext () );
+
+        // horizontal RecyclerView
+        // keep movie_list_row.xml width to `wrap_content`
+        // RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
+
+        recyclerView.setLayoutManager ( mLayoutManager );
+
+        // adding inbuilt divider line
+        recyclerView.addItemDecoration ( new DividerItemDecoration ( this, LinearLayoutManager.VERTICAL ) );
+
+        // adding custom divider line with padding 16dp
+        // recyclerView.addItemDecoration(new MyDividerItemDecoration(this, LinearLayoutManager.VERTICAL, 16));
+        recyclerView.setItemAnimator ( new DefaultItemAnimator () );
+
+        recyclerView.setAdapter ( adapter );
+
+        // row click listener
+        recyclerView.addOnItemTouchListener ( new RecyclerTouchListener ( getApplicationContext (), recyclerView, new RecyclerTouchListener.ClickListener () {
+            @Override
+            public void onClick(View view, int position) {
+                Products products = productList.get ( position );
+                Toast.makeText ( getApplicationContext (), products.getName () + " is selected!", Toast.LENGTH_SHORT ).show ();
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        } ) );
+
+        getProductList ();
+
 
 
         //FLOATING BUTTON
@@ -101,60 +149,12 @@ public class Items extends AppCompatActivity {
         } );
 
 
-        recyclerView = (RecyclerView) findViewById ( R.id.recycler_view );
-
-        adapter = new ItemsAdapter ( productList, this );
-
-
-        recyclerView.setHasFixedSize ( true );
-
-        // vertical RecyclerView
-        // keep movie_list_row.xml width to `match_parent`
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager ( getApplicationContext () );
-
-        // horizontal RecyclerView
-        // keep movie_list_row.xml width to `wrap_content`
-        // RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
-
-        recyclerView.setLayoutManager ( mLayoutManager );
-
-        // adding inbuilt divider line
-        recyclerView.addItemDecoration ( new DividerItemDecoration ( this, LinearLayoutManager.VERTICAL ) );
-
-        // adding custom divider line with padding 16dp
-        // recyclerView.addItemDecoration(new MyDividerItemDecoration(this, LinearLayoutManager.VERTICAL, 16));
-        recyclerView.setItemAnimator ( new DefaultItemAnimator () );
-
-        recyclerView.setAdapter ( adapter );
-
-        // row click listener
-        recyclerView.addOnItemTouchListener ( new RecyclerTouchListener ( getApplicationContext (), recyclerView, new RecyclerTouchListener.ClickListener () {
-            @Override
-            public void onClick(View view, int position) {
-                Products products = productList.get ( position );
-                Toast.makeText ( getApplicationContext (), products.getName () + " is selected!", Toast.LENGTH_SHORT ).show ();
-            }
-
-            @Override
-            public void onLongClick(View view, int position) {
-
-            }
-        } ) );
-
-        getProductList ();
-    }
-
-    private View.OnClickListener onCancelListener(final Dialog dialog) {
-        return new View.OnClickListener () {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss ();
-            }
-        };
     }
 
 
-    /*Method to generate List of employees using RecyclerView with custom adapter*/
+
+
+    /*Method to generate List of Meals using RecyclerView with custom adapter*/
     private void generateProductsList(ArrayList<Products> empDataList) {
         recyclerView = (RecyclerView) findViewById ( R.id.recycler_view );
 
@@ -210,6 +210,14 @@ public class Items extends AppCompatActivity {
                 Log.e ( "ERROR: ", t.getMessage () );
             }
         } );
+    }
+    private View.OnClickListener onCancelListener(final Dialog dialog) {
+        return new View.OnClickListener () {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss ();
+            }
+        };
     }
 
     //
