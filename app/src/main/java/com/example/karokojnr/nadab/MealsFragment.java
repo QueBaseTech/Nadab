@@ -88,7 +88,7 @@ public class MealsFragment extends Fragment {
 /* Edited *//*
 
 //                }else{
-//                    for (Products products: response.body ()){
+//                    for (Product products: response.body ()){
 //                        productsList.add(products);
 //                    }
 
@@ -98,7 +98,7 @@ public class MealsFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call <Products> call, Throwable t) {
+            public void onFailure(Call <Product> call, Throwable t) {
                 Toast.makeText(getActivity(), "Unable to fetch json: " + t.getMessage(), Toast.LENGTH_LONG).show();
                 Log.e("ERROR: ", t.getMessage());
             }
