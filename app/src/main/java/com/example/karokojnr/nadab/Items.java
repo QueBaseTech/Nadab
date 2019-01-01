@@ -1,11 +1,19 @@
 package com.example.karokojnr.nadab;
 
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
@@ -13,9 +21,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.ContextThemeWrapper;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.karokojnr.nadab.adapter.ItemsAdapter;
@@ -23,10 +33,15 @@ import com.example.karokojnr.nadab.api.HotelService;
 import com.example.karokojnr.nadab.api.RetrofitInstance;
 import com.example.karokojnr.nadab.model.Product;
 import com.example.karokojnr.nadab.model.Products;
-import com.example.karokojnr.nadab.model.Products;
 import com.example.karokojnr.nadab.utils.Constants;
+import com.example.karokojnr.nadab.utils.Utility;
 import com.example.karokojnr.nadab.utils.utils;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,15 +54,16 @@ public class Items extends AppCompatActivity {
     private ItemsAdapter adapter;
     RecyclerView recyclerView;
 
-<<<<<<< HEAD
-    private List<Products> productList = new ArrayList<> ();
-=======
     private List<Product> productList = new ArrayList<> ();
     private ActionBar toolbar;
->>>>>>> 7386a09b52482302edc398a9e8c8872d75d09229
     FloatingActionButton fab;
 
     private static final String TAG = "Items";
+
+    private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
+    private String userChoosenTask;
+    private ImageView ivImage;
+    private ImageButton image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,9 +93,9 @@ public class Items extends AppCompatActivity {
                 Toast.makeText ( Items.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT ).show ();
             }
         } );
-<<<<<<< HEAD
-=======
 
+
+/*
 
         //FLOATING BUTTON
 
@@ -99,7 +115,7 @@ public class Items extends AppCompatActivity {
                 EditText unitMeasure = (EditText) dialog.findViewById ( R.id.unitMeasure );
                 EditText price = (EditText) dialog.findViewById ( R.id.price );
                 EditText hotel = (EditText) dialog.findViewById ( R.id.hotel );
-                EditText image = (EditText) dialog.findViewById ( R.id.image );
+                ImageView image = (ImageView) dialog.findViewById ( R.id.image );
                 EditText sellingStatus = (EditText) dialog.findViewById ( R.id.sellingStatus );
 
 
@@ -115,21 +131,12 @@ public class Items extends AppCompatActivity {
                 dialog.show ();
             }
         } );
+*/
 
 
->>>>>>> 7386a09b52482302edc398a9e8c8872d75d09229
         recyclerView = (RecyclerView) findViewById ( R.id.recycler_view );
-        adapter = new ItemsAdapter ( productList, this );
-<<<<<<< HEAD
-
-
-        recyclerView.setHasFixedSize ( false );
-
-        // vertical RecyclerView
-        // keep movie_list_row.xml width to `match_parent`
-=======
+        adapter = new ItemsAdapter ( productList, this);
         recyclerView.setHasFixedSize ( true );
->>>>>>> 7386a09b52482302edc398a9e8c8872d75d09229
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager ( getApplicationContext () );
         recyclerView.setLayoutManager ( mLayoutManager );
         // adding inbuilt divider line
@@ -172,19 +179,33 @@ public class Items extends AppCompatActivity {
 
                 // set the custom dialog components - texts and image
                 EditText name = (EditText) dialog.findViewById ( R.id.name );
-                EditText unitMeasure = (EditText) dialog.findViewById ( R.id.unitMeasure );
+               // EditText unitMeasure = (EditText) dialog.findViewById ( R.id.unitMeasure );
                 EditText price = (EditText) dialog.findViewById ( R.id.price );
-                EditText hotel = (EditText) dialog.findViewById ( R.id.hotel );
-                EditText image = (EditText) dialog.findViewById ( R.id.image );
-                EditText sellingStatus = (EditText) dialog.findViewById ( R.id.sellingStatus );
+                //EditText hotel = (EditText) dialog.findViewById ( R.id.hotel );
+                ImageView imageView = (ImageView) dialog.findViewById ( R.id.image );
+                imageView.setOnClickListener ( new View.OnClickListener () {
+                    @Override
+                    public void onClick(View v) {
+                        selectImage ();
+                    }
+                } );
+                imageView.setFocusable ( false );
+               // EditText sellingStatus = (EditText) dialog.findViewById ( R.id.sellingStatus );
 
 
-                EditText servedWith = (EditText) dialog.findViewById ( R.id.servedWith );
+               // EditText servedWith = (EditText) dialog.findViewById ( R.id.servedWith );
                 View btnAdd = dialog.findViewById ( R.id.btn_ok );
                 View btnCancel = dialog.findViewById ( R.id.btn_cancel );
 
+
+                //ImageView ivImage = (ImageView) findViewById(R.id.ivImage);
+
+
+
+
+
                 //set handling event for 2 buttons and spinner
-                btnAdd.setOnClickListener ( onConfirmListener ( name, unitMeasure, price, hotel, image, sellingStatus, servedWith, dialog ) );
+                btnAdd.setOnClickListener ( onConfirmListener ( name,  price,  image,  dialog ) );
                 btnCancel.setOnClickListener ( onCancelListener ( dialog ) );
 
                 //show dialog box
@@ -195,16 +216,38 @@ public class Items extends AppCompatActivity {
 
     }
 
+    private void selectImage() {
 
-<<<<<<< HEAD
+        final CharSequence[] items = { "Take Photo", "Choose from Library",
+                "Cancel" };
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(Items.this);
+        builder.setTitle("Add Photo!");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                boolean result=Utility.checkPermission(Items.this);
 
-    /*Method to generate List of Meals using RecyclerView with custom adapter*/
-    private void generateProductsList(ArrayList<Products> empDataList) {
-=======
+                if (items[item].equals("Take Photo")) {
+                    userChoosenTask ="Take Photo";
+                    if(result)
+                        cameraIntent();
+
+                } else if (items[item].equals("Choose from Library")) {
+                    userChoosenTask ="Choose from Library";
+                    if(result)
+                        galleryIntent();
+
+                } else if (items[item].equals("Cancel")) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
+    }
+
     /*Method to generate List of employees using RecyclerView with custom adapter*/
     private void generateProductsList(ArrayList<Product> empDataList) {
->>>>>>> 7386a09b52482302edc398a9e8c8872d75d09229
         recyclerView = (RecyclerView) findViewById ( R.id.recycler_view );
 
         adapter = new ItemsAdapter ( empDataList );
@@ -251,15 +294,15 @@ public class Items extends AppCompatActivity {
         };
     }
 
-    private View.OnClickListener onConfirmListener(final EditText name, final EditText unitMeasure, final EditText price, final EditText hotel, final EditText image, final EditText sellingStatus, final EditText servedWith, final Dialog dialog) {
+    private View.OnClickListener onConfirmListener(final EditText name, final EditText price, final ImageButton image, final Dialog dialog) {
         return new View.OnClickListener () {
             @Override
             public void onClick(final View v) {
                 HotelService service = RetrofitInstance.getRetrofitInstance ().create ( HotelService.class );
                 Product product = new Product(
                         name.getText ().toString ().trim (), 
-                        unitMeasure.getText ().toString ().trim (), 
-                        price.getText ().toString ().trim ()
+                        price.getText ().toString ().trim (),
+                        image.getDrawable ().toString ().trim ()
                 );
                 
                 //Set defaults
@@ -305,4 +348,74 @@ public class Items extends AppCompatActivity {
 
         };
     }
+
+
+
+    private void galleryIntent()
+    {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);//
+        startActivityForResult(Intent.createChooser(intent, "Select File"),SELECT_FILE);
+    }
+
+    private void cameraIntent()
+    {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, REQUEST_CAMERA);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == SELECT_FILE)
+                onSelectFromGalleryResult(data);
+            else if (requestCode == REQUEST_CAMERA)
+                onCaptureImageResult(data);
+        }
+    }
+
+    private void onCaptureImageResult(Intent data) {
+        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream ();
+        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+
+        File destination = new File (Environment.getExternalStorageDirectory(),
+                System.currentTimeMillis() + ".jpg");
+
+        FileOutputStream fo;
+        try {
+            destination.createNewFile();
+            fo = new FileOutputStream (destination);
+            fo.write(bytes.toByteArray());
+            fo.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ivImage.setImageBitmap(thumbnail);
+    }
+
+    @SuppressWarnings("deprecation")
+    private void onSelectFromGalleryResult(Intent data) {
+
+        Bitmap bm=null;
+        if (data != null) {
+            try {
+                bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        image.setImageBitmap(bm);
+    }
+
 }
+
+
+

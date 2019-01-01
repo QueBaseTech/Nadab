@@ -1,10 +1,13 @@
 package com.example.karokojnr.nadab.adapter;
 
 
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.karokojnr.nadab.Items;
@@ -38,10 +41,10 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Product product = productList.get ( position );
         holder.name.setText(product.getName());
-        holder.unitMeasure.setText(product.getUnitMeasure());
+//        holder.unitMeasure.setText(product.getUnitMeasure());
         holder.price.setText(product.getPrice());
-        holder.hotel.setText(product.getHotel());
-        holder.image.setText(product.getImage());
+        //holder.hotel.setText(product.getHotel());
+        holder.imageView.setImageDrawable (Drawable.createFromPath( product.getImage() ) );
     }
 
     @Override
@@ -50,15 +53,16 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
     }
 
      class MyViewHolder extends RecyclerView.ViewHolder {
-         TextView name, unitMeasure, price, hotel, image, sellingStatus;
+         TextView name, unitMeasure, price, hotel, sellingStatus;
+         ImageView imageView;
 
          MyViewHolder(View itemView) {
             super ( itemView );
             name = (TextView) itemView.findViewById ( R.id.tvName );
-            unitMeasure = (TextView) itemView.findViewById ( R.id.tvUnitMeasure );
+            //unitMeasure = (TextView) itemView.findViewById ( R.id.tvUnitMeasure );
             price = (TextView) itemView.findViewById ( R.id.tvPrice );
-            hotel = (TextView) itemView.findViewById ( R.id.tvHotel );
-            image = (TextView) itemView.findViewById ( R.id.tvImage );
+            //hotel = (TextView) itemView.findViewById ( R.id.tvHotel );
+            imageView = (ImageView) itemView.findViewById ( R.id.ivImage );
           //  sellingStatus = (TextView) view.findViewById ( R.id.sellingStatus );
         }
     }

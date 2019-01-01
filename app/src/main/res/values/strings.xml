@@ -38,4 +38,5 @@
     <string name="quantities">Quantity:</string>
     <string name="prices">Price:</string>
     <string name="dashboard">Dashboard</string>
+    <string name="add_meals">Add Meals</string>
 </resources>

@@ -4,17 +4,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.example.karokojnr.nadab.R;
 
 public class DashboardFragment extends Fragment {
-    Button buttonMeal;
+    ImageButton buttonMeal;
+    FloatingActionButton fab;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -27,9 +32,19 @@ public class DashboardFragment extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_dashboard,
                 container, false);
         //return view;
-
-       buttonMeal = (Button)view.findViewById ( R.id.meal );
+        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+       // setSupportActionBar(toolbar);
+       /*buttonMeal = (ImageButton) view.findViewById ( R.id.meal );
         buttonMeal.setOnClickListener ( new View.OnClickListener () {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent ( getActivity (), Items.class );
+                startActivity ( i );
+            }
+        } );*/
+
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById ( R.id.meal );
+        fab.setOnClickListener ( new View.OnClickListener () {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent ( getActivity (), Items.class );
