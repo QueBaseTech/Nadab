@@ -2,8 +2,6 @@ package com.example.karokojnr.nadab.model;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
 public class Product {
 
 //    @SerializedName("data")

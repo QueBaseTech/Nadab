@@ -52,9 +52,9 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.MyView
         public MyViewHolder(View view) {
             super(view);
             tvName = (TextView) view.findViewById(R.id.tvName);
-            tvUnitMeasure = (TextView) view.findViewById(R.id.tvUnitMeasure);
+            //tvUnitMeasure = (TextView) view.findViewById(R.id.tvUnitMeasure);
             tvPrice = (TextView) view.findViewById(R.id.tvPrice);
-            imageView = (ImageView) view.findViewById(R.id.imageView);
+            ImageView imageView = (ImageView) view.findViewById(R.id.tvImage);
         }
     }
 }
