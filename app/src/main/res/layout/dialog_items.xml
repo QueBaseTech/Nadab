@@ -60,8 +60,7 @@ imageView to display the selcted Image
         <ImageView
             android:id="@+id/ivImage"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_restaurant"/>
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <LinearLayout
