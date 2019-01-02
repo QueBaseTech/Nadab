@@ -4,6 +4,7 @@ package com.example.karokojnr.nadab;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -54,7 +55,7 @@ public class Items extends AppCompatActivity {
     private ItemsAdapter adapter;
     RecyclerView recyclerView;
 
-    private List<Product> productList = new ArrayList<> ();
+    private ArrayList<Product> productList = new ArrayList<> ();
     private ActionBar toolbar;
     FloatingActionButton fab;
 
@@ -64,12 +65,13 @@ public class Items extends AppCompatActivity {
     private String userChoosenTask;
     private ImageView ivImage;
     private ImageButton image;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate ( savedInstanceState );
         setContentView ( R.layout.activity_items );
-
+        context = this;
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -135,7 +137,7 @@ public class Items extends AppCompatActivity {
 
 
         recyclerView = (RecyclerView) findViewById ( R.id.recycler_view );
-        adapter = new ItemsAdapter ( productList, this);
+        adapter = new ItemsAdapter ( productList, context);
         recyclerView.setHasFixedSize ( true );
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager ( getApplicationContext () );
         recyclerView.setLayoutManager ( mLayoutManager );
@@ -250,7 +252,7 @@ public class Items extends AppCompatActivity {
     private void generateProductsList(ArrayList<Product> empDataList) {
         recyclerView = (RecyclerView) findViewById ( R.id.recycler_view );
 
-        adapter = new ItemsAdapter ( empDataList );
+        adapter = new ItemsAdapter ( empDataList, context );
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager ( Items.this );
 

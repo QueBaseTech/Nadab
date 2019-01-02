@@ -117,7 +117,7 @@ DIPLAY RECYCLER VIEW
     private void generateProductsList(ArrayList<Product> empDataList) {
         //  recyclerView = (RecyclerView) view.findViewById ( R.id.recycler_view );
 
-        adapter = new ItemsAdapter ( empDataList );
+        adapter = new ItemsAdapter ( empDataList, getContext() );
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager ( getActivity () );
 

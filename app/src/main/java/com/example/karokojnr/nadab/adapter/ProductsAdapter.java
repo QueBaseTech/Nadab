@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.karokojnr.nadab.R;
+import com.example.karokojnr.nadab.api.RetrofitInstance;
 import com.example.karokojnr.nadab.model.Product;
 
 import java.util.List;
@@ -32,8 +33,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.MyView
         Product product = productList.get(position);
         holder.tvName.setText(product.getName ());
         Glide.with(context)
-                .load(product.getImage())
-                .centerCrop()
+                .load(RetrofitInstance.BASE_URL+"images/uploads/thumbs/"+product.getImage())
                 .into(holder.imageView);
     }
     @Override
