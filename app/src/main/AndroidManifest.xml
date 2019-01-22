@@ -7,14 +7,13 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@drawable/logo"
         android:label="Nadab"
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.Profile"
+        android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <activity android:name=".LoginActivity">
             <intent-filter>
@@ -25,12 +24,13 @@
         </activity>
         <activity
             android:name=".HomeActivity"
-            android:theme="@style/AppTheme.Profile" />
+            android:theme="@style/AppTheme" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".Items"
-            android:theme="@style/AppTheme.Profile"/>
-
+        <activity
+            android:name=".Items"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".AddMeals"></activity>
     </application>
 
 </manifest>

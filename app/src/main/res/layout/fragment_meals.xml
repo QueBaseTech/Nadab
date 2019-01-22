@@ -8,7 +8,8 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_items"
     android:scrollbars="vertical"
-    tools:context=".Items">
+    android:background="@color/colorPrimary"
+    tools:context=".HomeActivity">
 
 
 

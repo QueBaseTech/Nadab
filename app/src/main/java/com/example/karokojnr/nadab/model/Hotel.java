@@ -1,7 +1,5 @@
 package com.example.karokojnr.nadab.model;
 
-import android.widget.EditText;
-
 import com.google.gson.annotations.SerializedName;
 /*
 * Hotel model
@@ -9,6 +7,7 @@ import com.google.gson.annotations.SerializedName;
 * Consumed by
 * */
 public class Hotel {
+
     @SerializedName("_id")
     private String id;
 

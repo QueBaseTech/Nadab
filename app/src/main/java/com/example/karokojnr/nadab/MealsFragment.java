@@ -1,6 +1,7 @@
 package com.example.karokojnr.nadab;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;import android.support.annotation.Nullable;
@@ -8,6 +9,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -81,15 +83,22 @@ DIPLAY RECYCLER VIEW
 
         recyclerView = (RecyclerView) view.findViewById ( R.id.recycler_view );
 //        adapter = new ItemsAdapter ( productList, (Items) getActivity () );
-        recyclerView.setHasFixedSize ( true );
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager ( getActivity () );
-        recyclerView.setLayoutManager ( mLayoutManager );
+        //recyclerView.setHasFixedSize ( true );
+        /*if (getContext ().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            recyclerView.setLayoutManager(new GridLayoutManager (getContext (), 2));
+        } else {
+            recyclerView.setLayoutManager(new GridLayoutManager (getContext (), 4));
+        }*/
+       // RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager ( getActivity () );
+        //recyclerView.setLayoutManager ( mLayoutManager );
         // adding inbuilt divider line
-        recyclerView.addItemDecoration ( new DividerItemDecoration ( getActivity (), LinearLayoutManager.VERTICAL ) );
+       // recyclerView.addItemDecoration ( new DividerItemDecoration ( getActivity (), GridLayoutManager.HORIZONTAL ) );
+        //recyclerView.addItemDecoration ( new DividerItemDecoration ( getActivity (), GridLayoutManager.VERTICAL ) );
+
         // adding custom divider line with padding 16dp
         // recyclerView.addItemDecoration(new MyDividerItemDecoration(this, LinearLayoutManager.VERTICAL, 16));
-        recyclerView.setItemAnimator ( new DefaultItemAnimator () );
-        recyclerView.setAdapter ( adapter );
+       // recyclerView.setItemAnimator ( new DefaultItemAnimator () );
+        //recyclerView.setAdapter ( adapter );
         // row click listener
         recyclerView.addOnItemTouchListener ( new RecyclerTouchListener ( getActivity (), recyclerView, new RecyclerTouchListener.ClickListener () {
             @Override
@@ -119,11 +128,17 @@ DIPLAY RECYCLER VIEW
 
         adapter = new ItemsAdapter ( empDataList, getContext() );
 
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager ( getActivity () );
+        if (getContext ().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            recyclerView.setLayoutManager(new GridLayoutManager (getContext (), 2));
+        } else {
+            recyclerView.setLayoutManager(new GridLayoutManager (getContext (), 4));
+        }
 
-        recyclerView.setLayoutManager ( layoutManager );
+       /* RecyclerView.LayoutManager layoutManager = new LinearLayoutManager ( getActivity () );
 
-        recyclerView.setAdapter ( adapter );
+        recyclerView.setLayoutManager ( layoutManager );*/
+
+       recyclerView.setAdapter ( adapter );
     }
 
     public void getProductList() {

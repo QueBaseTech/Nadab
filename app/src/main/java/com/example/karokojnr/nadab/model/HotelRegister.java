@@ -6,6 +6,7 @@ public class HotelRegister {
     @SerializedName("hotel")
     private Hotel hotel;
 
+
     public Hotel getHotel() {
         return hotel;
     }

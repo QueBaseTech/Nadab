@@ -30,21 +30,19 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <TextView
+       <!-- <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:gravity="center"
-            android:text="Image:" />
+            android:gravity="center_horizontal"
+            android:text="Image:" />-->
 
-        <ImageButton
+        <ImageView
             android:id="@+id/image"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:orientation="vertical"
-            android:background="@drawable/ic_add_food"
-            android:inputType="textCapSentences" />
+            android:layout_gravity="center_horizontal"/>
     </LinearLayout>
 <!--
 imageView to display the selcted Image
@@ -58,7 +56,7 @@ imageView to display the selcted Image
         android:padding="10dp" >
 
         <ImageView
-            android:id="@+id/ivImage"
+            android:id="@+id/another"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
@@ -77,6 +75,27 @@ imageView to display the selcted Image
 
         <EditText
             android:id="@+id/name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:layout_weight="0.5" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/ivImage"
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:gravity="center"
+            android:text="Name:" />
+
+        <ImageView
+            android:id="@+id/ivvImage"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textColor="#000"

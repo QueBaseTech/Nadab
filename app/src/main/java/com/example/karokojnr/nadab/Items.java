@@ -8,9 +8,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
@@ -51,6 +54,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Items extends AppCompatActivity {
+    private static final int RESULT_LOAD_IMAGE = 1;
 
     private ItemsAdapter adapter;
     RecyclerView recyclerView;
@@ -63,7 +67,7 @@ public class Items extends AppCompatActivity {
 
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     private String userChoosenTask;
-    private ImageView ivImage;
+    private ImageView imageView;
     private ImageButton image;
     Context context;
 
@@ -184,8 +188,9 @@ public class Items extends AppCompatActivity {
                // EditText unitMeasure = (EditText) dialog.findViewById ( R.id.unitMeasure );
                 EditText price = (EditText) dialog.findViewById ( R.id.price );
                 //EditText hotel = (EditText) dialog.findViewById ( R.id.hotel );
-                ImageView imageView = (ImageView) dialog.findViewById ( R.id.image );
+                imageView = (ImageView) dialog.findViewById ( R.id.image );
                 imageView.setOnClickListener ( new View.OnClickListener () {
+                    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
                     @Override
                     public void onClick(View v) {
                         selectImage ();
@@ -218,7 +223,20 @@ public class Items extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult ( requestCode, resultCode, data );
+        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null){
+
+            Uri selectedImage = data.getData ();
+            imageView.setImageURI(selectedImage);
+
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     private void selectImage() {
+
 
         final CharSequence[] items = { "Take Photo", "Choose from Library",
                 "Cancel" };
@@ -367,7 +385,7 @@ public class Items extends AppCompatActivity {
         startActivityForResult(intent, REQUEST_CAMERA);
     }
 
-    @Override
+    /*@Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -377,7 +395,7 @@ public class Items extends AppCompatActivity {
             else if (requestCode == REQUEST_CAMERA)
                 onCaptureImageResult(data);
         }
-    }
+    }*/
 
     private void onCaptureImageResult(Intent data) {
         Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
@@ -399,7 +417,7 @@ public class Items extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        ivImage.setImageBitmap(thumbnail);
+        imageView.setImageBitmap(thumbnail);
     }
 
     @SuppressWarnings("deprecation")

@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +18,7 @@ import com.example.karokojnr.nadab.api.HotelService;
 import com.example.karokojnr.nadab.api.RetrofitInstance;
 import com.example.karokojnr.nadab.model.Hotel;
 import com.example.karokojnr.nadab.model.HotelRegister;
+import com.example.karokojnr.nadab.utils.SharedPrefManager;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -50,14 +52,14 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void addHotel(View view) {
 
-        // display a progress dialog
+        /*// display a progress dialog
         final ProgressDialog progressDialog = new ProgressDialog(RegisterActivity.this);
         progressDialog.setCancelable(false); // set cancelable to false
         progressDialog.setMessage("Please Wait"); // set message
-        progressDialog.show(); // show progress dialog
+        progressDialog.show(); // show progress dialog*/
 
         HotelService service = RetrofitInstance.getRetrofitInstance().create(HotelService.class);
-        Hotel hotel = new Hotel();
+        final Hotel hotel = new Hotel();
 
 
 
@@ -70,6 +72,59 @@ public class RegisterActivity extends AppCompatActivity {
         String mcity = city.getText().toString();
         String mpassword = password.getText().toString();
         String mpasswordAgain = passwordAgain.getText().toString();
+        //validating inputs
+        if (TextUtils.isEmpty(mbusinessEmail)) {
+            businessEmail.setError("Please enter your username");
+            businessEmail.requestFocus();
+            return;
+        }
+
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(mbusinessEmail).matches()) {
+            businessEmail.setError("Enter a valid businessEmail");
+            businessEmail.requestFocus();
+            return;
+        }
+
+        if (TextUtils.isEmpty(mpassword)) {
+            password.setError("Please enter your password");
+            password.requestFocus();
+            return;
+        }
+        if (TextUtils.isEmpty(mmobileNumber)) {
+            mobileNumber.setError("Please enter your password");
+            mobileNumber.requestFocus();
+            return;
+        }
+        if (TextUtils.isEmpty(mbusinessName)) {
+            businessName.setError("Please enter your password");
+            businessName.requestFocus();
+            return;
+        }
+        if (TextUtils.isEmpty(mcity)) {
+            city.setError("Please enter your password");
+            city.requestFocus();
+            return;
+        }
+        if (TextUtils.isEmpty(maddress)) {
+            address.setError("Please enter your password");
+            address.requestFocus();
+            return;
+        }
+        if (TextUtils.isEmpty(mapplicantName)) {
+            applicantName.setError("Please enter your password");
+            applicantName.requestFocus();
+            return;
+        }
+        if (TextUtils.isEmpty(mpaybillNumber)) {
+            paybillNumber.setError("Please enter your password");
+            paybillNumber.requestFocus();
+            return;
+        }
+        if (TextUtils.isEmpty(mpasswordAgain)) {
+            passwordAgain.setError("Please enter your password");
+            passwordAgain.requestFocus();
+            return;
+        }
 
 
         // TODO:: Fetch fields from form
@@ -92,6 +147,8 @@ public class RegisterActivity extends AppCompatActivity {
                 if(response.isSuccessful()) {
                     Log.d("JOA", "Hotel:: "+response.body().getHotel().toString());
                     startActivity(new Intent(RegisterActivity.this, HomeActivity.class));
+                    //storing the user in shared preferences
+                    SharedPrefManager.getInstance(getApplicationContext()).userLogin(hotel);
                 }
                 else
                     Toast.makeText(RegisterActivity.this,   "Error adding...", Toast.LENGTH_SHORT).show();
@@ -101,6 +158,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void onFailure(Call<HotelRegister> call, Throwable t) {
                 Toast.makeText(RegisterActivity.this, "Something went wrong...Error message: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
+
         });
 
     }

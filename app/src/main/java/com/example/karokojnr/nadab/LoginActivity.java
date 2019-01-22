@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +16,7 @@ import com.example.karokojnr.nadab.api.HotelService;
 import com.example.karokojnr.nadab.api.RetrofitInstance;
 import com.example.karokojnr.nadab.model.Login;
 import com.example.karokojnr.nadab.utils.Constants;
+import com.example.karokojnr.nadab.utils.SharedPrefManager;
 import com.example.karokojnr.nadab.utils.utils;
 
 import retrofit2.Call;
@@ -53,10 +55,32 @@ public class LoginActivity extends AppCompatActivity {
         btn_login.setOnClickListener ( new View.OnClickListener () {
             @Override
             public void onClick(View v) {
-                mLoading.setVisibility(View.VISIBLE); // show progress dialog*/
 
+                    //first getting the values
                 String mEmail = email.getText().toString();
                 String mPassword = password.getText().toString();
+
+                    //validating inputs
+                    if (TextUtils.isEmpty(mEmail)) {
+                        email.setError("Please enter your username");
+                        email.requestFocus();
+                        return;
+                    }
+
+                     if (!android.util.Patterns.EMAIL_ADDRESS.matcher(mEmail).matches()) {
+                    email.setError("Enter a valid email");
+                    email.requestFocus();
+                    return;
+                    }
+
+                    if (TextUtils.isEmpty(mPassword)) {
+                        password.setError("Please enter your password");
+                        password.requestFocus();
+                        return;
+                    }
+                mLoading.setVisibility(View.VISIBLE); // show progress dialog*/
+
+
 
                 HotelService service = RetrofitInstance.getRetrofitInstance().create(HotelService.class);
                 Call<Login> call = service.login(mEmail, mPassword);
@@ -73,6 +97,7 @@ public class LoginActivity extends AppCompatActivity {
                             editor.putString(Constants.M_SHARED_PREFERENCE_HOTEL_ID, hotelId);
                             editor.putString(Constants.M_SHARED_PREFERENCE_LOGIN_TOKEN, authToken);
                             editor.commit();
+                            mLoading.setVisibility(View.GONE);
                            // Start Home activity
                             goHome();
                         } else {
@@ -85,6 +110,7 @@ public class LoginActivity extends AppCompatActivity {
                         mLoading.setVisibility(View.INVISIBLE);
                         Toast.makeText(LoginActivity.this, "Something went wrong...Error message: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
+
                 });
             }
         } );
@@ -102,5 +128,6 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent ( LoginActivity.this, HomeActivity.class );
         startActivity ( intent );
     }
+
 
 }
