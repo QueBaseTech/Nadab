@@ -24,6 +24,7 @@ import com.example.karokojnr.nadab.api.HotelService;
 import com.example.karokojnr.nadab.api.RetrofitInstance;
 import com.example.karokojnr.nadab.model.Product;
 import com.example.karokojnr.nadab.model.Products;
+import com.example.karokojnr.nadab.utils.SharedPrefManager;
 import com.example.karokojnr.nadab.utils.utils;
 
 import java.util.ArrayList;
@@ -64,7 +65,7 @@ DIPLAY RECYCLER VIEW
         /*Create handle for the RetrofitInstance interface*/
         HotelService service = RetrofitInstance.getRetrofitInstance ().create ( HotelService.class );
         /*Call the method with parameter in the interface to get the employee data*/
-        Call<Products> call = service.getProducts ( utils.getToken ( getActivity () ) );
+        Call<Products> call = service.getProducts ( SharedPrefManager.getInstance(getContext()).getToken() );
         /*Log the URL called*/
         Log.wtf ( "URL Called", call.request ().url () + "" );
 
@@ -143,7 +144,7 @@ DIPLAY RECYCLER VIEW
 
     public void getProductList() {
         HotelService apiInterface = RetrofitInstance.getRetrofitInstance ().create ( HotelService.class );
-        Call<Products> call = apiInterface.getProducts ( utils.getToken ( getActivity () ) );
+        Call<Products> call = apiInterface.getProducts ( SharedPrefManager.getInstance(getContext()).getToken() );
         call.enqueue ( new Callback<Products> () {
             @Override
             public void onResponse(Call<Products> call, Response<Products> response) {

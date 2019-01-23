@@ -14,11 +14,12 @@ import com.example.karokojnr.nadab.model.HotelRegister;
 public class SharedPrefManager {
 
     //the constants
-    private static final String SHARED_PREF_NAME = "simplifiedcodingsharedpref";
-    private static final String KEY_USERNAME = "keyusername";
-    private static final String KEY_EMAIL = "keyemail";
+    private static final String SHARED_PREF_NAME = "NADAB_USER";
+    private static final String KEY_USERNAME = "KEY_USERNAME";
+    private static final String KEY_EMAIL = "KEY_EMAIL";
     //private static final String KEY_PAYBILL = "keypaybill";
-    private static final String KEY_ID = "keyid";
+    private static final String KEY_ID = "KEY_ID";
+    private static final String KEY_PAYBILL = "KEY_PAYBILL";
 
     private static SharedPrefManager mInstance;
     private static Context mCtx;
@@ -36,20 +37,27 @@ public class SharedPrefManager {
 
     //method to let the hotel login
     //this method will store the hotel data in shared preferences
-    public void userLogin(Hotel hotel) {
+    public void userLogin(Hotel hotel, String token) {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString (KEY_ID, hotel.getId ());
         editor.putString(KEY_USERNAME, hotel.getBusinessName ());
         editor.putString(KEY_EMAIL, hotel.getBusinessEmail ());
-        //editor.putString (KEY_PAYBILL, hotel.getPayBillNo ());
+        editor.putString (KEY_PAYBILL, hotel.getPayBillNo ());
+        editor.putString (Constants.M_SHARED_PREFERENCE_LOGIN_TOKEN, token);
         editor.apply();
+        editor.commit();
     }
 
     //this method will checker whether hotel is already logged in or not
     public boolean isLoggedIn() {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
-        return sharedPreferences.getString(KEY_USERNAME, null) != null;
+        return sharedPreferences.getString(Constants.M_SHARED_PREFERENCE_LOGIN_TOKEN, null) != null;
+    }
+
+    public String getToken() {
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(Constants.M_SHARED_PREFERENCE_LOGIN_TOKEN, null);
     }
 
     //this method will give the logged in user
@@ -69,6 +77,5 @@ public class SharedPrefManager {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
         editor.apply();
-        mCtx.startActivity(new Intent(mCtx, LoginActivity.class));
     }
 }

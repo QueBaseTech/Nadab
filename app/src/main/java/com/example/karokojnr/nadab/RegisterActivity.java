@@ -148,7 +148,7 @@ public class RegisterActivity extends AppCompatActivity {
                     Log.d("JOA", "Hotel:: "+response.body().getHotel().toString());
                     startActivity(new Intent(RegisterActivity.this, HomeActivity.class));
                     //storing the user in shared preferences
-                    SharedPrefManager.getInstance(getApplicationContext()).userLogin(hotel);
+                    SharedPrefManager.getInstance(getApplicationContext()).userLogin(hotel, "");
                 }
                 else
                     Toast.makeText(RegisterActivity.this,   "Error adding...", Toast.LENGTH_SHORT).show();

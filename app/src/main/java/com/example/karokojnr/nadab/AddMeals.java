@@ -23,6 +23,8 @@ import com.example.karokojnr.nadab.api.RetrofitInstance;
 import com.example.karokojnr.nadab.model.Product;
 import com.example.karokojnr.nadab.model.Products;
 import com.example.karokojnr.nadab.utils.Constants;
+import com.example.karokojnr.nadab.utils.HotelSharedPreference;
+import com.example.karokojnr.nadab.utils.SharedPrefManager;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -76,9 +78,8 @@ public class AddMeals extends AppCompatActivity implements View.OnClickListener,
                         image.getDrawable ().toString ().trim ()
                 );
                 //Set defaults
-                product.setHotel(getApplicationContext()
-                        .getSharedPreferences(Constants.M_SHARED_PREFERENCE, MODE_PRIVATE)
-                        .getString(Constants.M_SHARED_PREFERENCE_HOTEL_ID, ""));
+                HotelSharedPreference hotelSharedPreference = SharedPrefManager.getInstance(AddMeals.this).getHotel();
+                String hotelId = hotelSharedPreference.getId();
                 productList.add (product);
                 String filePath = getRealPathFromURIPath(selectedImage, AddMeals.this);
                 File file = new File(filePath);
@@ -88,7 +89,7 @@ public class AddMeals extends AppCompatActivity implements View.OnClickListener,
                 RequestBody mName = RequestBody.create(MediaType.parse("text/plain"), name.getText().toString());
                 RequestBody mPrice = RequestBody.create(MediaType.parse("text/plain"), price.getText().toString());
                 RequestBody mUnitMeasure = RequestBody.create(MediaType.parse("text/plain"), "Box");
-                RequestBody mHotelId = RequestBody.create(MediaType.parse("text/plain"), product.getHotel());
+                RequestBody mHotelId = RequestBody.create(MediaType.parse("text/plain"), hotelId);
                 Call<Product> call = service.addProduct(fileToUpload, filename, mName, mPrice, mUnitMeasure, mHotelId);
 
                 call.enqueue ( new Callback<Product> () {
@@ -98,7 +99,7 @@ public class AddMeals extends AppCompatActivity implements View.OnClickListener,
                             assert response.body () != null;
                             Toast.makeText ( AddMeals.this, "Added Successfully...", Toast.LENGTH_SHORT ).show ();
                             //notify data set changed in RecyclerView adapter
-                            adapter.notifyDataSetChanged ();
+//                            adapter.notifyDataSetChanged ();
                         } else {
                             Toast.makeText ( AddMeals.this, "Error adding...", Toast.LENGTH_SHORT ).show ();
                         }

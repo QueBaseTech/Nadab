@@ -48,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
         editor = mSharePrefs.edit();
 
         // Redirect home if is logged in
-        if(utils.isLoggedIn(this)) {
+        if(SharedPrefManager.getInstance(this).isLoggedIn()) {
             goHome();
             finish();
         }
@@ -90,12 +90,11 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<Login> call, Response<Login> response) {
                         if (response.isSuccessful()) {
-                            Login.Token token = response.body().getToken();
-                            String authToken = token.getToken();
-                            String hotelId = token.getHotelId();
+                            String token = response.body().getToken();
+                            Hotel hotel = response.body().getHotel();
 
                             // Persist to local storage
-                            SharedPrefManager.getInstance(getApplicationContext()).userLogin(new Hotel());
+                            SharedPrefManager.getInstance(getApplicationContext()).userLogin(hotel, token);
                             mLoading.setVisibility(View.GONE);
                            // Start Home activity
                             goHome();

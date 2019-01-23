@@ -4,13 +4,20 @@ import com.google.gson.annotations.SerializedName;
 
 public class Login {
     @SerializedName("token")
-    private Token token;
+    private String token;
 
-    public Token getToken() {
+    @SerializedName("hotel")
+    private Hotel hotel;
+
+    public Hotel getHotel() {
+        return hotel;
+    }
+
+    public String getToken() {
         return token;
     }
 
-    public void setToken(Token token) {
+    public void setToken(String token) {
         this.token = token;
     }
 
@@ -21,27 +28,4 @@ public class Login {
                 '}';
     }
 
-    public class Token {
-        @SerializedName("token")
-        private String token;
-
-        @SerializedName("hotelId")
-        private String hotelId;
-
-        public String getHotelId() {
-            return hotelId;
-        }
-
-        public void setHotelId(String hotelId) {
-            this.hotelId = hotelId;
-        }
-
-        public String getToken() {
-            return token;
-        }
-
-        public void setToken(String token) {
-            this.token = token;
-        }
-    }
 }

@@ -19,6 +19,7 @@ import android.widget.ProgressBar;
 import com.example.karokojnr.nadab.api.HotelService;
 import com.example.karokojnr.nadab.model.Hotel;
 import com.example.karokojnr.nadab.model.HotelRegister;
+import com.example.karokojnr.nadab.model.Login;
 import com.example.karokojnr.nadab.utils.Constants;
 import com.example.karokojnr.nadab.utils.HotelSharedPreference;
 import com.example.karokojnr.nadab.utils.SharedPrefManager;
@@ -83,6 +84,7 @@ public class ProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
                 finish();
                 SharedPrefManager.getInstance(getApplicationContext()).logout();
+                startActivity(new Intent(ProfileActivity.this, LoginActivity.class));
             }
         } );
 
