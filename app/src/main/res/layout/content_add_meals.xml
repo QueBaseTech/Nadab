@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:drawableRight="@drawable/ic_restaurant_mine"
                 android:hint="Food Name:"
-                android:inputType="textEmailAddress" />
+                android:inputType="text" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -69,12 +69,12 @@
             android:layout_marginTop="@dimen/child_margin_top">
 
             <EditText
-                android:id="@+id/price"
+                android:id="@+id/add_item_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableRight="@drawable/ic_attach_money_black_24dp"
                 android:hint="Food Price:"
-                android:inputType="textPassword" />
+                android:inputType="text" />
 
         </android.support.design.widget.TextInputLayout>
 

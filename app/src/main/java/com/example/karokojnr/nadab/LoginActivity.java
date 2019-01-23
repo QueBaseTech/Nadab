@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.karokojnr.nadab.api.HotelService;
 import com.example.karokojnr.nadab.api.RetrofitInstance;
+import com.example.karokojnr.nadab.model.Hotel;
 import com.example.karokojnr.nadab.model.Login;
 import com.example.karokojnr.nadab.utils.Constants;
 import com.example.karokojnr.nadab.utils.SharedPrefManager;
@@ -94,9 +95,7 @@ public class LoginActivity extends AppCompatActivity {
                             String hotelId = token.getHotelId();
 
                             // Persist to local storage
-                            editor.putString(Constants.M_SHARED_PREFERENCE_HOTEL_ID, hotelId);
-                            editor.putString(Constants.M_SHARED_PREFERENCE_LOGIN_TOKEN, authToken);
-                            editor.commit();
+                            SharedPrefManager.getInstance(getApplicationContext()).userLogin(new Hotel());
                             mLoading.setVisibility(View.GONE);
                            // Start Home activity
                             goHome();

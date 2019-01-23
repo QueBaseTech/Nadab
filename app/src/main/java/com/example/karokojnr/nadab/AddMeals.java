@@ -1,8 +1,12 @@
 package com.example.karokojnr.nadab;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -20,20 +24,32 @@ import com.example.karokojnr.nadab.model.Product;
 import com.example.karokojnr.nadab.model.Products;
 import com.example.karokojnr.nadab.utils.Constants;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import pub.devrel.easypermissions.EasyPermissions;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AddMeals extends AppCompatActivity implements View.OnClickListener {
+public class AddMeals extends AppCompatActivity implements View.OnClickListener, EasyPermissions.PermissionCallbacks {
     private ArrayList<Product> productList = new ArrayList<> ();
     private ItemsAdapter adapter;
     private static final String TAG = "Items";
     private static final int RESULT_LOAD_IMAGE = 1;
-    ImageView image;
-    Button btn_okay, btn_cancel;
-    EditText name, price;
+    private ImageView image;
+    private Button btn_okay, btn_cancel;
+    private EditText name, price;
+    private Uri selectedImage;
+    private static final int REQUEST_GALLERY_CODE = 200;
+    private static final int READ_REQUEST_CODE = 300;
+    private String filePath;
+    private File file;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate ( savedInstanceState );
@@ -43,7 +59,7 @@ public class AddMeals extends AppCompatActivity implements View.OnClickListener 
         setSupportActionBar(toolbar);
 
         name = (EditText) findViewById ( R.id.name );
-        price = (EditText) findViewById ( R.id.price );
+        price = (EditText) findViewById ( R.id.add_item_price );
 
         image = (ImageView) findViewById ( R.id.ivImage );
         image.setOnClickListener (  this );
@@ -59,38 +75,61 @@ public class AddMeals extends AppCompatActivity implements View.OnClickListener 
                         price.getText ().toString ().trim (),
                         image.getDrawable ().toString ().trim ()
                 );
-
                 //Set defaults
                 product.setHotel(getApplicationContext()
                         .getSharedPreferences(Constants.M_SHARED_PREFERENCE, MODE_PRIVATE)
                         .getString(Constants.M_SHARED_PREFERENCE_HOTEL_ID, ""));
                 productList.add (product);
-                //notify data set changed in RecyclerView adapter
-//                adapter.notifyDataSetChanged ();
+                String filePath = getRealPathFromURIPath(selectedImage, AddMeals.this);
+                File file = new File(filePath);
+                RequestBody mFile = RequestBody.create(MediaType.parse("image/*"), file);
+                MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("image", file.getName(), mFile);
+                RequestBody filename = RequestBody.create(MediaType.parse("text/plain"), file.getName());
+                RequestBody mName = RequestBody.create(MediaType.parse("text/plain"), name.getText().toString());
+                RequestBody mPrice = RequestBody.create(MediaType.parse("text/plain"), price.getText().toString());
+                RequestBody mUnitMeasure = RequestBody.create(MediaType.parse("text/plain"), "Box");
+                RequestBody mHotelId = RequestBody.create(MediaType.parse("text/plain"), product.getHotel());
+                Call<Product> call = service.addProduct(fileToUpload, filename, mName, mPrice, mUnitMeasure, mHotelId);
 
-                Call<Products> call = service.addProduct(product);
-
-                call.enqueue ( new Callback<Products> () {
+                call.enqueue ( new Callback<Product> () {
                     @Override
-                    public void onResponse(Call<Products> call, Response<Products> response) {
+                    public void onResponse(Call<Product> call, Response<Product> response) {
                         if (response.isSuccessful ()) {
                             assert response.body () != null;
-                            Log.d ( TAG, "Hotel:: " + response.body ().getProductArrayList ().toString () );
                             Toast.makeText ( AddMeals.this, "Added Successfully...", Toast.LENGTH_SHORT ).show ();
+                            //notify data set changed in RecyclerView adapter
+                            adapter.notifyDataSetChanged ();
                         } else {
                             Toast.makeText ( AddMeals.this, "Error adding...", Toast.LENGTH_SHORT ).show ();
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<Products> call, Throwable t) {
+                    public void onFailure(Call<Product> call, Throwable t) {
                         Toast.makeText ( AddMeals.this, "Something went wrong...Error message: " + t.getMessage (), Toast.LENGTH_SHORT ).show ();
                     }
                 } );
             }
         } );
-        btn_cancel.setOnClickListener ( this );
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
+
+    private String getRealPathFromURIPath(Uri contentURI, Activity activity) {
+        Cursor cursor = activity.getContentResolver().query(contentURI, null, null, null, null);
+        if (cursor == null) {
+            return contentURI.getPath();
+        } else {
+            cursor.moveToFirst();
+            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+            return cursor.getString(idx);
+        }
+    }
+
     public void onClick (View v){
         switch (v.getId ()){
             case R.id.ivImage:
@@ -112,15 +151,43 @@ public class AddMeals extends AppCompatActivity implements View.OnClickListener 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult ( requestCode, resultCode, data );
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null){
-
-            Uri selectedImage = data.getData ();
+            selectedImage = data.getData ();
             image.setImageURI(selectedImage);
-
+        }
+        if(requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null){
+            selectedImage = data.getData();
+            if(EasyPermissions.hasPermissions(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                filePath = getRealPathFromURIPath(selectedImage, AddMeals.this);
+                file = new File(filePath);
+                Log.d(TAG, "Filename " + file.getName());
+            }else{
+                EasyPermissions.requestPermissions(this, "This app needs access to your file storage so that it can read photos.", READ_REQUEST_CODE, Manifest.permission.READ_EXTERNAL_STORAGE);
+            }
         }
     }
 
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, AddMeals.this);
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
+        if (selectedImage != null) {
+            filePath = getRealPathFromURIPath(selectedImage, AddMeals.this);
+            file = new File(filePath);
+            Log.d(TAG, "Filename " + file.getName());
+        }
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
+        Log.d(TAG, "Permission has been denied");
     }
 }

@@ -10,6 +10,8 @@ import com.example.karokojnr.nadab.model.Product;
 import com.example.karokojnr.nadab.model.Products;
 import com.example.karokojnr.nadab.utils.utils;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -17,7 +19,9 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 
 public interface HotelService {
 
@@ -33,8 +37,13 @@ public interface HotelService {
     @POST("register/")
     Call<HotelRegister> addHotel(@Body Hotel hotel);
 
+    @FormUrlEncoded
     @POST("products/add")
     Call<Products> addProduct(@Body Product product);
+
+    @Multipart
+    @POST("products/add")
+    Call<Product> addProduct(@Part MultipartBody.Part file, @Part("filename") RequestBody filename, @Part("name") RequestBody name, @Part("price") RequestBody price, @Part("unitMeasure") RequestBody unitMeasure, @Part("hotel") RequestBody hotel);
 
     @FormUrlEncoded
     @POST("login/")
