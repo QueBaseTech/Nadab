@@ -35,12 +35,6 @@ public class HomeActivity extends AppCompatActivity{
         Toolbar toolbar =findViewById(R.id.toolbar);
         setSupportActionBar ( toolbar );
 
-        //loading the default fragment
-        // loadFragment(new DashboardFragment ());
-
-        //getting bottom navigation view and attaching the listener
-        /*BottomNavigationView navigation = findViewById ( R.id.navigation );
-        navigation.setOnNavigationItemSelectedListener ( this );*/
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById ( R.id.navigation );
         navigation.setOnNavigationItemSelectedListener ( mOnNavigationItemSelectedListener );

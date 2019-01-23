@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.karokojnr.nadab.orders.OrderList;
+
 public class DashboardRecyclerViewItemHolder extends RecyclerView.ViewHolder {
 
     private TextView name = null;
@@ -33,7 +35,9 @@ public class DashboardRecyclerViewItemHolder extends RecyclerView.ViewHolder {
                     case 1:
                         intent = new Intent ( context, ProfileActivity.class );
                         break;
-
+                    case 2:
+                        intent = new Intent(context, OrderList.class);
+                        break;
                     default:
                         intent = new Intent ( context, HomeActivity.class );
                         break;

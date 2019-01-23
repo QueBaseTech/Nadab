@@ -100,6 +100,7 @@ public class DashboardFragment extends Fragment implements DashboardAdapter.mCli
             dashboardItemList = new ArrayList<DashboardRecyclerViewItem>();
             dashboardItemList.add(new DashboardRecyclerViewItem ("Add Meals", R.drawable.meals));
             dashboardItemList.add(new DashboardRecyclerViewItem ("Profile", R.drawable.profile_pic));
+            dashboardItemList.add(new DashboardRecyclerViewItem ("Orders", R.drawable.profile_pic));
 
         }
     }

@@ -39,4 +39,5 @@
     <string name="prices">Price:</string>
     <string name="dashboard">Dashboard</string>
     <string name="add_meals">Add Meals</string>
+    <string name="title_activity_order_list">OrderList</string>
 </resources>

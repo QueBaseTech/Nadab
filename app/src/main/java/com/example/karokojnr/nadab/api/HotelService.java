@@ -6,6 +6,7 @@ import com.example.karokojnr.nadab.model.Hotel;
 import com.example.karokojnr.nadab.model.HotelRegister;
 import com.example.karokojnr.nadab.model.HotelsList;
 import com.example.karokojnr.nadab.model.Login;
+import com.example.karokojnr.nadab.model.Orders;
 import com.example.karokojnr.nadab.model.Product;
 import com.example.karokojnr.nadab.model.Products;
 import com.example.karokojnr.nadab.utils.utils;
@@ -51,6 +52,10 @@ public interface HotelService {
 
     @GET("products/")
     Call<Products> getProducts(@Header("x-token") String token);
+
+    @GET("hotel/orders")
+    Call<Orders> getOrders(@Header("x-token") String token);
+
 /*
 
     *//**

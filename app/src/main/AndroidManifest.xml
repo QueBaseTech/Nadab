@@ -31,7 +31,11 @@
         <activity
             android:name=".Items"
             android:theme="@style/AppTheme" />
-        <activity android:name=".AddMeals"></activity>
+        <activity android:name=".AddMeals" />
+        <activity
+            android:name=".orders.OrderList"
+            android:label="@string/title_activity_order_list"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
