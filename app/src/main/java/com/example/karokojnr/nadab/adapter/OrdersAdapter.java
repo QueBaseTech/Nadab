@@ -1,6 +1,7 @@
 package com.example.karokojnr.nadab.adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +36,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.MyViewHold
 //        holder.unitMeasure.setText(product.getUnitMeasure());
         holder.price.setText(order.getTotalPrice().toString());
         holder.qty.setText(order.getTotalItems() + " items");
+        holder.status.setText(order.getOrderStatus());
         //holder.hotel.setText(product.getHotel());
 //        Glide.with(context)
 //                .load("https://ccc7835e.ngrok.io/images/uploads/thumbs/e4a27e9b74b1907706fa31f3dd519b36.jpg")
@@ -54,11 +56,12 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.MyViewHold
             super ( itemView );
             qty = (TextView) itemView.findViewById ( R.id.tv_total_items);
             price = (TextView) itemView.findViewById ( R.id.order_total_price);
-            //unitMeasure = (TextView) itemView.findViewById ( R.id.tvUnitMeasure );
-//            price = (TextView) itemView.findViewById ( R.id.tvPrice );
-            //hotel = (TextView) itemView.findViewById ( R.id.tvHotel );
-//            imageView = (ImageView) itemView.findViewById ( R.id.tvImage );
-            //  sellingStatus = (TextView) view.findViewById ( R.id.sellingStatus );
+            status = (TextView) itemView.findViewById ( R.id.order_status);
         }
+    }
+
+    @Override
+    public void registerAdapterDataObserver(@NonNull RecyclerView.AdapterDataObserver observer) {
+        super.registerAdapterDataObserver(observer);
     }
 }

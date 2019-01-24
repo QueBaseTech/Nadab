@@ -6,6 +6,7 @@ import com.example.karokojnr.nadab.model.Hotel;
 import com.example.karokojnr.nadab.model.HotelRegister;
 import com.example.karokojnr.nadab.model.HotelsList;
 import com.example.karokojnr.nadab.model.Login;
+import com.example.karokojnr.nadab.model.Order;
 import com.example.karokojnr.nadab.model.Orders;
 import com.example.karokojnr.nadab.model.Product;
 import com.example.karokojnr.nadab.model.Products;
@@ -22,7 +23,9 @@ import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Part;
+import retrofit2.http.Path;
 
 public interface HotelService {
 
@@ -55,6 +58,9 @@ public interface HotelService {
 
     @GET("hotel/orders")
     Call<Orders> getOrders(@Header("x-token") String token);
+
+    @PUT("orders/{id}/{status}")
+    Call<Order> acceptOrder(@Path("id") String orderId, @Path("status") String orderStatus);
 
 /*
 
