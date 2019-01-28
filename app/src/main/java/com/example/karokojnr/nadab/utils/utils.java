@@ -3,6 +3,15 @@ package com.example.karokojnr.nadab.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.widget.Toast;
+
+import com.example.karokojnr.nadab.api.HotelService;
+import com.example.karokojnr.nadab.api.RetrofitInstance;
+import com.example.karokojnr.nadab.model.FCMToken;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class utils {
 
@@ -20,6 +29,23 @@ public class utils {
     public static final String getToken(Context context) {
         SharedPreferences sharedPreferences =   context.getSharedPreferences(Constants.M_SHARED_PREFERENCE, Context.MODE_PRIVATE);
         return sharedPreferences.getString(Constants.M_SHARED_PREFERENCE_LOGIN_TOKEN, null);
+    }
+
+    public static void sendRegistrationToServer(final Context context, String token) {
+        HotelService service = RetrofitInstance.getRetrofitInstance ().create ( HotelService.class );
+        String authToken = SharedPrefManager.getInstance(context).getToken();
+        Call<FCMToken> call = service.sendTokenToServer(authToken, token);
+        call.enqueue ( new Callback<FCMToken>() {
+            @Override
+            public void onResponse(Call<FCMToken> call, Response<FCMToken> response) {
+                Log.wtf("TOKEN", "onResponse: Token sent" );
+            }
+
+            @Override
+            public void onFailure(Call<FCMToken> call, Throwable t) {
+                Toast.makeText ( context, "Something went wrong...Please try later!"+t.getMessage(), Toast.LENGTH_SHORT ).show ();
+            }
+        } );
     }
 
 }

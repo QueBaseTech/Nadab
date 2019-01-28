@@ -2,6 +2,7 @@ package com.example.karokojnr.nadab.api;
 
 
 
+import com.example.karokojnr.nadab.model.FCMToken;
 import com.example.karokojnr.nadab.model.Hotel;
 import com.example.karokojnr.nadab.model.HotelRegister;
 import com.example.karokojnr.nadab.model.HotelsList;
@@ -61,6 +62,11 @@ public interface HotelService {
 
     @PUT("orders/{id}/{status}")
     Call<Order> acceptOrder(@Path("id") String orderId, @Path("status") String orderStatus);
+
+    // Send app token to server everytime it changes
+    @FormUrlEncoded
+    @PUT("hotel/token")
+    Call<FCMToken> sendTokenToServer(@Header("x-token") String authToken, @Field("token") String token);
 
 /*
 

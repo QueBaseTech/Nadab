@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -30,6 +31,11 @@ import com.example.karokojnr.nadab.model.Orders;
 import com.example.karokojnr.nadab.model.Product;
 import com.example.karokojnr.nadab.model.Products;
 import com.example.karokojnr.nadab.utils.SharedPrefManager;
+import com.example.karokojnr.nadab.utils.utils;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +51,8 @@ public class OrderList extends AppCompatActivity {
 
     private List<Order> orderLists = new ArrayList<>();
 
+    public static final String TAG = OrderList.class.getSimpleName();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +61,24 @@ public class OrderList extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         context = this;
+
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "getInstanceId failed", task.getException());
+                            return;
+                        }
+
+                        // Get new Instance ID token
+                        String token = task.getResult().getToken();
+                        utils.sendRegistrationToServer(OrderList.this, token);
+                        // Log and toast
+                        Log.d(TAG, token);
+                        Toast.makeText(OrderList.this, token, Toast.LENGTH_SHORT).show();
+                    }
+                });
 
         /*Create handle for the RetrofitInstance interface*/
         HotelService service = RetrofitInstance.getRetrofitInstance ().create ( HotelService.class );
