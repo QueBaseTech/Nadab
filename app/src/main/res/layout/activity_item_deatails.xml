@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/detail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/activity_horizontal_margin"
+            />
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/activity_vertical_margin"
+            android:textSize="15sp"
+            tools:text="Cool"
+            android:layout_marginTop="33dp"
+            android:layout_below="@+id/imageView"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true" />
+
+        <Switch
+            android:id="@+id/switch1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="71dp"
+            android:layout_marginLeft="71dp"
+            android:layout_marginTop="127dp"
+            android:text="Deactivate or Activate Meal" />
+
+        <TableLayout
+            android:layout_width="fill_parent"
+            android:id="@+id/priceLinearLayout"
+            android:layout_below="@+id/switch1"
+            android:padding="@dimen/activity_horizontal_margin"
+            android:layout_height="wrap_content">
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="PRICE"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="6"
+                    android:textSize="16sp"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvPrice" />
+            </TableRow>
+
+        </TableLayout>
+        <TableLayout
+            android:layout_width="fill_parent"
+            android:id="@+id/unitMeasureLinearLayout"
+            android:layout_below="@+id/priceLinearLayout"
+            android:padding="@dimen/activity_horizontal_margin"
+            android:layout_height="wrap_content">
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:id="@+id/table"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Unit Measure"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="6"
+                    android:textSize="16sp"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvUnitMeasure" />
+            </TableRow>
+
+        </TableLayout>
+
+        <Button
+            android:id="@+id/edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:onClick="edit"
+            android:text="EDIT DETAILS" />
+
+
+
+    </RelativeLayout>
+
+</ScrollView>
