@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.example.karokojnr.nadab_hotels.model.Hotel;
+import com.example.karokojnr.nadab_hotels.model.Product;
 
 
 //here for this class we are using a singleton pattern
@@ -22,6 +23,10 @@ public class SharedPrefManager {
     private static final String KEY_PAYBILL = "keypaybill";
     private static final String KEY_MOBILE = "keymobile";
     private static final String KEY_PROFILE = "keyprofile";
+
+    private static final String KEY_MEAL_NAME = "keymealname";
+    private static final String KEY_PRICE = "keyprice";
+    private static final String KEY_IMAGE = "keyimage";
 
 
 
@@ -75,13 +80,16 @@ public class SharedPrefManager {
         return new HotelSharedPreference (
                 sharedPreferences.getString (KEY_ID, null),
                 sharedPreferences.getString(KEY_USERNAME, null),
-                sharedPreferences.getString(KEY_EMAIL, null),
-                sharedPreferences.getString(KEY_APPLICANT_NAME, null),
-                sharedPreferences.getString(KEY_CITY, null),
-                sharedPreferences.getString(KEY_ADDRESS, null),
-                sharedPreferences.getString (KEY_PAYBILL, null),
-                sharedPreferences.getString(KEY_MOBILE, null),
-                sharedPreferences.getString(KEY_PROFILE, null)
+                sharedPreferences.getString(KEY_EMAIL, null) );
+    }
+    //this method will give the logged in user
+    public Product getMeal() {
+        SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        return new Product (
+                sharedPreferences.getString (KEY_MEAL_NAME, null),
+                sharedPreferences.getString(KEY_PRICE, null),
+                sharedPreferences.getString(KEY_IMAGE, null)
+
         );
     }
 

@@ -51,6 +51,10 @@ public interface HotelService {
     @POST("login/")
     Call<Login> login(@Field("email") String email, @Field("password") String password);
 
+    @FormUrlEncoded
+    @POST("products/{id}/edit")
+    Call<Product> getProductsEdit(@Header("x-token") String token);
+
     @GET("products/")
     Call<Products> getProducts(@Header("x-token") String token);
 
