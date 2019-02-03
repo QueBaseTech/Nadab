@@ -36,8 +36,9 @@ public interface HotelService {
     /*
     * Post a new hotel
     * */
+    @Multipart
     @POST("register/")
-    Call<HotelRegister> addHotel(@Body Hotel hotel);
+    Call<HotelRegister> addHotel(@Part MultipartBody.Part file,@Part("filename") RequestBody filename, @Part("businessName") RequestBody businessName, @Part("applicantName") RequestBody applicantName, @Part("payBillNo") RequestBody payBillNo, @Part("mobileNumber") RequestBody mobileNumber, @Part("city") RequestBody city, @Part("address") RequestBody address, @Part("businessEmail") RequestBody businessEmail, @Part("password") RequestBody password);
 
     @FormUrlEncoded
     @POST("products/add")

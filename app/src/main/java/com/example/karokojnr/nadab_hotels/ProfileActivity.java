@@ -64,21 +64,13 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         //getting the current user
         HotelSharedPreference hotel = SharedPrefManager.getInstance(this).getHotel ();
-
-        /*//setting the values to the textviews
-        //textViewId.setText(String.valueOf(user.getId()));
-        tv_name.setText(hotel.getBusinessName ());
-        tv_email.setText(hotel.getBusinessEmail ());
-        //textViewGender.setText(user.getGender());*/
-
-        //setting the values to the textviews
         tv_name.setText(String.valueOf(hotel.getUsername ()));
         tv_email.setText(String.valueOf ( hotel.getEmail ()));
         tv_applicant_name.setText(String.valueOf ( hotel.getTv_applicant_name ()));
         tv_city.setText(String.valueOf ( hotel.getTv_city ()));
         tv_address.setText(String.valueOf ( hotel.getTv_address ()));
-        tv_paybill.setText(String.valueOf ( hotel.getTv_paybill ()));
-        tv_mobile.setText(String.valueOf ( hotel.getTv_mobile ()));
+        tv_paybill.setText(String.valueOf ( hotel.getTv_mobile ()));
+        tv_mobile.setText(String.valueOf ( hotel.getTv_paybill()));
         imageView.setImageDrawable (Drawable.createFromPath ( String.valueOf ( hotel.getIvImage ()) ) );
 
 

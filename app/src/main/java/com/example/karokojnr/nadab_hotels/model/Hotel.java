@@ -32,6 +32,9 @@ public class Hotel {
     @SerializedName("businessEmail")
     private String businessEmail;
 
+    @SerializedName("filename")
+    private String image;
+
     @SerializedName("createdAt")
     private String createdAt;
 
@@ -52,6 +55,14 @@ public class Hotel {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     @SerializedName("password")

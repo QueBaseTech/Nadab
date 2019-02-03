@@ -32,8 +32,6 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:textColorPrimary">@android:color/white</item>
-
-        <string name="initial_quantity">1</string>
     </style>
 
     <style name="FormTextStyle">

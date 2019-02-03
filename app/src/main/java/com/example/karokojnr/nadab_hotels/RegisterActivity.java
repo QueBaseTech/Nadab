@@ -30,6 +30,9 @@ import com.example.karokojnr.nadab_hotels.utils.SharedPrefManager;
 
 import java.io.File;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import pub.devrel.easypermissions.EasyPermissions;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -82,20 +85,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
     public void addHotel(View view) {
-
-        /*// display a progress dialog
-        final ProgressDialog progressDialog = new ProgressDialog(RegisterActivity.this);
-        progressDialog.setCancelable(false); // set cancelable to false
-        progressDialog.setMessage("Please Wait"); // set message
-        progressDialog.show(); // show progress dialog*/
-
         HotelService service = RetrofitInstance.getRetrofitInstance().create(HotelService.class);
         final Hotel hotel = new Hotel();
 
-
-
         String mimage = ivImage.getDrawable().toString();
-        String mmobileNumber = mobileNumber.getText ().toString();
+        String mmobileNumber = mobileNumber.getText().toString();
         String mbusinessName = businessName.getText().toString();
         String mapplicantName = applicantName.getText().toString();
         String mpaybillNumber = paybillNumber.getText().toString();
@@ -165,20 +159,31 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
        // mLoading.setVisibility(View.VISIBLE); // show progress dialog*/
         showProgressDialogWithTitle ();
 
-
-        // TODO:: Fetch fields from form
+        String filePath = getRealPathFromURIPath(selectedImage, this);
+        File file = new File(filePath);
+        RequestBody mFile = RequestBody.create(MediaType.parse("image/*"), file);
+        MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("image", file.getName(), mFile);
         hotel.setProfile(mimage);
         hotel.setApplicantName(mapplicantName);
         hotel.setBusinessEmail(mbusinessEmail);
         hotel.setBusinessName(mbusinessName);
         hotel.setAddress(maddress);
         hotel.setCity(mcity);
-        hotel.setMobileNumber( Integer.parseInt ( mmobileNumber ) );
         hotel.setPayBillNo(mpaybillNumber);
         hotel.setPassword(mpassword);
-        // TODO :: Remove all the hard coded values
 
-        Call<HotelRegister> call = service.addHotel(hotel);
+        RequestBody filename = RequestBody.create(MediaType.parse("text/plain"), file.getName());
+        RequestBody applicantName = RequestBody.create(MediaType.parse("text/plain"), hotel.getApplicantName());
+        RequestBody businessEmail = RequestBody.create(MediaType.parse("text/plain"), hotel.getBusinessEmail());
+        RequestBody businessName = RequestBody.create(MediaType.parse("text/plain"), hotel.getBusinessName());
+        RequestBody address = RequestBody.create(MediaType.parse("text/plain"), hotel.getAddress());
+        RequestBody city = RequestBody.create(MediaType.parse("text/plain"), hotel.getCity());
+        RequestBody mobileNumber = RequestBody.create(MediaType.parse("text/plain"), mmobileNumber.trim());
+        RequestBody payBill = RequestBody.create(MediaType.parse("text/plain"), hotel.getPayBillNo());
+        RequestBody password = RequestBody.create(MediaType.parse("text/plain"), hotel.getPassword());
+
+
+        Call<HotelRegister> call = service.addHotel(fileToUpload, filename, businessName, applicantName, payBill, mobileNumber, city, address, businessEmail, password);
 
         call.enqueue(new Callback<HotelRegister>() {
             @Override
@@ -186,25 +191,24 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
                 if(response.isSuccessful()) {
                     Log.d("JOA", "Hotel:: "+response.body().getHotel().toString());
-                    startActivity(new Intent(RegisterActivity.this, HomeActivity.class));
-                    //storing the user in shared preferences
-                    SharedPrefManager.getInstance(getApplicationContext()).userLogin(hotel, "");
-                   // SharedPrefManager.getInstance(getApplicationContext()).userLogin(hotel);
-                   // mLoading.setVisibility(View.GONE);
-                    hideProgressDialogWithTitle ();
+                    Hotel hotel = response.body().getHotel();
 
+                    //storing the user in shared preferences
+                    SharedPrefManager.getInstance(getApplicationContext()).userLogin(hotel, response.body().getToken());
+                    hideProgressDialogWithTitle ();
+                    startActivity(new Intent(RegisterActivity.this, HomeActivity.class));
                 }
                 else
                    // mLoading.setVisibility(View.INVISIBLE);
                     hideProgressDialogWithTitle ();
-                Toast.makeText(RegisterActivity.this,   "Error adding...", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this,   "Error adding...", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(Call<HotelRegister> call, Throwable t) {
                 //mLoading.setVisibility(View.INVISIBLE);
                 hideProgressDialogWithTitle ();
-                Toast.makeText(RegisterActivity.this, "Something went wrong...Error message: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(RegisterActivity.this, "Something went wrong...Error message: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
 
         });
@@ -227,13 +231,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult ( galleryIntent, RESULT_LOAD_IMAGE  );
                 break;
-
-           /* case R.id.btn_ok:
-
-                break;
-
-            case R.id.btn_cancel:
-                break;*/
         }
 
 
@@ -267,6 +264,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, RegisterActivity.this);
     }
+
     // Method to show Progress bar
     private void showProgressDialogWithTitle() {
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);

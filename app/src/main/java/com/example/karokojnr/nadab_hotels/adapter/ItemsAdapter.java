@@ -58,8 +58,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
         holder.price.setText("Kshs " + product.getPrice());
         //holder.hotel.setText(product.getHotel());
         Glide.with(context)
-//                .load("https://ccc7835e.ngrok.io/images/uploads/thumbs/e4a27e9b74b1907706fa31f3dd519b36.jpg")
-                .load(RetrofitInstance.BASE_URL+"images/uploads/thumbs/"+product.getImage())
+                .load(RetrofitInstance.BASE_URL+"images/uploads/products/thumb_"+product.getImage())
                 .into(holder.imageView);
     }
 
