@@ -33,6 +33,7 @@
             android:name=".Items"
             android:theme="@style/AppTheme" />
         <activity android:name=".AddMeals" />
+        <activity android:name=".ItemDetails"/>
         <activity
             android:name=".orders.OrderList"
             android:label="@string/title_activity_order_list"

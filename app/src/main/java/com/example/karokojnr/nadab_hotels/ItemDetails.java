@@ -55,6 +55,7 @@ public class ItemDetails extends AppCompatActivity {
     private String itemPrice;
     private String itemUnitMeasure;
     private String itemImageUrl;
+    private String itemHotelId;
 
     public static final String TAG = ItemDetails.class.getSimpleName();
     private ImageView imageView;
@@ -74,6 +75,7 @@ public class ItemDetails extends AppCompatActivity {
         itemPrice = intent.getStringExtra(Constants.M_PRICE);
         itemUnitMeasure = intent.getStringExtra(Constants.M_UNITMEASURE);
         itemImageUrl = intent.getStringExtra(Constants.M_IMAGE);
+        itemHotelId = intent.getStringExtra(Constants.M_HOTEL_ID);
 
 
         medit = (Button) findViewById(R.id.edit);
@@ -85,26 +87,12 @@ public class ItemDetails extends AppCompatActivity {
 
         tvName.setText(itemName);
         tvUnitMeasure.setText(itemUnitMeasure);
-        tvPrice.setText("Kshs." + price);
-        float f = Float.parseFloat(Double.toString(rating));
-        setTitle(fragranceName);
-        /*ratingBar = (RatingBar) findViewById(R.id.ratingLevel);
-        ratingBar.setRating(f);*/
+        tvPrice.setText("Kshs." + itemPrice);
+        setTitle(itemName);
         Glide.with(this)
-                .load(RetrofitInstance.BASE_URL+"images/uploads/thumbs/"+ itemImageUrl)
+                .load(RetrofitInstance.BASE_URL+"images/uploads/products/thumb_"+ itemImageUrl)
                 .into(imageView);
 
-        if (mQuantity == 1){
-            mTotalPrice = Integer.parseInt(itemPrice);
-            displayCost(mTotalPrice);
-        }
-
     }
-
-    private void displayCost(double totalPrice) {
-        String convertPrice = NumberFormat.getCurrencyInstance().format(totalPrice);
-        costTextView.setText(convertPrice);
-    }
-
 
 }

@@ -16,6 +16,7 @@ import com.example.karokojnr.nadab_hotels.api.HotelService;
 import com.example.karokojnr.nadab_hotels.api.RetrofitInstance;
 import com.example.karokojnr.nadab_hotels.model.Product;
 import com.example.karokojnr.nadab_hotels.model.Products;
+import com.example.karokojnr.nadab_hotels.utils.Constants;
 import com.example.karokojnr.nadab_hotels.utils.SharedPrefManager;
 
 import java.util.ArrayList;
@@ -61,6 +62,11 @@ public class MealsFragment extends Fragment {
                 Product product = productList.get ( position );
                 Toast.makeText ( getActivity (), product.getName () + " is selected!", Toast.LENGTH_SHORT ).show ();
                 Intent i = new Intent ( getContext (), ItemDetails.class );
+                i.putExtra(Constants.M_NAME, product.getName());
+                i.putExtra(Constants.M_PRICE, product.getPrice());
+                i.putExtra(Constants.M_IMAGE, product.getImage());
+                i.putExtra(Constants.M_HOTEL_ID, product.getHotel());
+                i.putExtra(Constants.M_UNITMEASURE, product.getUnitMeasure());
                 startActivity ( i );
             }
 
