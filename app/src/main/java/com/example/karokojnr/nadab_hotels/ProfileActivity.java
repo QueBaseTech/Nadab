@@ -44,13 +44,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         setSupportActionBar(toolbar);
 
 
-        /*//if the user is not logged in
-        //starting the login activity
-        if (!SharedPrefManager.getInstance(this).isLoggedIn()) {
-            finish();
-            startActivity(new Intent(this, LoginActivity.class));
-        }*/
-
         tv_name = (TextView)findViewById(R.id.tv_name);
         tv_email = (TextView)findViewById(R.id.tv_email);
         tv_applicant_name = (TextView)findViewById ( R.id.tv_applicant_name );
@@ -69,8 +62,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         tv_applicant_name.setText(String.valueOf ( hotel.getTv_applicant_name ()));
         tv_city.setText(String.valueOf ( hotel.getTv_city ()));
         tv_address.setText(String.valueOf ( hotel.getTv_address ()));
-        tv_paybill.setText(String.valueOf ( hotel.getTv_mobile ()));
-        tv_mobile.setText(String.valueOf ( hotel.getTv_paybill()));
+        tv_paybill.setText(String.valueOf ( hotel.getTv_paybill ()));
+        tv_mobile.setText(String.valueOf ( hotel.getTv_mobile()));
         imageView.setImageDrawable (Drawable.createFromPath ( String.valueOf ( hotel.getIvImage ()) ) );
 
 

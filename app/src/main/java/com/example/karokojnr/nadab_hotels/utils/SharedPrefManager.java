@@ -80,9 +80,16 @@ public class SharedPrefManager {
         return new HotelSharedPreference (
                 sharedPreferences.getString (KEY_ID, null),
                 sharedPreferences.getString(KEY_USERNAME, null),
+                sharedPreferences.getString(KEY_APPLICANT_NAME, null),
+                sharedPreferences.getString(KEY_MOBILE, null),
+                sharedPreferences.getString(KEY_PAYBILL, null),
+                sharedPreferences.getString(KEY_CITY, null),
+                sharedPreferences.getString(KEY_ADDRESS, null),
+                sharedPreferences.getString(KEY_PROFILE, null),
                 sharedPreferences.getString(KEY_EMAIL, null) );
     }
-    //this method will give the logged in user
+
+
     public Product getMeal() {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         return new Product (

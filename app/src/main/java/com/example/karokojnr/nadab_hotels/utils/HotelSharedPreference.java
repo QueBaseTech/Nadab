@@ -7,7 +7,7 @@ public class HotelSharedPreference {
         return ivImage;
     }
 
-    public HotelSharedPreference(String id, String username, String email) {
+    public HotelSharedPreference(String id, String username, String tv_applicant_name, String tv_mobile, String tv_paybill, String tv_city, String tv_address, String tv_profile, String email) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -16,7 +16,7 @@ public class HotelSharedPreference {
         this.tv_address = tv_address;
         this.tv_mobile = tv_mobile;
         this.tv_paybill = tv_paybill;
-        this.ivImage = ivImage;
+        this.ivImage = tv_profile;
 
     }
 
