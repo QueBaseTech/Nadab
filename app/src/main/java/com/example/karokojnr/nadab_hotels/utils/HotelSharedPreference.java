@@ -7,8 +7,7 @@ public class HotelSharedPreference {
         return ivImage;
     }
 
-    public HotelSharedPreference(String id, String username, String email, String tv_applicant_name,
-                                 String tv_city, String tv_address, String tv_mobile, String tv_paybill, String ivImage) {
+    public HotelSharedPreference(String id, String username, String email) {
         this.id = id;
         this.username = username;
         this.email = email;

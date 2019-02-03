@@ -1,5 +1,6 @@
 package com.example.karokojnr.nadab_hotels;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;import android.support.annotation.Nullable;
@@ -59,6 +60,8 @@ public class MealsFragment extends Fragment {
             public void onClick(View view, int position) {
                 Product product = productList.get ( position );
                 Toast.makeText ( getActivity (), product.getName () + " is selected!", Toast.LENGTH_SHORT ).show ();
+                Intent i = new Intent ( getContext (), ItemDetails.class );
+                startActivity ( i );
             }
 
             @Override
