@@ -1,8 +1,7 @@
 package com.example.karokojnr.nadab_hotels.api;
 
 
-
-import com.example.karokojnr.nadab_hotels.model.Hotel;
+import com.example.karokojnr.nadab_hotels.model.FCMToken;
 import com.example.karokojnr.nadab_hotels.model.HotelRegister;
 import com.example.karokojnr.nadab_hotels.model.HotelsList;
 import com.example.karokojnr.nadab_hotels.model.Login;
@@ -10,7 +9,6 @@ import com.example.karokojnr.nadab_hotels.model.Order;
 import com.example.karokojnr.nadab_hotels.model.Orders;
 import com.example.karokojnr.nadab_hotels.model.Product;
 import com.example.karokojnr.nadab_hotels.model.Products;
-
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -65,8 +63,12 @@ public interface HotelService {
     @PUT("orders/{id}/{status}")
     Call<Order> acceptOrder(@Path("id") String orderId, @Path("status") String orderStatus);
 
+    // Send app token to server everytime it changes
+    @FormUrlEncoded
+    @PUT("hotel/token")
+    Call<FCMToken> sendTokenToServer(@Header("x-token") String authToken, @Field("token") String token);
 
-
+/*
     /**
      * URL MANIPULATION
      * @since Not used, Just to know how to use @query to get JSONObject

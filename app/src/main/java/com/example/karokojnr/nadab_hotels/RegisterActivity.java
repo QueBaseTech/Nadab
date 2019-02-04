@@ -27,6 +27,11 @@ import com.example.karokojnr.nadab_hotels.api.RetrofitInstance;
 import com.example.karokojnr.nadab_hotels.model.Hotel;
 import com.example.karokojnr.nadab_hotels.model.HotelRegister;
 import com.example.karokojnr.nadab_hotels.utils.SharedPrefManager;
+import com.example.karokojnr.nadab_hotels.utils.utils;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import java.io.File;
 
@@ -196,6 +201,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     //storing the user in shared preferences
                     SharedPrefManager.getInstance(getApplicationContext()).userLogin(hotel, response.body().getToken());
                     hideProgressDialogWithTitle ();
+                    sendToken();
                     startActivity(new Intent(RegisterActivity.this, HomeActivity.class));
                 }
                 else
@@ -214,6 +220,24 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         });
 
     }
+
+    private void sendToken() {
+        FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+            @Override
+            public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                if (!task.isSuccessful()) {
+                    Log.w("FCM_TOKEN", "getInstanceId failed", task.getException());
+                    return;
+                }
+
+                // Get new Instance ID token
+                String token = task.getResult().getToken();
+                Log.d("FCM_TOKEN", "Token:: "+token);
+                utils.sendRegistrationToServer(RegisterActivity.this, token);
+            }
+        });
+    }
+
     private String getRealPathFromURIPath(Uri contentURI, Activity activity) {
         Cursor cursor = activity.getContentResolver().query(contentURI, null, null, null, null);
         if (cursor == null) {
