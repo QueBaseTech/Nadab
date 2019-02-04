@@ -18,17 +18,28 @@
             android:layout_margin="@dimen/activity_vertical_margin">
 
             <ImageView
-                android:id="@+id/img_logo"
-                android:layout_width="wrap_content"
+                android:id="@+id/ivImage"
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/logo_height"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/logo"/>
+                app:srcCompat="@drawable/ic_add_a_photo_black_24dp"/>
+            <TextView
+                android:id="@+id/ti_first"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/child_margin_top"
+                android:text="Add Profile Picture"
+                android:layout_below="@+id/ivImage"
+                android:textColor="@color/colorPrimaryDark"
+                android:gravity="center"
+                android:layout_centerHorizontal="true"/>
+
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/ti_mobileNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/img_logo"
+                android:layout_below="@+id/ivImage"
                 android:layout_marginTop="@dimen/child_margin_top">
 
             <EditText
@@ -148,6 +159,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ti_city"
                 android:layout_marginTop="@dimen/child_margin_top"
+                app:passwordToggleContentDescription="@string/name"
+                app:passwordToggleDrawable="@drawable/ic_visibility_black_24dp"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/colorAccent"
                 tools:ignore="NotSibling">
 
                 <EditText
@@ -166,6 +181,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ti_password"
                 android:layout_marginTop="@dimen/child_margin_top"
+                app:passwordToggleContentDescription="@string/name"
+                app:passwordToggleDrawable="@drawable/ic_visibility_black_24dp"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/colorAccent"
                 tools:ignore="NotSibling">
 
                 <EditText
@@ -186,7 +205,18 @@
                 android:layout_below="@+id/ti_passwordAgain"
                 android:layout_marginTop="@dimen/button_margin"
                 android:paddingLeft="@dimen/button_padding"
-                android:text="Register" />
+                android:text="Register"
+                android:textColor="@color/colorAccent"/>
+
+            <ProgressBar
+                android:id="@+id/login_loading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/addHotel"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="@dimen/button_margin"
+                android:layout_marginTop="@dimen/button_margin"
+                android:visibility="invisible" />
 
         </RelativeLayout>
     </LinearLayout>

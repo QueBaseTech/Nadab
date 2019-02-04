@@ -67,5 +67,4 @@
         android:text="NEW"
         app:layout_constraintStart_toEndOf="@+id/time_elapsed"
         app:layout_constraintTop_toTopOf="parent" />
-
 </android.support.constraint.ConstraintLayout>

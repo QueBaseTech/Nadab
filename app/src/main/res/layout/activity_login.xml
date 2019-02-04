@@ -44,6 +44,10 @@
                 android:id="@+id/ti_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:passwordToggleContentDescription="@string/name"
+                app:passwordToggleDrawable="@drawable/ic_visibility_black_24dp"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/colorAccent"
                 android:layout_below="@+id/ti_email"
                 android:layout_marginTop="@dimen/child_margin_top">
 
@@ -51,7 +55,6 @@
                     android:id="@+id/et_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableRight="@drawable/ic_password"
                     android:hint="Password"
                     android:inputType="textPassword" />
 
@@ -63,26 +66,27 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ti_password"
                 android:layout_marginTop="@dimen/button_margin"
-                android:drawableRight="@drawable/ic_arrow_forward"
                 android:paddingLeft="@dimen/button_padding"
-                android:text="Login" />
-            <TextView
+                android:text="Login"
+                android:textColor="@color/colorAccent" />
+            <!--<TextView
                 android:id="@+id/tv_forgot_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/btn_login"
                 android:layout_marginTop="@dimen/button_margin"
                 android:text="Forgot Password?"
-                android:textAlignment="center" />
+                android:textAlignment="center" />-->
 
             <TextView
                 android:id="@+id/tv_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_forgot_password"
+                android:layout_below="@+id/btn_login"
                 android:layout_marginTop="@dimen/button_margin"
                 android:text="New to Nadab? Create an account now"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textColor="@color/colorAccent"/>
 
 
             <ProgressBar

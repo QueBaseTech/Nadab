@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.karokojnr.nadab">
+    package="com.example.karokojnr.nadab_hotels">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
@@ -11,12 +11,13 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/logo"
-        android:label="Nadab"
+        android:label="Nadab Hotels"
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
-        tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+        tools:ignore="AllowBackup,GoogleAppIndexingWarning"
+        tools:replace="android:label">
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,9 +34,14 @@
             android:name=".Items"
             android:theme="@style/AppTheme" />
         <activity android:name=".AddMeals" />
+        <activity android:name=".ItemDetails"/>
         <activity
             android:name=".orders.OrderList"
             android:label="@string/title_activity_order_list"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".EditMeal"
+            android:label="@string/title_activity_edit_meal"
             android:theme="@style/AppTheme"></activity>
         <service
             android:name=".services.OrdersNotificationsService"
