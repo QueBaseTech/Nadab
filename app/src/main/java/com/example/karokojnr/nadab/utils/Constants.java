@@ -19,7 +19,7 @@ public final class Constants {
     public static final String EMAIL = "email";
     public static final String UNIQUE_ID = "unique_id";
 
-//    public static final String TAG = "Learn2Crack";
+    public static final String FIREBASE_TOKEN = "FIREBASE_TOKEN";
+    public static final String ADMIN_CHANNEL_ID = "ADMIN_CHANNEL_ID";
 
-    public static final String BASE_URL = "http://192.168.1.33:5000/";
 }

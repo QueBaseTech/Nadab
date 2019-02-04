@@ -2,12 +2,17 @@ package com.example.karokojnr.nadab.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.example.karokojnr.nadab.api.HotelService;
 import com.example.karokojnr.nadab.api.RetrofitInstance;
 import com.example.karokojnr.nadab.model.FCMToken;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -47,5 +52,9 @@ public class utils {
             }
         } );
     }
+
+    /*public static Task<InstanceIdResult> retriveFCMToken() {
+        return FirebaseInstanceId.getInstance().getInstanceId();
+    }*/
 
 }

@@ -2,6 +2,7 @@ package com.example.karokojnr.nadab;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -19,6 +20,11 @@ import com.example.karokojnr.nadab.api.RetrofitInstance;
 import com.example.karokojnr.nadab.model.Hotel;
 import com.example.karokojnr.nadab.model.HotelRegister;
 import com.example.karokojnr.nadab.utils.SharedPrefManager;
+import com.example.karokojnr.nadab.utils.utils;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,8 +32,9 @@ import retrofit2.Response;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    EditText mobileNumber, businessName, applicantName, paybillNumber, address, businessEmail, city, password, passwordAgain;
-    Button addHotel;
+    private EditText mobileNumber, businessName, applicantName, paybillNumber, address, businessEmail, city, password, passwordAgain;
+    private Button addHotel;
+    public static final String TAG = RegisterActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,9 +153,10 @@ public class RegisterActivity extends AppCompatActivity {
 
                 if(response.isSuccessful()) {
                     Log.d("JOA", "Hotel:: "+response.body().getHotel().toString());
-                    startActivity(new Intent(RegisterActivity.this, HomeActivity.class));
                     //storing the user in shared preferences
                     SharedPrefManager.getInstance(getApplicationContext()).userLogin(hotel, "");
+                    startActivity(new Intent(RegisterActivity.this, HomeActivity.class));
+                    sendToken();
                 }
                 else
                     Toast.makeText(RegisterActivity.this,   "Error adding...", Toast.LENGTH_SHORT).show();
@@ -161,5 +169,22 @@ public class RegisterActivity extends AppCompatActivity {
 
         });
 
+    }
+
+    private void sendToken() {
+        FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+            @Override
+            public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                if (!task.isSuccessful()) {
+                    Log.w("FCM_TOKEN", "getInstanceId failed", task.getException());
+                    return;
+                }
+
+                // Get new Instance ID token
+                String token = task.getResult().getToken();
+                Log.d("FCM_TOKEN", "Token:: "+token);
+                utils.sendRegistrationToServer(RegisterActivity.this, token);
+            }
+        });
     }
 }
