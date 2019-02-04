@@ -89,13 +89,12 @@ public class LoginActivity extends AppCompatActivity {
                     password.requestFocus();
                     return;
                 }
-                mLoading.setVisibility(View.VISIBLE); // show progress dialog*/
                 if (TextUtils.isEmpty(mPassword)) {
                     password.setError("Please enter your password");
                     password.requestFocus();
                     return;
                 }
-                showProgressDialogWithTitle (  );
+                showProgressDialogWithTitle ( );
 
 
 
@@ -111,7 +110,6 @@ public class LoginActivity extends AppCompatActivity {
 
                         // Persist to local storage
                         SharedPrefManager.getInstance(getApplicationContext()).userLogin(hotel, token);
-                        mLoading.setVisibility(View.GONE);
                         sendToken();
                        // Start Home activity
                         goHome();
@@ -119,6 +117,7 @@ public class LoginActivity extends AppCompatActivity {
                         mLoading.setVisibility(View.INVISIBLE);
                         Toast.makeText(LoginActivity.this, "Error logging in...", Toast.LENGTH_SHORT).show();
                     }
+                    hideProgressDialogWithTitle();
                 }
                 @Override
                 public void onFailure(Call<Login> call, Throwable t) {

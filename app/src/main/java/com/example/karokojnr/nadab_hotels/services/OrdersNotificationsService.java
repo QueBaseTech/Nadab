@@ -14,6 +14,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.example.karokojnr.nadab_hotels.R;
+import com.example.karokojnr.nadab_hotels.orders.OrderList;
 import com.example.karokojnr.nadab_hotels.utils.Constants;
 import com.example.karokojnr.nadab_hotels.utils.utils;
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -27,18 +28,18 @@ public class OrdersNotificationsService extends FirebaseMessagingService {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void setupChannels(){
-//        CharSequence adminChannelName = getString(R.string.notifications_admin_channel_name);
-//        String adminChannelDescription = getString(R.string.notifications_admin_channel_description);
+        CharSequence adminChannelName = "Orders";
+        String adminChannelDescription = "Collection of orders";
 
         NotificationChannel adminChannel;
-//        adminChannel = new NotificationChannel(Constants.ADMIN_CHANNEL_ID, adminChannelName, NotificationManager.IMPORTANCE_LOW);
-//        adminChannel.setDescription(adminChannelDescription);
-//        adminChannel.enableLights(true);
-//        adminChannel.setLightColor(Color.RED);
-//        adminChannel.enableVibration(true);
-//        if (notificationManager != null) {
-//            notificationManager.createNotificationChannel(adminChannel);
-//        }
+        adminChannel = new NotificationChannel(Constants.ADMIN_CHANNEL_ID, adminChannelName, NotificationManager.IMPORTANCE_LOW);
+        adminChannel.setDescription(adminChannelDescription);
+        adminChannel.enableLights(true);
+        adminChannel.setLightColor(Color.RED);
+        adminChannel.enableVibration(true);
+        if (notificationManager != null) {
+            notificationManager.createNotificationChannel(adminChannel);
+        }
     }
 
     /**
@@ -49,31 +50,13 @@ public class OrdersNotificationsService extends FirebaseMessagingService {
     // [START receive_message]
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
         //Setting up Notification channels for android O and above
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-//            setupChannels();
+            setupChannels();
         }
-        int notificationId = new Random().nextInt(60000);
 
-        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, Constants.ADMIN_CHANNEL_ID)
-                .setSmallIcon(R.drawable.food1)  //a resource for your custom small icon
-                .setContentTitle(remoteMessage.getData().get("title")) //the "title" value you sent in your notification
-                .setContentText(remoteMessage.getData().get("message")) //ditto
-                .setAutoCancel(true)  //dismisses the notification on click
-                .setSound(defaultSoundUri);
+        sendNotification(remoteMessage.getData().get("message"));
 
-        NotificationManager notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-        notificationManager.notify(notificationId /* ID of notification */, notificationBuilder.build());
-
-
-        // TODO(developer): Handle FCM messages here.
-        // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
         Log.d(TAG, "From: " + remoteMessage.getFrom());
 
         // Check if message contains a data payload.
@@ -140,17 +123,16 @@ public class OrdersNotificationsService extends FirebaseMessagingService {
      * @param messageBody FCM message body received.
      */
     private void sendNotification(String messageBody) {
-        /*Intent intent = new Intent(this, OrderList.class);
+        Intent intent = new Intent(this, OrderList.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 *//* Request code *//*, intent,
-                PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 , intent, PendingIntent.FLAG_ONE_SHOT);
 
-        String channelId = getString(R.string.default_notification_channel_id);
+        String channelId = "Orders-1";
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(this, channelId)
-                        .setSmallIcon(R.drawable.ic_stat_ic_notification)
-                        .setContentTitle(getString(R.string.fcm_message))
+                        .setSmallIcon(R.drawable.notifications)
+                        .setContentTitle("New order")
                         .setContentText(messageBody)
                         .setAutoCancel(true)
                         .setSound(defaultSoundUri)
@@ -162,12 +144,12 @@ public class OrdersNotificationsService extends FirebaseMessagingService {
         // Since android Oreo notification channel is needed.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(channelId,
-                    "Channel human readable title",
+                    "Orders",
                     NotificationManager.IMPORTANCE_DEFAULT);
             notificationManager.createNotificationChannel(channel);
         }
 
-        notificationManager.notify(0 *//* ID of notification *//*, notificationBuilder.build());*/
+        notificationManager.notify(0 , notificationBuilder.build());
     }
 
 }
