@@ -33,20 +33,20 @@ public class Hotel {
     private String businessEmail;
 
     @SerializedName("filename")
-    private String image;
+    private String filename;
 
     @SerializedName("createdAt")
     private String createdAt;
 
-    @SerializedName("profile")
-    private String profile;
+    @SerializedName("image")
+    private String image;
 
-    public String getProfile() {
-        return profile;
+    public String getImage() {
+        return image;
     }
 
-    public void setProfile(String profile) {
-        this.profile = profile;
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getId() {
@@ -57,12 +57,12 @@ public class Hotel {
         this.id = id;
     }
 
-    public String getImage() {
-        return image;
+    public String getFilename() {
+        return filename;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setFilename(String filename) {
+        this.filename = filename;
     }
 
     @SerializedName("password")
@@ -152,7 +152,7 @@ public class Hotel {
                 ", address='" + address + '\'' +
                 ", businessEmail='" + businessEmail + '\'' +
                 ", createdAt='" + createdAt + '\'' +
-                ", password='" + password + '\'' +
+                ", image='" + image + '\'' +
                 ", id='" + id + '\'' +
                 '}';
     }

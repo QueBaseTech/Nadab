@@ -2,6 +2,7 @@ package com.example.karokojnr.nadab_hotels.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.example.karokojnr.nadab_hotels.model.Hotel;
 import com.example.karokojnr.nadab_hotels.model.Product;
@@ -57,7 +58,7 @@ public class SharedPrefManager {
         editor.putString (KEY_ADDRESS, hotel.getAddress ());
         editor.putString (KEY_PAYBILL, hotel.getPayBillNo ());
         editor.putString (KEY_MOBILE, hotel.getMobileNumber ());
-        editor.putString (KEY_PROFILE, hotel.getProfile ());
+        editor.putString (KEY_PROFILE, hotel.getImage());
         editor.putString (Constants.M_SHARED_PREFERENCE_LOGIN_TOKEN, token);
         editor.apply();
         editor.commit();

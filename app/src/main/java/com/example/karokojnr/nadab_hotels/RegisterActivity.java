@@ -168,7 +168,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         File file = new File(filePath);
         RequestBody mFile = RequestBody.create(MediaType.parse("image/*"), file);
         MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("image", file.getName(), mFile);
-        hotel.setProfile(mimage);
         hotel.setApplicantName(mapplicantName);
         hotel.setBusinessEmail(mbusinessEmail);
         hotel.setBusinessName(mbusinessName);

@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -18,6 +19,8 @@ import android.view.LayoutInflater;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
+import com.bumptech.glide.Glide;
+import com.example.karokojnr.nadab_hotels.api.RetrofitInstance;
 import com.example.karokojnr.nadab_hotels.utils.Constants;
 import com.example.karokojnr.nadab_hotels.utils.HotelSharedPreference;
 import com.example.karokojnr.nadab_hotels.utils.SharedPrefManager;
@@ -64,8 +67,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         tv_address.setText(String.valueOf ( hotel.getTv_address ()));
         tv_paybill.setText(String.valueOf ( hotel.getTv_paybill ()));
         tv_mobile.setText(String.valueOf ( hotel.getTv_mobile()));
-        imageView.setImageDrawable (Drawable.createFromPath ( String.valueOf ( hotel.getIvImage ()) ) );
-
+        Glide.with(this)
+                .load(RetrofitInstance.BASE_URL+"images/uploads/hotels/"+ String.valueOf ( hotel.getIvImage ()))
+                .into(imageView);
 
 
 

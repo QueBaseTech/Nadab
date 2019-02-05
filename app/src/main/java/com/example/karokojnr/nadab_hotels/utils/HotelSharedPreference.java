@@ -51,4 +51,19 @@ public class HotelSharedPreference {
     public String getEmail() {
         return email;
     }
+
+    @Override
+    public String toString() {
+        return "HotelSharedPreference{" +
+                "id='" + id + '\'' +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", tv_applicant_name='" + tv_applicant_name + '\'' +
+                ", tv_city='" + tv_city + '\'' +
+                ", tv_address='" + tv_address + '\'' +
+                ", tv_mobile='" + tv_mobile + '\'' +
+                ", tv_paybill='" + tv_paybill + '\'' +
+                ", ivImage='" + ivImage + '\'' +
+                '}';
+    }
 }

@@ -9,6 +9,10 @@ public class Login {
     @SerializedName("hotel")
     private Hotel hotel;
 
+    public void setHotel(Hotel hotel) {
+        this.hotel = hotel;
+    }
+
     public Hotel getHotel() {
         return hotel;
     }
@@ -25,6 +29,7 @@ public class Login {
     public String toString() {
         return "Login{" +
                 "token='" + token + '\'' +
+                "hotel='" + hotel.toString() + '\'' +
                 '}';
     }
 
