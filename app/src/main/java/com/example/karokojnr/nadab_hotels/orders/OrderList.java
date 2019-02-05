@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -46,6 +47,7 @@ public class OrderList extends AppCompatActivity {
     RecyclerView recyclerView;
 
     private List<Order> orderLists = new ArrayList<>();
+    private String selectedOrder;
 
     public static final String TAG = OrderList.class.getSimpleName();
 
@@ -58,23 +60,11 @@ public class OrderList extends AppCompatActivity {
 
         context = this;
 
-        FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                        if (!task.isSuccessful()) {
-                            Log.w(TAG, "getInstanceId failed", task.getException());
-                            return;
-                        }
-
-                        // Get new Instance ID token
-                        String token = task.getResult().getToken();
-                        utils.sendRegistrationToServer(OrderList.this, token);
-                        // Log and toast
-                        Log.d(TAG, token);
-                        Toast.makeText(OrderList.this, token, Toast.LENGTH_SHORT).show();
-                    }
-                });
+        if(getIntent().getExtras() != null) {
+            selectedOrder = getIntent().getStringExtra("ORDER_ID");
+        } else {
+            selectedOrder = null;
+        }
 
         /*Create handle for the RetrofitInstance interface*/
         HotelService service = RetrofitInstance.getRetrofitInstance ().create ( HotelService.class );
@@ -183,6 +173,20 @@ public class OrderList extends AppCompatActivity {
         adapter = new OrdersAdapter( empDataList, OrderList.this );
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter (adapter);
+
+        if(selectedOrder != null) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if(recyclerView.isComputingLayout())
+                        Log.wtf(TAG, "run: computing");
+                    else
+                        Log.wtf(TAG, "run: stopped");
+                    recyclerView.findViewHolderForAdapterPosition(4).itemView.performClick();
+                }
+            }, 1);
+        }
+
     }
 
 }

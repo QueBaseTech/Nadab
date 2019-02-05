@@ -55,9 +55,13 @@ public class OrdersNotificationsService extends FirebaseMessagingService {
             setupChannels();
         }
 
-        sendNotification(remoteMessage.getData().get("message"));
 
+        String order = remoteMessage.getData().get("orderID");
+        String message = remoteMessage.getData().get("message");
+
+        sendNotification(message, order);
         Log.d(TAG, "From: " + remoteMessage.getFrom());
+        Log.d(TAG, "Data: " + order);
 
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
@@ -121,10 +125,12 @@ public class OrdersNotificationsService extends FirebaseMessagingService {
      * Create and show a simple notification containing the received FCM message.
      *
      * @param messageBody FCM message body received.
+     * @param order FCM message orderID received.
      */
-    private void sendNotification(String messageBody) {
+    private void sendNotification(String messageBody, String order) {
         Intent intent = new Intent(this, OrderList.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("ORDER_ID", order);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 , intent, PendingIntent.FLAG_ONE_SHOT);
 
         String channelId = "Orders-1";
