@@ -1,0 +1,233 @@
+package com.example.karokojnr.nadab_hotels;/*
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+<LinearLayout
+        android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:orientation="horizontal">
+
+<TextView
+            android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:text="Enter Meals Details" />
+
+</LinearLayout>
+
+<!--
+        button for loading image from gallery
+        -->
+<LinearLayout
+        android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+<!-- <TextView
+            android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:gravity="center_horizontal"
+                    android:text="Image:" />-->
+
+<ImageView
+            android:id="@+id/ivImage"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:layout_gravity="center_horizontal"/>
+</LinearLayout>
+<!--
+        imageView to display the selcted Image
+        -->
+
+<!--<LinearLayout
+        android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="10dp" >
+
+<ImageView
+            android:id="@+id/ivImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+</LinearLayout>-->
+
+<LinearLayout
+        android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+<TextView
+            android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:text="Name:" />
+
+<EditText
+            android:id="@+id/name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000"
+                    android:layout_weight="0.5" />
+</LinearLayout>
+<!--
+<LinearLayout
+        android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+<TextView
+            android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:text="@string/quantities" />
+
+<EditText
+            android:id="@+id/unitMeasure"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000"
+                    android:layout_weight="0.5" />
+</LinearLayout>-->
+
+<LinearLayout
+        android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+<TextView
+            android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:text="@string/prices" />
+
+<EditText
+            android:id="@+id/price"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000"
+                    android:layout_weight="0.5" />
+</LinearLayout>
+
+<!--<LinearLayout
+        android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+<TextView
+            android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:text="Hotel:" />
+
+<EditText
+            android:id="@+id/hotel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:textColor="#000"
+                    android:inputType="textCapSentences" />
+</LinearLayout>
+
+        &lt;!&ndash;<LinearLayout
+        android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+<TextView
+            android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:text="Image" />
+
+<EditText
+            android:id="@+id/image"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:textColor="#000"
+                    android:inputType="textCapSentences" />
+</LinearLayout>&ndash;&gt;
+
+
+
+
+<LinearLayout
+        android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+<TextView
+            android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:text="Selling Status:" />
+
+<EditText
+            android:id="@+id/sellingStatus"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:textColor="#000"
+                    android:inputType="textCapSentences" />
+</LinearLayout>
+
+<LinearLayout
+        android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+<TextView
+            android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:text="Served With:" />
+
+<EditText
+            android:id="@+id/servedWith"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:inputType="textCapSentences" />
+</LinearLayout>
+        -->
+<LinearLayout
+        android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+<Button
+            android:id="@+id/btn_ok"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:text="@string/ok" />
+
+<Button
+            android:id="@+id/btn_cancel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:text="@string/cancel" />
+</LinearLayout>
+</LinearLayout>*/
