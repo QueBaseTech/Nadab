@@ -7,6 +7,7 @@
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -26,15 +27,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".HomeActivity"
+            android:name=".MainActivity"
             android:theme="@style/AppTheme" />
+       <!-- <activity
+            android:name=".LoginActivity"
+            android:theme="@style/AppTheme" />-->
         <activity android:name=".ProfileActivity" />
         <activity android:name=".RegisterActivity" />
+
         <activity
             android:name=".Items"
             android:theme="@style/AppTheme" />
         <activity android:name=".AddMeals" />
-        <activity android:name=".ItemDetails"/>
+        <activity android:name=".ItemDetails" />
         <activity
             android:name=".orders.OrderList"
             android:label="@string/title_activity_order_list"
@@ -42,7 +47,8 @@
         <activity
             android:name=".EditMeal"
             android:label="@string/title_activity_edit_meal"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+
         <service
             android:name=".services.OrdersNotificationsService"
             android:permission="com.google.android.c2dm.permission.SEND">
@@ -56,13 +62,15 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
+
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorAccent" />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/notifications" />
-        <meta-data android:name="com.google.android.gms.version"
+        <meta-data
+            android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
     </application>
 
