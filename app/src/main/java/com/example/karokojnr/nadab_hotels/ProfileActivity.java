@@ -72,7 +72,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 .into(imageView);
 
 
-
         btn_change_password = (Button)findViewById(R.id.btn_chg_password);
         btn_logout = (FloatingActionButton) findViewById(R.id.btn_logout);
         btn_change_password.setOnClickListener ( new View.OnClickListener () {

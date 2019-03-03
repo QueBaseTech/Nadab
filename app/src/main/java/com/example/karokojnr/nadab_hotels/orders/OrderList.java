@@ -47,6 +47,7 @@ public class OrderList extends AppCompatActivity {
     RecyclerView recyclerView;
 
     private List<Order> orderLists = new ArrayList<>();
+
     private String selectedOrder;
 
     public static final String TAG = OrderList.class.getSimpleName();

@@ -294,7 +294,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         //Without this user can hide loader by tapping outside screen
         progressDialog.setCancelable(false);
         //Setting Title
-        progressDialog.setTitle("Logging In");
+        progressDialog.setTitle("Registering");
         progressDialog.setMessage("Please Wait...");
         progressDialog.show();
 

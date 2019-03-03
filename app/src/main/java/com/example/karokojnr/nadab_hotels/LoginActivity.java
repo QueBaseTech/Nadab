@@ -107,8 +107,6 @@ public class LoginActivity extends AppCompatActivity {
                     if (response.isSuccessful()) {
                         String token = response.body().getToken();
                         Hotel hotel = response.body().getHotel();
-                        Log.wtf(TAG, "onResponse: "+hotel.getImage() );
-
                         // Persist to local storage
                         SharedPrefManager.getInstance(getApplicationContext()).userLogin(hotel, token);
                         sendToken();

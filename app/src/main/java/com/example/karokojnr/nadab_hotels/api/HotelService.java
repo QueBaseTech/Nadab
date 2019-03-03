@@ -51,8 +51,9 @@ public interface HotelService {
     Call<Login> login(@Field("email") String email, @Field("password") String password);
 
     @FormUrlEncoded
-    @POST("products/{id}/edit")
-    Call<Product> getProductsEdit(@Header("x-token") String token);
+    @PUT("products/{id}/edit")
+    Call<Product> getProductsEdit(@Header("x-token") String token, @Path ( "id" )String productId,@Part ("filename") RequestBody filename,
+                                  @Part("name") RequestBody name, @Part("price")RequestBody price);
 
     @GET("products/")
     Call<Products> getProducts(@Header("x-token") String token);

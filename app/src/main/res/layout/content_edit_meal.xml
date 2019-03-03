@@ -13,12 +13,9 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/app_bar_add_meals"
     tools:context=".AddMeals">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-
 
         <RelativeLayout
             android:orientation="vertical"
@@ -41,7 +38,9 @@
                 android:layout_height="@dimen/logo_height"
                 android:layout_below="@+id/ti_first"
                 android:layout_centerHorizontal="true"
-                app:srcCompat="@drawable/ic_add_a_photo_black_24dp"/>
+                app:srcCompat="@drawable/ic_add_a_photo_black_24dp"
+                android:drawableRight="@drawable/ic_edit_black_24dp"
+                />
 
 
             <android.support.design.widget.TextInputLayout
@@ -112,8 +111,9 @@
                 app:floating_title_color="@android:color/white"
                 app:layout_behavior="ru.dimorinny.floatingtextbutton.behavior.SnackbarBehavior"
                 android:layout_below="@+id/btn_ok" />
+
             <ProgressBar
-                android:id="@+id/login_loading"
+                android:id="@+id/edit_loading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/btn_cancel"
