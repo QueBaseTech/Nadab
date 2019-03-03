@@ -6,6 +6,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -46,6 +47,8 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
          viewPager = (ViewPager) findViewById(R.id.viewpager);
+         PagerAdapter pagerAdapter = new Adapter ( getSupportFragmentManager () );
+         viewPager.setAdapter ( pagerAdapter );
          tabLayout = (TabLayout) findViewById(R.id.tabs);
 
         if (viewPager != null) {
@@ -214,9 +217,9 @@ public class MainActivity extends AppCompatActivity
                     return new MealsFragment ();
                 case 1:
                     return new OrderFragment ();
-                case 3:
+                case 2:
                     return new BillsFragment ();
-                case 4:
+                case 3:
                     return new SalesFragment ();
 
             }
@@ -225,7 +228,7 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         public int getCount() {
-            return mFragments.size();
+            return 4;
         }
 
         @Override
