@@ -3,19 +3,22 @@ package com.example.karokojnr.nadab_hotels;
 import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -43,9 +46,18 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import ru.dimorinny.floatingtextbutton.FloatingTextButton;
 
+import static android.app.Activity.RESULT_OK;
 
-public class AddMeals extends AppCompatActivity implements View.OnClickListener, EasyPermissions.PermissionCallbacks {
 
+/**
+ * A simple {@link Fragment} subclass.
+ * Activities that contain this fragment must implement the
+ * {@link AddMealsFragment.OnFragmentInteractionListener} interface
+ * to handle interaction events.
+ * Use the {@link AddMealsFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+public class AddMealsFragment extends Fragment implements View.OnClickListener, EasyPermissions.PermissionCallbacks  {
 
     private ArrayList<Product> productList = new ArrayList<> ();
     private ItemsAdapter adapter;
@@ -65,42 +77,82 @@ public class AddMeals extends AppCompatActivity implements View.OnClickListener,
     private int progressStatus = 0;
     ProgressDialog progressDialog;
     private Handler handler = new Handler ();
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
 
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+    private String mParam2;
+
+    private OnFragmentInteractionListener mListener;
+
+    public AddMealsFragment() {
+        // Required empty public constructor
+    }
+
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param param1 Parameter 1.
+     * @param param2 Parameter 2.
+     * @return A new instance of fragment AddMealsFragment.
+     */
+    // TODO: Rename and change types and number of parameters
+    public static AddMealsFragment newInstance(String param1, String param2) {
+        AddMealsFragment fragment = new AddMealsFragment ();
+        Bundle args = new Bundle ();
+        args.putString ( ARG_PARAM1, param1 );
+        args.putString ( ARG_PARAM2, param2 );
+        fragment.setArguments ( args );
+        return fragment;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate ( savedInstanceState );
-        setContentView ( R.layout.activity_add_meals );
+        if (getArguments () != null) {
+            mParam1 = getArguments ().getString ( ARG_PARAM1 );
+            mParam2 = getArguments ().getString ( ARG_PARAM2 );
+        }
+    }
 
-        progressDialog = new ProgressDialog (this);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+       // return inflater.inflate ( R.layout.activity_add_meals, container, false );
+        View view = inflater.inflate ( R.layout.activity_add_meals, container, false);
+        progressDialog = new ProgressDialog (getContext ());
 
 
-        mLoading = (ProgressBar) findViewById(R.id.login_loading);
+        mLoading = (ProgressBar) view.findViewById(R.id.login_loading);
 
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        /*Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);*/
 
-        name = (EditText) findViewById ( R.id.name );
-        price = (EditText) findViewById ( R.id.add_item_price );
+        name = (EditText) view.findViewById ( R.id.name );
+        price = (EditText) view.findViewById ( R.id.add_item_price );
 
-        image = (ImageView) findViewById ( R.id.ivImage );
+        image = (ImageView) view.findViewById ( R.id.ivImage );
         image.setOnClickListener (  this );
 
-        //btn_okay = (Button) findViewById ( R.id.btn_ok );
-        //btn_cancel = (Button) findViewById ( R.id.btn_cancel );
-        final RelativeLayout container = (RelativeLayout) findViewById(R.id.container);
+        //btn_okay = (Button) view.findViewById ( R.id.btn_ok );
+        //btn_cancel = (Button) view.findViewById ( R.id.btn_cancel );
+        final ViewGroup mcontainer = (RelativeLayout) view.findViewById(R.id.container);
 
-        FloatingTextButton btn_cancel = (FloatingTextButton) findViewById(R.id.btn_cancel);
+        FloatingTextButton btn_cancel = (FloatingTextButton) view.findViewById(R.id.btn_cancel);
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(container, "Home button clicked", Snackbar.LENGTH_SHORT).show();
-                Intent intent = new Intent ( getApplicationContext (), MainActivity.class );
+                Snackbar.make(mcontainer, "Home button clicked", Snackbar.LENGTH_SHORT).show();
+                Intent intent = new Intent ( getContext (), MainActivity.class );
                 startActivity ( intent );
             }
         });
-        FloatingTextButton btn_okay = (FloatingTextButton) findViewById(R.id.btn_ok);
+        FloatingTextButton btn_okay = (FloatingTextButton) view.findViewById(R.id.btn_ok);
         btn_okay.setOnClickListener ( new View.OnClickListener () {
             @Override
             public void onClick(View v) {
@@ -128,10 +180,10 @@ public class AddMeals extends AppCompatActivity implements View.OnClickListener,
                     image.requestFocus();
                     return;
                 }*/
-              //  mLoading.setVisibility(View.VISIBLE); // show progress dialog*/
+                //  mLoading.setVisibility(View.VISIBLE); // show progress dialog*/
                 showProgressDialogWithTitle (  );
 
-                Snackbar.make(container, "Adding Meal...", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(mcontainer, "Adding Meal...", Snackbar.LENGTH_SHORT).show();
 
                 HotelService service = RetrofitInstance.getRetrofitInstance ().create ( HotelService.class );
                 Product product = new Product(
@@ -140,10 +192,10 @@ public class AddMeals extends AppCompatActivity implements View.OnClickListener,
                         image.getDrawable ().toString ().trim ()
                 );
                 //Set defaults
-                HotelSharedPreference hotelSharedPreference = SharedPrefManager.getInstance(AddMeals.this).getHotel();
+                HotelSharedPreference hotelSharedPreference = SharedPrefManager.getInstance(getActivity ()).getHotel();
                 String hotelId = hotelSharedPreference.getId();
                 productList.add (product);
-                String filePath = getRealPathFromURIPath(selectedImage, AddMeals.this);
+                String filePath = getRealPathFromURIPath(selectedImage, getActivity ());
                 File file = new File(filePath);
                 RequestBody mFile = RequestBody.create(MediaType.parse("image/*"), file);
                 MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("image", file.getName(), mFile);
@@ -161,15 +213,15 @@ public class AddMeals extends AppCompatActivity implements View.OnClickListener,
                             assert response.body () != null;
                             //mLoading.setVisibility(View.GONE);
                             hideProgressDialogWithTitle ();
-                            Toast.makeText ( AddMeals.this, "Added Successfully...", Toast.LENGTH_SHORT ).show ();
-                            Intent intent = new Intent ( getApplicationContext (), MainActivity.class );
+                            Toast.makeText ( getActivity (), "Added Successfully...", Toast.LENGTH_SHORT ).show ();
+                            Intent intent = new Intent ( getContext (), MainActivity.class );
                             startActivity ( intent );
                             //notify data set changed in RecyclerView adapter
 //                            adapter.notifyDataSetChanged ();
                         } else {
-                           // mLoading.setVisibility(View.INVISIBLE);
+                            // mLoading.setVisibility(View.INVISIBLE);
                             hideProgressDialogWithTitle ();
-                            Toast.makeText ( AddMeals.this, "Error adding...", Toast.LENGTH_SHORT ).show ();
+                            Toast.makeText ( getActivity (), "Error adding...", Toast.LENGTH_SHORT ).show ();
                         }
                     }
 
@@ -177,7 +229,7 @@ public class AddMeals extends AppCompatActivity implements View.OnClickListener,
                     public void onFailure(Call<Product> call, Throwable t) {
 //                        mLoading.setVisibility(View.INVISIBLE);
                         hideProgressDialogWithTitle ();
-                        Toast.makeText ( AddMeals.this, "Something went wrong...Error message: " + t.getMessage (), Toast.LENGTH_SHORT ).show ();
+                        Toast.makeText ( getActivity (), "Something went wrong...Error message: " + t.getMessage (), Toast.LENGTH_SHORT ).show ();
                     }
                 } );
             }
@@ -185,12 +237,52 @@ public class AddMeals extends AppCompatActivity implements View.OnClickListener,
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                getActivity ().finish();
             }
         });
         //btn_cancel.setOnClickListener ( this );
+        return view;
     }
 
+    // TODO: Rename method, update argument and hook method into UI event
+    public void onButtonPressed(Uri uri) {
+        if (mListener != null) {
+            mListener.onFragmentInteraction ( uri );
+        }
+    }
+/*
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach ( context );
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException ( context.toString () + " must implement OnFragmentInteractionListener" );
+        }
+    }
+*/
+
+    @Override
+    public void onDetach() {
+        super.onDetach ();
+        mListener = null;
+    }
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
+    }
     private String getRealPathFromURIPath(Uri contentURI, Activity activity) {
         Cursor cursor = activity.getContentResolver().query(contentURI, null, null, null, null);
         if (cursor == null) {
@@ -211,7 +303,7 @@ public class AddMeals extends AppCompatActivity implements View.OnClickListener,
 
             case R.id.btn_ok:
 
-            break;
+                break;
 
             case R.id.btn_cancel:
                 break;
@@ -228,8 +320,8 @@ public class AddMeals extends AppCompatActivity implements View.OnClickListener,
         }
         if(requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null){
             selectedImage = data.getData();
-            if(EasyPermissions.hasPermissions(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                filePath = getRealPathFromURIPath(selectedImage, AddMeals.this);
+            if(EasyPermissions.hasPermissions(getContext (), Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                filePath = getRealPathFromURIPath(selectedImage, getActivity ());
                 file = new File(filePath);
                 Log.d(TAG, "Filename " + file.getName());
             }else{
@@ -238,21 +330,22 @@ public class AddMeals extends AppCompatActivity implements View.OnClickListener,
         }
     }
 
-    @Override
+    //@Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 
     }
 
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, AddMeals.this);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, getActivity ());
     }
 
     @Override
     public void onPermissionsGranted(int requestCode, List<String> perms) {
         if (selectedImage != null) {
-            filePath = getRealPathFromURIPath(selectedImage, AddMeals.this);
+            filePath = getRealPathFromURIPath(selectedImage, getActivity ());
             file = new File(filePath);
             Log.d(TAG, "Filename " + file.getName());
         }
@@ -301,4 +394,5 @@ public class AddMeals extends AppCompatActivity implements View.OnClickListener,
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.dismiss();
     }
+
 }

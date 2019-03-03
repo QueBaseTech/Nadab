@@ -1,5 +1,7 @@
 package com.example.karokojnr.nadab_hotels;
 
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -42,7 +44,7 @@ public class DashboardFragment extends Fragment implements DashboardAdapter.mCli
         //return view;
         //Toolbar toolbar = (Toolbar) view.findViewById ( R.id.toolbar );
         // setSupportActionBar(toolbar);
-       /*buttonMeal = (ImageButton) view.findViewById ( R.id.meal );
+       /* buttonMeal = (ImageButton) view.findViewById ( R.id.meal );
         buttonMeal.setOnClickListener ( new View.OnClickListener () {
             @Override
             public void onClick(View v) {
@@ -51,14 +53,18 @@ public class DashboardFragment extends Fragment implements DashboardAdapter.mCli
             }
         } );*/
 
-        /*FloatingActionButton fab = (FloatingActionButton) view.findViewById ( R.id.meal );
+/*
+
+FloatingActionButton fab = (FloatingActionButton) view.findViewById ( R.id.meal );
         fab.setOnClickListener ( new View.OnClickListener () {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent ( getActivity (), Items.class );
                 startActivity ( i );
             }
-        } );*/
+        } );
+*/
+
 
 
 
@@ -68,13 +74,14 @@ public class DashboardFragment extends Fragment implements DashboardAdapter.mCli
         initializeDashboardItemList ();
 
 
-        /*recycler.setHasFixedSize(true);
+recycler.setHasFixedSize(true);
         if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
             recycler.setLayoutManager(new GridLayoutManager (getContext (), 2));
         } else {
             recycler.setLayoutManager(new GridLayoutManager (getContext (), 4));
         }
-*/
+
+
         // Create the grid layout manager with 2 columns.
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext (), 2);
         // Set layout manager.
@@ -92,7 +99,8 @@ public class DashboardFragment extends Fragment implements DashboardAdapter.mCli
 
     }
 
-    /* Initialise car items in list. */
+
+
     private void initializeDashboardItemList()
     {
         if(dashboardItemList == null)

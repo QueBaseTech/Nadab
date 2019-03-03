@@ -116,44 +116,17 @@ public class EditMeal extends AppCompatActivity implements View.OnClickListener,
         String mealName = meal_name.getText ().toString ().trim ();
         String mealPrice = price.getText ().toString ().trim ();
 
-        /*if (mealName.isEmpty ()) {
-            meal_name.setError ( "Name is required" );
-            meal_name.requestFocus ();
-            return;
-        }
-
-
-        if (mealPrice.isEmpty ()) {
-            price.setError ( "Price required" );
-            price.requestFocus ();
-            return;
-        }
-
-        if (image.isEmpty ()) {
-            ivImage.setImageDrawable ( Drawable.createFromPath ( "Image is required!" ) );
-            ivImage.requestFocus ();
-            return;
-        }*/
-
-
 
 
         HotelService service = RetrofitInstance.getRetrofitInstance ().create ( HotelService.class );
-        //Product product =
-                //this is where am stuck chill kiasi
-        //leave the image , i'll work n it
-        // sure test it now
-        //Let me wok on the edit button
         RequestBody filename = RequestBody.create(MediaType.parse("text/plain"), image);
         RequestBody mName = RequestBody.create(MediaType.parse("text/plain"), mealName);
         RequestBody mPrice = RequestBody.create(MediaType.parse("text/plain"), mealPrice);
-        RequestBody mUnitMeasure = RequestBody.create(MediaType.parse("text/plain"), "Box"); //nooo okay, leave it that way
+        RequestBody mUnitMeasure = RequestBody.create(MediaType.parse("text/plain"), "Box");
         RequestBody mHotelId = RequestBody.create(MediaType.parse("text/plain"), pHotelId);
 
         String token = SharedPrefManager.getInstance ( getApplicationContext () ).getToken ();
         Call<Product> call = service.getProductsEdit(token, pProductId, filename, mName, mPrice);
-// handle call que here...okay
-
         call.enqueue ( new Callback<Product> () {
             @Override
             public void onResponse(Call<Product> call, Response<Product> response) {
@@ -162,7 +135,7 @@ public class EditMeal extends AppCompatActivity implements View.OnClickListener,
                     //mLoading.setVisibility(View.GONE);
                     hideProgressDialogWithTitle ();
                     Toast.makeText ( EditMeal.this, "Meal edited successfully...", Toast.LENGTH_SHORT ).show ();
-                    Intent intent = new Intent ( getApplicationContext (), HomeActivity.class );
+                    Intent intent = new Intent ( getApplicationContext (), MainActivity.class );
                     startActivity ( intent );
                     //notify data set changed in RecyclerView adapter
 //                            adapter.notifyDataSetChanged ();

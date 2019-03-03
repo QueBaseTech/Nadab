@@ -6,20 +6,37 @@
     <item
         android:id="@+id/navigation_home"
         android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/title_home" />
+        android:title="Meals" />
+
+
+    <!--<item
+        android:id="@+id/foods"
+        android:icon="@drawable/meals"
+        android:title="@string/meals" />
+
+    <item
+        android:id="@+id/navigation_orders"
+        android:icon="@drawable/make_order"
+        android:title="@string/orders" />-->
+
+   <!-- <item
+        android:id="@+id/navigation_bill"
+        android:icon="@drawable/ic_bills"
+        android:title="@string/bills" />
+    <item
+        android:id="@+id/navigation_sales"
+        android:icon="@drawable/ic_sales"
+        android:title="@string/sales" />
+-->
+
 
     <item
         android:id="@+id/navigation_dashboard"
         android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="@string/title_dashboard" />
-    <!--<item
-        android:id="@+id/foods"
-        android:icon="@drawable/ic_restaurant"
-        android:title="@string/meals" />
-
+        android:title="@string/dashboard" />
     <item
-        android:id="@+id/navigation_notifications"
-        android:icon="@drawable/ic_notifications_black_24dp"
-        android:title="@string/title_notifications" />-->
+        android:id="@+id/navigation_profile"
+        android:icon="@drawable/profile_pic"
+        android:title="@string/profile" />
 
 </menu>

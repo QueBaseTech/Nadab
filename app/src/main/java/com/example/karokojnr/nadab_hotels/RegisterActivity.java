@@ -201,7 +201,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     SharedPrefManager.getInstance(getApplicationContext()).userLogin(hotel, response.body().getToken());
                     hideProgressDialogWithTitle ();
                     sendToken();
-                    startActivity(new Intent(RegisterActivity.this, HomeActivity.class));
+                    startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                 }
                 else
                    // mLoading.setVisibility(View.INVISIBLE);

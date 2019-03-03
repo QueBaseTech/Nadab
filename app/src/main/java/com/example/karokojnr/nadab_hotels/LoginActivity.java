@@ -158,7 +158,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void goHome() {
-        Intent intent = new Intent ( LoginActivity.this, HomeActivity.class );
+        Intent intent = new Intent ( LoginActivity.this, MainActivity.class );
         startActivity ( intent );
     }
     // Method to show Progress bar

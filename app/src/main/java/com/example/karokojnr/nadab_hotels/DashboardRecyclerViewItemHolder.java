@@ -39,7 +39,7 @@ public class DashboardRecyclerViewItemHolder extends RecyclerView.ViewHolder {
                         intent = new Intent(context, OrderList.class);
                         break;
                     default:
-                        intent = new Intent ( context, HomeActivity.class );
+                        intent = new Intent ( context, MainActivity.class );
                         break;
                 }
                 context.startActivity ( intent );

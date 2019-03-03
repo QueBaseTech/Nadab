@@ -5,8 +5,6 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.example.karokojnr.nadab_hotels.HomeActivity;
-import com.example.karokojnr.nadab_hotels.LoginActivity;
 import com.example.karokojnr.nadab_hotels.utils.Constants;
 import com.example.karokojnr.nadab_hotels.utils.utils;
 import com.google.android.gms.tasks.OnCompleteListener;
