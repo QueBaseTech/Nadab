@@ -39,6 +39,7 @@ import java.io.File;
 import java.util.List;
 
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import pub.devrel.easypermissions.EasyPermissions;
 import retrofit2.Call;
@@ -89,9 +90,16 @@ public class EditMeal extends AppCompatActivity implements EasyPermissions.Permi
         ivImage = findViewById ( R.id.ivImage );
         meal_name = findViewById ( R.id.name );
         price = findViewById ( R.id.add_item_price );
-
         edit = findViewById ( R.id.btn_edit );
         cancel = findViewById ( R.id.btn_cancel );
+
+        ivImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult ( galleryIntent, RESULT_LOAD_IMAGE  );
+            }
+        });
 
         if(getIntent ().getExtras () != null ){
             Intent i = getIntent ();
@@ -131,6 +139,8 @@ public class EditMeal extends AppCompatActivity implements EasyPermissions.Permi
         String image = ivImage.getDrawable ().toString ().trim ();
         String mealName = meal_name.getText ().toString ().trim ();
         String mealPrice = price.getText ().toString ().trim ();
+        MultipartBody.Part fileToUpload;
+        Call<Product> call;
 
         if (mealName.isEmpty ()) {
             meal_name.setError ( "Name is required" );
@@ -150,17 +160,25 @@ public class EditMeal extends AppCompatActivity implements EasyPermissions.Permi
             ivImage.requestFocus ();
             return;
         }
-
         HotelService service = RetrofitInstance.getRetrofitInstance ().create ( HotelService.class );
         RequestBody filename = RequestBody.create(MediaType.parse("text/plain"), image);
-        RequestBody mName = RequestBody.create(MediaType.parse("text/plain"), mealName);
-        RequestBody mPrice = RequestBody.create(MediaType.parse("text/plain"), mealPrice);
-        RequestBody mUnitMeasure = RequestBody.create(MediaType.parse("text/plain"), "Box");
+        RequestBody mName = RequestBody.create(MediaType.parse("text/plain"), meal_name.getText().toString());
+        RequestBody mPrice = RequestBody.create(MediaType.parse("text/plain"), price.getText().toString());
+        RequestBody mUnitMeasure = RequestBody.create(MediaType.parse("text/plain"), pUnitMeasure);
         RequestBody mHotelId = RequestBody.create(MediaType.parse("text/plain"), pHotelId);
 
         String token = SharedPrefManager.getInstance ( getApplicationContext () ).getToken ();
-        Call<Product> call = service.getProductsEdit(token, pProductId, filename, mName, mPrice);
-// handle call que here...okay
+
+        if(selectedImage != null) {
+            String filePath = getRealPathFromURIPath(selectedImage, EditMeal.this);
+            File file = new File(filePath);
+            RequestBody mFile = RequestBody.create(MediaType.parse("image/*"), file);
+            fileToUpload = MultipartBody.Part.createFormData("image", file.getName(), mFile);
+
+            call = service.productEditWithImage(token, pProductId, fileToUpload, filename, mName, mPrice, mUnitMeasure, mHotelId);
+        } else {
+            call = service.productEdit(token, pProductId, mealName, mealPrice);
+        }
 
         call.enqueue ( new Callback<Product>() {
             @Override

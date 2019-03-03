@@ -61,7 +61,7 @@ public class MealsFragment extends Fragment {
             public void onClick(View view, int position) {
                 Product product = productList.get ( position );
                 Toast.makeText ( getActivity (), product.getName () + " is selected!", Toast.LENGTH_SHORT ).show ();
-                Intent i = new Intent ( getContext (), ItemDetails.class );
+                Intent i = new Intent ( getContext (), EditMeal.class );
                 i.putExtra(Constants.M_NAME, product.getName());
                 i.putExtra(Constants.M_PRICE, product.getPrice());
                 i.putExtra(Constants.M_IMAGE, product.getImage());

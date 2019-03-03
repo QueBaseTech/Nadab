@@ -50,10 +50,13 @@ public interface HotelService {
     @POST("login/")
     Call<Login> login(@Field("email") String email, @Field("password") String password);
 
+    @Multipart
+    @PUT("products/edit/{id}/image")
+    Call<Product> productEditWithImage(@Header("x-token") String token, @Path ( "id" )String productId, @Part MultipartBody.Part file,                                                                                                                            @Part ("filename") RequestBody filename, @Part("name") RequestBody name, @Part("price")RequestBody price, @Part("unitMeasure") RequestBody unitMeasure, @Part("hotel") RequestBody hotel);
+
     @FormUrlEncoded
-    @PUT("products/{id}/edit")
-    Call<Product> getProductsEdit(@Header("x-token") String token, @Path ( "id" )String productId,@Part ("filename") RequestBody filename,
-                                  @Part("name") RequestBody name, @Part("price")RequestBody price);
+    @PUT("products/edit/{id}/")
+    Call<Product> productEdit(@Header("x-token") String token, @Path ( "id" )String productId, @Field("name") String name, @Field("price") String price);
 
     @GET("products/")
     Call<Products> getProducts(@Header("x-token") String token);
