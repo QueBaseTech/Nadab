@@ -69,5 +69,6 @@
 
     <string name="sign_out">Sign out</string>
     <string name="action_search">Search</string>
+    <string name="myprofile">Profile</string>
 
 </resources>
