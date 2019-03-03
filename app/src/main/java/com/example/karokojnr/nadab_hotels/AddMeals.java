@@ -81,6 +81,20 @@ public class AddMeals extends AppCompatActivity implements View.OnClickListener,
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        getSupportActionBar ().setDisplayHomeAsUpEnabled ( true );
+        getSupportActionBar ().setDisplayShowHomeEnabled ( true );
+
+        toolbar.setNavigationIcon(R.drawable.ic_arrow);
+        toolbar.setNavigationOnClickListener ( new View.OnClickListener () {
+
+            @Override
+            public void onClick(View view) {
+
+                // Your code
+                finish ();
+            }
+        } );
+
         name = (EditText) findViewById ( R.id.name );
         price = (EditText) findViewById ( R.id.add_item_price );
 

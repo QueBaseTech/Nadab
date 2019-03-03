@@ -46,6 +46,20 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        getSupportActionBar ().setDisplayHomeAsUpEnabled ( true );
+        getSupportActionBar ().setDisplayShowHomeEnabled ( true );
+
+        toolbar.setNavigationIcon(R.drawable.ic_arrow);
+        toolbar.setNavigationOnClickListener ( new View.OnClickListener () {
+
+            @Override
+            public void onClick(View view) {
+
+                // Your code
+                finish ();
+            }
+        } );
+
 
         tv_name = (TextView)findViewById(R.id.tv_name);
         tv_email = (TextView)findViewById(R.id.tv_email);
