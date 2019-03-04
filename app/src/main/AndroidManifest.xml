@@ -12,7 +12,7 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/logo"
-        android:label="Nadab Hotels"
+        android:label="Nadab"
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
@@ -26,9 +26,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!--<activity
+            android:name=".LoginActivity"
+            android:theme="@style/AppTheme" />-->
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme" />
+        <!--<activity
+            android:name=".Terms"
+            android:theme="@style/AppTheme" />-->
        <!-- <activity
             android:name=".LoginActivity"
             android:theme="@style/AppTheme" />-->
@@ -46,7 +52,7 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".EditMeal"
-            android:label="@string/title_activity_edit_meal"
+            android:label="Edit Meal"
             android:theme="@style/AppTheme" />
 
         <service

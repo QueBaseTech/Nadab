@@ -17,7 +17,13 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.example.karokojnr.nadab_hotels.api.RetrofitInstance;
+import com.example.karokojnr.nadab_hotels.utils.HotelSharedPreference;
 import com.example.karokojnr.nadab_hotels.utils.SharedPrefManager;
 
 import java.util.ArrayList;
@@ -34,32 +40,44 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-            this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
+        if(!SharedPrefManager.getInstance(this).isLoggedIn()) {
+            startActivity(new Intent(this, LoginActivity.class));
+            this.finish();
+        } else {
+            Toolbar toolbar = (Toolbar) findViewById ( R.id.toolbar );
+            setSupportActionBar ( toolbar );
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+            DrawerLayout drawer = (DrawerLayout) findViewById ( R.id.drawer_layout );
+            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle ( this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close );
+            drawer.setDrawerListener ( toggle );
+            toggle.syncState ();
 
-         viewPager = (ViewPager) findViewById(R.id.viewpager);
-         PagerAdapter pagerAdapter = new Adapter ( getSupportFragmentManager () );
-         viewPager.setAdapter ( pagerAdapter );
-         tabLayout = (TabLayout) findViewById(R.id.tabs);
+            NavigationView navigationView = (NavigationView) findViewById ( R.id.nav_view );
+            View headerView = navigationView.getHeaderView ( 0 );
+            TextView navUsername = (TextView) headerView.findViewById ( R.id.navTextview );
+            ImageView navImageview = (ImageView) headerView.findViewById ( R.id.imageView );
+            navigationView.setNavigationItemSelectedListener(this);
 
-        if (viewPager != null) {
-            setupViewPager(viewPager);
-            tabLayout.setupWithViewPager(viewPager);
+
+            viewPager = (ViewPager) findViewById ( R.id.viewpager );
+            PagerAdapter pagerAdapter = new Adapter ( getSupportFragmentManager () );
+            viewPager.setAdapter ( pagerAdapter );
+            tabLayout = (TabLayout) findViewById ( R.id.tabs );
+
+            if (viewPager != null) {
+                setupViewPager ( viewPager );
+                tabLayout.setupWithViewPager ( viewPager );
+            }
+
+
+            // tabLayout.setupWithViewPager (  viewPager);
+
+            HotelSharedPreference hotel = SharedPrefManager.getInstance ( this ).getHotel ();
+            navUsername.setText ( hotel.getUsername () );
+            Glide.with ( this ).load ( RetrofitInstance.BASE_URL + "images/uploads/hotels/" + String.valueOf ( hotel.getIvImage () ) ).into ( navImageview );
+
         }
-
-
-       // tabLayout.setupWithViewPager (  viewPager);
-
-
 
     }
 
