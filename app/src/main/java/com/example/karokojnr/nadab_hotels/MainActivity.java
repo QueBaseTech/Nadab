@@ -196,6 +196,9 @@ public class MainActivity extends AppCompatActivity
             // Log.wtf(TAG, "onOptionsItemSelected: Logout");
             SharedPrefManager.getInstance ( getApplicationContext () ).logout ();
             startActivity ( new Intent ( getApplicationContext (), LoginActivity.class ) );
+        }else if (id == R.id.terms_conditions){
+            startActivity(new Intent(MainActivity.this, Terms.class));
+
         }
         /*    this.finish();
         } else if (id == R.id.nav_item5) {

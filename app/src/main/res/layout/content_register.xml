@@ -15,6 +15,7 @@
     tools:context=".RegisterActivity">
 
     <LinearLayout
+        android:id="@+id/linear_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -201,22 +202,58 @@
                     android:inputType="textPassword"/>
             </android.support.design.widget.TextInputLayout>
 
+            <CheckBox
+                android:id="@+id/terms_conditions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:text="@string/termsconditions"
+                android:layout_below="@+id/ti_passwordAgain"
+                android:textColor="@android:color/black"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/read_terms_conditions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:layout_below="@id/terms_conditions"
+                android:padding="10dp"
+                android:textColor="@android:color/holo_blue_light"
+                android:text="@string/read"
+                android:textSize="15sp" />
+
             <Button
                 android:id="@+id/addHotel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="addHotel"
-                android:layout_below="@+id/ti_passwordAgain"
+                android:layout_below="@+id/read_terms_conditions"
                 android:layout_marginTop="@dimen/button_margin"
                 android:paddingLeft="@dimen/button_padding"
                 android:text="Register"
                 android:textColor="@color/colorAccent"/>
 
+            <TextView
+                android:id="@+id/already_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:layout_below="@id/addHotel"
+                android:padding="10dp"
+                android:textColor="@android:color/black"
+                android:text="@string/already_user"
+                android:textSize="15sp" />
+
             <ProgressBar
                 android:id="@+id/login_loading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/addHotel"
+                android:layout_below="@+id/already_user"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="@dimen/button_margin"
                 android:layout_marginTop="@dimen/button_margin"

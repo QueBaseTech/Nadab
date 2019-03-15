@@ -5,6 +5,10 @@
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>
 
+
+    <string name="toolbar_title">Meals</string>
+    <string name="search_hint">Type name…</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
@@ -70,5 +74,14 @@
     <string name="sign_out">Sign out</string>
     <string name="action_search">Search</string>
     <string name="myprofile">Profile</string>
+    <string name="termsconditions">By clicking REGISTER you agree all the terms \u0026 conditions.</string>
+    <string name="already_user">Already have Account? Login here.</string>
+
+
+
+    <string name="conditions" formatted="true"> conitions
+
+    </string>
+    <string name="read"><![CDATA[Read terms & conditions]]></string>
 
 </resources>

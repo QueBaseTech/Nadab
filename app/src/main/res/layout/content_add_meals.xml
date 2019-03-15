@@ -15,6 +15,7 @@
     tools:context=".AddMeals">
 
 <LinearLayout
+    android:id="@+id/layout_add_meals"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -72,7 +73,7 @@
                 android:id="@+id/add_item_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableRight="@drawable/ic_attach_money_black_24dp"
+                android:drawableRight="@drawable/ic_payment_black_24dp"
                 android:hint="Food Price:"
                 android:inputType="number" />
 
@@ -90,10 +91,11 @@
             android:text="Add" />-->
         <ru.dimorinny.floatingtextbutton.FloatingTextButton
             android:id="@+id/btn_ok"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:layout_marginBottom="16dp"
             app:floating_background_color="?attr/colorPrimary"
             app:floating_left_icon="@drawable/ic_add_circle_outline_black_24dp"
@@ -107,7 +109,7 @@
             />
 
 
-        <ru.dimorinny.floatingtextbutton.FloatingTextButton
+        <!--<ru.dimorinny.floatingtextbutton.FloatingTextButton
             android:id="@+id/btn_cancel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -120,7 +122,7 @@
             android:textAlignment="center"
             app:floating_title_color="@android:color/white"
             app:layout_behavior="ru.dimorinny.floatingtextbutton.behavior.SnackbarBehavior"
-            android:layout_below="@+id/btn_ok" />
+            android:layout_below="@+id/btn_ok" />-->
         <ProgressBar
             android:id="@+id/login_loading"
             android:layout_width="wrap_content"

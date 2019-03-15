@@ -71,7 +71,7 @@
                     android:id="@+id/add_item_price"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableRight="@drawable/ic_attach_money_black_24dp"
+                    android:drawableRight="@drawable/ic_payment_black_24dp"
                     android:hint="Food Price:"
                     android:inputType="number" />
 
@@ -80,10 +80,11 @@
 
             <ru.dimorinny.floatingtextbutton.FloatingTextButton
                 android:id="@+id/btn_edit"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
                 android:layout_marginBottom="16dp"
                 app:floating_background_color="?attr/colorPrimary"
                 app:floating_left_icon="@drawable/ic_add_circle_outline_black_24dp"
@@ -93,9 +94,7 @@
                 android:layout_centerInParent="true"
                 app:floating_title_color="@android:color/white"
                 app:layout_behavior="ru.dimorinny.floatingtextbutton.behavior.SnackbarBehavior"
-                android:layout_below="@+id/ti_price"
-
-                android:layout_marginEnd="10sp" />
+                android:layout_below="@+id/ti_price" />
 
 
             <!--<ru.dimorinny.floatingtextbutton.FloatingTextButton
