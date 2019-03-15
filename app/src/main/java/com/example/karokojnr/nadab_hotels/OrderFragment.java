@@ -22,6 +22,7 @@ import com.example.karokojnr.nadab_hotels.api.HotelService;
 import com.example.karokojnr.nadab_hotels.api.RetrofitInstance;
 import com.example.karokojnr.nadab_hotels.model.Order;
 import com.example.karokojnr.nadab_hotels.model.OrderItem;
+import com.example.karokojnr.nadab_hotels.model.OrderResponse;
 import com.example.karokojnr.nadab_hotels.model.Orders;
 import com.example.karokojnr.nadab_hotels.orders.OrderList;
 import com.example.karokojnr.nadab_hotels.utils.SharedPrefManager;
@@ -101,48 +102,26 @@ public class OrderFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        //return inflater.inflate ( R.layout.fragment_order, container, false );
         View view = inflater.inflate ( R.layout.activity_order_list, container, false);
-/*
-        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        ((AppCompatActivity)getActivity ()).setSupportActionBar(toolbar);*/
+
+        // get data from notification, order id to display
 
         context = this;
 
-        FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult> () {
-                    @Override
-                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                        if (!task.isSuccessful()) {
-                            Log.w(TAG, "getInstanceId failed", task.getException());
-                            return;
-                        }
-
-                        // Get new Instance ID token
-                        String token = task.getResult().getToken();
-                        utils.sendRegistrationToServer(getActivity (), token);
-                        // Log and toast
-                        Log.d(TAG, token);
-                        Toast.makeText(getActivity (), token, Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-        /*Create handle for the RetrofitInstance interface*/
         HotelService service = RetrofitInstance.getRetrofitInstance ().create ( HotelService.class );
         Call<Orders> call = service.getOrders( SharedPrefManager.getInstance(getActivity ()).getToken() );
         call.enqueue ( new Callback<Orders> () {
             @Override
             public void onResponse(Call<Orders> call, Response<Orders> response) {
                 for (int i = 0; i < response.body ().getOrdersList ().size (); i++) {
-                    orderLists.add ( response.body ().getOrdersList().get(i) );
+                    Order order = response.body ().getOrdersList().get(i);
+                    if(order.getOrderStatus().equals("NEW") || order.getOrderStatus().equals("RE-ORDER")) orderLists.add ( order );
                 }
-                generateOrdersList ( response.body ().getOrdersList () );
+                generateOrdersList ((ArrayList<Order>) orderLists);
             }
 
             @Override
             public void onFailure(Call<Orders> call, Throwable t) {
-                Log.wtf("LOG", "onFailure: "+t.getMessage() );
                 Toast.makeText ( getActivity (), "Something went wrong...Please try later!"+t.getMessage(), Toast.LENGTH_SHORT ).show ();
             }
         } );
@@ -173,16 +152,19 @@ public class OrderFragment extends Fragment {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Toast.makeText(getActivity (), "Accepting order No:: "+ order.getOrderId(), Toast.LENGTH_SHORT).show();
                         HotelService service = RetrofitInstance.getRetrofitInstance ().create ( HotelService.class );
-                        Call<Order> call = service.acceptOrder(order.getOrderId(), "ACCEPTED");
-                        call.enqueue ( new Callback<Order>() {
+                        Call<OrderResponse> call = service.acceptOrder(order.getOrderId(), "ACCEPTED");
+                        call.enqueue ( new Callback<OrderResponse>() {
                             @Override
-                            public void onResponse(Call<Order> call, Response<Order> response) {
-//                                orderLists.set(position, response.body());
-                                adapter.notifyItemChanged(position, response.body());
+                            public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
+                                if(response.body().isSuccess()) {
+                                    orderLists.set(position, response.body().getOrder());
+                                    adapter.notifyItemChanged(position, response.body().getOrder());
+                                    adapter.notifyDataSetChanged();
+                                }
                             }
 
                             @Override
-                            public void onFailure(Call<Order> call, Throwable t) {
+                            public void onFailure(Call<OrderResponse> call, Throwable t) {
                                 Log.wtf("LOG", "onFailure: "+t.getMessage() );
                                 Toast.makeText ( getActivity (), "Something went wrong...Please try later!"+t.getMessage(), Toast.LENGTH_SHORT ).show ();
                             }
@@ -201,17 +183,19 @@ public class OrderFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int id) {
                         Toast.makeText(getActivity (), "Rejecting order No:: "+ order.getOrderId(), Toast.LENGTH_SHORT).show();
                         HotelService service = RetrofitInstance.getRetrofitInstance ().create ( HotelService.class );
-                        Call<Order> call = service.acceptOrder(order.getOrderId(), "REJECTED");
-                        call.enqueue ( new Callback<Order>() {
+                        Call<OrderResponse> call = service.acceptOrder(order.getOrderId(), "REJECTED");
+                        call.enqueue ( new Callback<OrderResponse>() {
                             @Override
-                            public void onResponse(Call<Order> call, Response<Order> response) {
-                                orderLists.add(response.body());
-                                adapter.notifyDataSetChanged();
-//                                adapter.notifyItemChanged(position, response.body());
+                            public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
+                                if(response.body().isSuccess()){
+                                    orderLists.set(position, response.body().getOrder());
+                                    adapter.notifyItemChanged(position, response.body().getOrder());
+                                    adapter.notifyDataSetChanged();
+                                }
                             }
 
                             @Override
-                            public void onFailure(Call<Order> call, Throwable t) {
+                            public void onFailure(Call<OrderResponse> call, Throwable t) {
                                 Toast.makeText ( getActivity (), "Something went wrong...Please try later!"+t.getMessage(), Toast.LENGTH_SHORT ).show ();
                             }
                         } );

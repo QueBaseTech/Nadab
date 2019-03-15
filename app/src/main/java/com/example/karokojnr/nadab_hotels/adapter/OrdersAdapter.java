@@ -2,6 +2,7 @@ package com.example.karokojnr.nadab_hotels.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,16 +32,15 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.MyViewHold
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Order order = orders.get ( position );
-//        holder.name.setText(order.getName());
+        String upadtedAt = order.getUpdatedAt();
+
+        Log.wtf("Time", "onBindViewHolder: time::"+order.getUpdatedAt() );
+        holder.name.setText(order.getCustomer().getName());
+        holder.time.setText(upadtedAt);
 //        holder.unitMeasure.setText(product.getUnitMeasure());
         holder.price.setText(order.getTotalPrice().toString());
         holder.qty.setText(order.getTotalItems() + " items");
         holder.status.setText(order.getOrderStatus());
-        //holder.hotel.setText(product.getHotel());
-//        Glide.with(context)
-//                .load("https://ccc7835e.ngrok.io/images/uploads/thumbs/e4a27e9b74b1907706fa31f3dd519b36.jpg")
-//                .load(RetrofitInstance.BASE_URL+"images/uploads/thumbs/"+product.getImage())
-//                .into(holder.imageView);
     }
 
     @Override
@@ -49,10 +49,13 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.MyViewHold
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView name, price, status, qty;
+        TextView name, price, status, qty, time;
 
         MyViewHolder(View itemView) {
             super ( itemView );
+
+            time = (TextView) itemView.findViewById(R.id.time_elapsed);
+            name = (TextView) itemView.findViewById(R.id.customer_name);
             qty = (TextView) itemView.findViewById ( R.id.tv_total_items);
             price = (TextView) itemView.findViewById ( R.id.order_total_price);
             status = (TextView) itemView.findViewById ( R.id.order_status);

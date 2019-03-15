@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.karokojnr.nadab_hotels.model.OrderResponse;
 import com.example.karokojnr.nadab_hotels.utils.utils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -61,6 +62,7 @@ public class OrderList extends AppCompatActivity {
 
         context = this;
 
+        // get data from notification
         if(getIntent().getExtras() != null) {
             selectedOrder = getIntent().getStringExtra("ORDER_ID");
         } else {
@@ -112,16 +114,16 @@ public class OrderList extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Toast.makeText(context, "Accepting order No:: "+ order.getOrderId(), Toast.LENGTH_SHORT).show();
                         HotelService service = RetrofitInstance.getRetrofitInstance ().create ( HotelService.class );
-                        Call<Order> call = service.acceptOrder(order.getOrderId(), "ACCEPTED");
-                        call.enqueue ( new Callback<Order>() {
+                        Call<OrderResponse> call = service.acceptOrder(order.getOrderId(), "ACCEPTED");
+                        call.enqueue ( new Callback<OrderResponse>() {
                             @Override
-                            public void onResponse(Call<Order> call, Response<Order> response) {
-//                                orderLists.set(position, response.body());
-                                adapter.notifyItemChanged(position, response.body());
+                            public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
+                                orderLists.set(position, response.body().getOrder());
+                                adapter.notifyItemChanged(position, response.body().getOrder());
                             }
 
                             @Override
-                            public void onFailure(Call<Order> call, Throwable t) {
+                            public void onFailure(Call<OrderResponse> call, Throwable t) {
                                 Log.wtf("LOG", "onFailure: "+t.getMessage() );
                                 Toast.makeText ( OrderList.this, "Something went wrong...Please try later!"+t.getMessage(), Toast.LENGTH_SHORT ).show ();
                             }
@@ -140,17 +142,16 @@ public class OrderList extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int id) {
                         Toast.makeText(context, "Rejecting order No:: "+ order.getOrderId(), Toast.LENGTH_SHORT).show();
                         HotelService service = RetrofitInstance.getRetrofitInstance ().create ( HotelService.class );
-                        Call<Order> call = service.acceptOrder(order.getOrderId(), "REJECTED");
-                        call.enqueue ( new Callback<Order>() {
+                        Call<OrderResponse> call = service.acceptOrder(order.getOrderId(), "REJECTED");
+                        call.enqueue ( new Callback<OrderResponse>() {
                             @Override
-                            public void onResponse(Call<Order> call, Response<Order> response) {
-                                orderLists.add(response.body());
+                            public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
+//                                orderLists.add(response.body().getOrder());
                                 adapter.notifyDataSetChanged();
-//                                adapter.notifyItemChanged(position, response.body());
                             }
 
                             @Override
-                            public void onFailure(Call<Order> call, Throwable t) {
+                            public void onFailure(Call<OrderResponse> call, Throwable t) {
                                 Toast.makeText ( OrderList.this, "Something went wrong...Please try later!"+t.getMessage(), Toast.LENGTH_SHORT ).show ();
                             }
                         } );

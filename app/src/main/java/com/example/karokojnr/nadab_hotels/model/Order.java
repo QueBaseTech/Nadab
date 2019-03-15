@@ -5,12 +5,6 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Arrays;
 
 public class Order {
-    @SerializedName("success")
-    private boolean success;
-
-    @SerializedName("message")
-    private String message;
-
     @SerializedName("_id")
     private String orderId;
 
@@ -33,33 +27,22 @@ public class Order {
     private String hotel;
 
     @SerializedName("customerId")
-    private String customerId;
+    private Customer customer;
 
-    public Order() {}
+    @SerializedName("updatedAt")
+    private String updatedAt;
 
-    public Order(String orderStatus, Double totalPrice, int totalItems, OrderItem[] orderItems, String hotel, String customerId) {
+
+    public Order(String orderStatus, Double totalPrice, int totalItems, OrderItem[] orderItems, String hotel) {
         this.orderStatus = orderStatus;
         this.totalPrice = totalPrice;
         this.totalItems = totalItems;
         this.orderItems = orderItems;
         this.hotel = hotel;
-        this.customerId = customerId;
     }
 
-    public boolean isSuccess() {
-        return success;
-    }
-
-    public void setSuccess(boolean success) {
-        this.success = success;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
+    public String getUpdatedAt() {
+        return updatedAt;
     }
 
     public String getOrderId() {
@@ -118,12 +101,8 @@ public class Order {
         this.hotel = hotel;
     }
 
-    public String getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
+    public Customer getCustomer() {
+        return customer;
     }
 
     @Override
@@ -134,7 +113,7 @@ public class Order {
                 ", totalItems=" + totalItems +
                 ", orderItems=" + Arrays.toString(orderItems) +
                 ", hotel='" + hotel + '\'' +
-                ", customerId='" + customerId + '\'' +
+                ", customer='" + customer.toString() + '\'' +
                 '}';
     }
 }
