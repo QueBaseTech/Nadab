@@ -13,6 +13,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.example.karokojnr.nadab_hotels.Order;
 import com.example.karokojnr.nadab_hotels.R;
 import com.example.karokojnr.nadab_hotels.orders.OrderList;
 import com.example.karokojnr.nadab_hotels.utils.Constants;
@@ -130,9 +131,9 @@ public class OrdersNotificationsService extends FirebaseMessagingService {
      * @param order FCM message orderID received.
      */
     private void sendNotification(String messageBody, String order) {
-        Intent intent = new Intent(this, OrderList.class);
+        Intent intent = new Intent(this, Order.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("ORDER_ID", order);
+        intent.putExtra("orderId", order);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 , intent, PendingIntent.FLAG_ONE_SHOT);
 

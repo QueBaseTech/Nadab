@@ -9,6 +9,12 @@ public class OrderItem {
     @SerializedName("qty")
     private int qty;
 
+    @SerializedName("status")
+    private String status;
+
+    @SerializedName("_id")
+    private String id;
+
     @SerializedName("price")
     private double price;
 
@@ -30,5 +36,13 @@ public class OrderItem {
 
     public double getPrice() {
         return price;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public String getId() {
+        return id;
     }
 }

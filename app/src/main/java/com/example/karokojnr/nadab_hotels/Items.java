@@ -96,46 +96,6 @@ public class Items extends AppCompatActivity {
             }
         } );
 
-
-/*
-
-        //FLOATING BUTTON
-
-        fab = (FloatingActionButton) findViewById ( R.id.fab );
-        fab.setOnClickListener ( new View.OnClickListener () {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make ( view, "Fill in the details of the Item you want to add", Snackbar.LENGTH_LONG ).setAction ( "Action", null ).show ();
-
-                final Dialog dialog = new Dialog ( Items.this );
-                dialog.setContentView ( R.layout.dialog_items ); //layout for dialog
-                dialog.setTitle ( "Add a new products" );
-                dialog.setCancelable ( false ); //none-dismiss when touching outside Dialog
-
-                // set the custom dialog components - texts and image
-                EditText name = (EditText) dialog.findViewById ( R.id.name );
-                EditText unitMeasure = (EditText) dialog.findViewById ( R.id.unitMeasure );
-                EditText price = (EditText) dialog.findViewById ( R.id.price );
-                EditText hotel = (EditText) dialog.findViewById ( R.id.hotel );
-                ImageView image = (ImageView) dialog.findViewById ( R.id.image );
-                EditText sellingStatus = (EditText) dialog.findViewById ( R.id.sellingStatus );
-
-
-                EditText servedWith = (EditText) dialog.findViewById ( R.id.servedWith );
-                View btnAdd = dialog.findViewById ( R.id.btn_ok );
-                View btnCancel = dialog.findViewById ( R.id.btn_cancel );
-
-                //set handling event for 2 buttons and spinner
-                btnAdd.setOnClickListener ( onConfirmListener ( name, unitMeasure, price, hotel, image, sellingStatus, servedWith, dialog ) );
-                btnCancel.setOnClickListener ( onCancelListener ( dialog ) );
-
-                //show dialog box
-                dialog.show ();
-            }
-        } );
-*/
-
-
         recyclerView = (RecyclerView) findViewById ( R.id.recycler_view );
         adapter = new ItemsAdapter ( productList, context);
         recyclerView.setHasFixedSize ( true );

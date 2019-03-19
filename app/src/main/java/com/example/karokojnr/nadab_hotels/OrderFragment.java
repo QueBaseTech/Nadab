@@ -3,6 +3,7 @@ package com.example.karokojnr.nadab_hotels;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -101,10 +102,8 @@ public class OrderFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate ( R.layout.activity_order_list, container, false);
-
-        // get data from notification, order id to display
 
         context = this;
 
@@ -115,7 +114,8 @@ public class OrderFragment extends Fragment {
             public void onResponse(Call<Orders> call, Response<Orders> response) {
                 for (int i = 0; i < response.body ().getOrdersList ().size (); i++) {
                     Order order = response.body ().getOrdersList().get(i);
-                    if(order.getOrderStatus().equals("NEW") || order.getOrderStatus().equals("RE-ORDER")) orderLists.add ( order );
+//                    if(order.getOrderStatus().equals("NEW") || order.getOrderStatus().equals("RE-ORDER")) orderLists.add ( order );
+                    orderLists.add ( order );
                 }
                 generateOrdersList ((ArrayList<Order>) orderLists);
             }
@@ -133,77 +133,9 @@ public class OrderFragment extends Fragment {
             public void onClick(View view, final int position) {
                 final Order order = orderLists.get ( position );
                 OrderItem[] orderItems = order.getOrderItems();
-                String items[] = new String[orderItems.length];
-                for (int i = 0; i < orderItems.length; i++) {
-                    OrderItem item = orderItems[i];
-                    items[i] = item.getQty() + " " + item.getName() + " @ Kshs. " + (item.getQty() * item.getPrice());
-                }
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity ());
-                builder.setTitle("Order items");
-                builder.setItems(items, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                });
-                builder.setPositiveButton("ACCEPT", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(getActivity (), "Accepting order No:: "+ order.getOrderId(), Toast.LENGTH_SHORT).show();
-                        HotelService service = RetrofitInstance.getRetrofitInstance ().create ( HotelService.class );
-                        Call<OrderResponse> call = service.acceptOrder(order.getOrderId(), "ACCEPTED");
-                        call.enqueue ( new Callback<OrderResponse>() {
-                            @Override
-                            public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
-                                if(response.body().isSuccess()) {
-                                    orderLists.set(position, response.body().getOrder());
-                                    adapter.notifyItemChanged(position, response.body().getOrder());
-                                    adapter.notifyDataSetChanged();
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<OrderResponse> call, Throwable t) {
-                                Log.wtf("LOG", "onFailure: "+t.getMessage() );
-                                Toast.makeText ( getActivity (), "Something went wrong...Please try later!"+t.getMessage(), Toast.LENGTH_SHORT ).show ();
-                            }
-                        } );
-                    }
-                });
-                builder.setNeutralButton("CANCEL", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int i) {
-                        if (dialog != null) {
-                            dialog.dismiss();
-                        }
-                    }
-                });
-                builder.setNegativeButton("REJECT", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        Toast.makeText(getActivity (), "Rejecting order No:: "+ order.getOrderId(), Toast.LENGTH_SHORT).show();
-                        HotelService service = RetrofitInstance.getRetrofitInstance ().create ( HotelService.class );
-                        Call<OrderResponse> call = service.acceptOrder(order.getOrderId(), "REJECTED");
-                        call.enqueue ( new Callback<OrderResponse>() {
-                            @Override
-                            public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
-                                if(response.body().isSuccess()){
-                                    orderLists.set(position, response.body().getOrder());
-                                    adapter.notifyItemChanged(position, response.body().getOrder());
-                                    adapter.notifyDataSetChanged();
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<OrderResponse> call, Throwable t) {
-                                Toast.makeText ( getActivity (), "Something went wrong...Please try later!"+t.getMessage(), Toast.LENGTH_SHORT ).show ();
-                            }
-                        } );
-                    }
-                });
-
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
+                Intent intent = new Intent(getContext(), com.example.karokojnr.nadab_hotels.Order.class);
+                intent.putExtra("orderId", order.getOrderId());
+                startActivity(intent);
             }
 
             @Override

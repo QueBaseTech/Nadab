@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.karokojnr.nadab_hotels.R;
 import com.example.karokojnr.nadab_hotels.api.RetrofitInstance;
+import com.example.karokojnr.nadab_hotels.model.OrderItem;
 import com.example.karokojnr.nadab_hotels.model.Product;
 
 import java.util.ArrayList;

@@ -3,7 +3,7 @@
 
         <color name="colorPrimary">#800000</color>
         <color name="colorPrimaryDark">#A52A2A</color>
-        <color name="colorAccent">#DC143C</color>
+        <color name="colorAccent">#dc143c</color>
 
         <color name="colorDarkGrey">#C0C0C0</color>
         <color name="title">#222222</color>
@@ -11,7 +11,7 @@
 
         <color name="gen_black">#000000</color>
         <color name="gen_white">#FFFFFF</color>
-        <color name="green_light">#43A047</color>
+        <color name="green_light">#41a545</color>
         <color name="grey_light">#E0E0E0</color>
         <color name="colorLine">#D3D3D3</color>
 

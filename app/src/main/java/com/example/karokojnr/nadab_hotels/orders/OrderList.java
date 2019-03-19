@@ -101,8 +101,11 @@ public class OrderList extends AppCompatActivity {
                     items[i] = item.getQty() + " " + item.getName() + " @ Kshs. " + (item.getQty() * item.getPrice());
                 }
 
+                LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View orderDialog = layoutInflater.inflate(R.layout.activity_add_meals, null);
                 AlertDialog.Builder builder = new AlertDialog.Builder(OrderList.this);
                 builder.setTitle("Order items");
+                builder.setView(orderDialog);
                 builder.setItems(items, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
