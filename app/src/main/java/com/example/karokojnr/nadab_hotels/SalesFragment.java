@@ -1,12 +1,31 @@
 package com.example.karokojnr.nadab_hotels;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.example.karokojnr.nadab_hotels.adapter.SalesAdapter;
+import com.example.karokojnr.nadab_hotels.api.HotelService;
+import com.example.karokojnr.nadab_hotels.api.RetrofitInstance;
+import com.example.karokojnr.nadab_hotels.model.Order;
+import com.example.karokojnr.nadab_hotels.model.OrderItem;
+import com.example.karokojnr.nadab_hotels.model.Orders;
+import com.example.karokojnr.nadab_hotels.utils.SharedPrefManager;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -28,6 +47,12 @@ public class SalesFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    private SalesAdapter adapter;
+    private SalesFragment context;
+    RecyclerView recyclerView;
+
+    private List<Order> salesList = new ArrayList<>();
 
     public SalesFragment() {
         // Required empty public constructor
@@ -62,8 +87,50 @@ public class SalesFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate ( R.layout.fragment_sales, container, false );
+        View view = inflater.inflate ( R.layout.fragment_sales, container, false);
+
+        context = this;
+
+
+        HotelService service = RetrofitInstance.getRetrofitInstance ().create ( HotelService.class );
+        Call<Orders> call = service.getOrders( SharedPrefManager.getInstance(getActivity ()).getToken() );
+        call.enqueue ( new Callback<Orders>() {
+            @Override
+            public void onResponse(Call<Orders> call, Response<Orders> response) {
+
+                for (int i = 0; i < response.body ().getOrdersList ().size (); i++) {
+                    Order order = response.body ().getOrdersList().get(i);
+                    if(order.getOrderStatus().equals("COMPLETE") || order.getOrderStatus().equals("SALES")) salesList.add ( order );
+                }
+                generateOrdersList ((ArrayList<Order>) salesList);
+            }
+
+            @Override
+            public void onFailure(Call<Orders> call, Throwable t) {
+                Toast.makeText ( getActivity (), "Something went wrong...Please try later!"+t.getMessage(), Toast.LENGTH_SHORT ).show ();
+            }
+        } );
+
+
+        recyclerView = (RecyclerView) view.findViewById ( R.id.sales_recycler_view );
+        recyclerView.addOnItemTouchListener ( new RecyclerTouchListener( getActivity (), recyclerView, new RecyclerTouchListener.ClickListener () {
+            @Override
+            public void onClick(View view, final int position) {
+                final Order order = salesList.get ( position );
+                OrderItem[] orderItems = order.getOrderItems();
+                Intent intent = new Intent(getContext(), com.example.karokojnr.nadab_hotels.Order.class);
+                intent.putExtra("orderId", order.getOrderId());
+                startActivity(intent);
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        } ) );
+
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -87,5 +154,13 @@ public class SalesFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    private void generateOrdersList(ArrayList<Order> empDataList) {
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager( getActivity () );
+
+        adapter = new SalesAdapter( empDataList, getActivity ());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter (adapter);
     }
 }

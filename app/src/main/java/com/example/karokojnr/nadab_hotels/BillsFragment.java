@@ -54,7 +54,6 @@ public class BillsFragment extends Fragment {
     RecyclerView recyclerView;
 
     private List<Order> orderLists = new ArrayList<>();
-    private TextView totalPrice, customerName, orderStatus;
 
 
     public BillsFragment() {
