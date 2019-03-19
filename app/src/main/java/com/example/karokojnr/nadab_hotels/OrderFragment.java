@@ -114,8 +114,8 @@ public class OrderFragment extends Fragment {
             public void onResponse(Call<Orders> call, Response<Orders> response) {
                 for (int i = 0; i < response.body ().getOrdersList ().size (); i++) {
                     Order order = response.body ().getOrdersList().get(i);
-//                    if(order.getOrderStatus().equals("NEW") || order.getOrderStatus().equals("RE-ORDER")) orderLists.add ( order );
-                    orderLists.add ( order );
+                    if(order.getOrderStatus().equals("NEW") || order.getOrderStatus().equals("RE-ORDER")) orderLists.add ( order );
+//                    orderLists.add ( order );
                 }
                 generateOrdersList ((ArrayList<Order>) orderLists);
             }

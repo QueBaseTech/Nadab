@@ -20,7 +20,7 @@ public final class Constants {
     public static final String UNIQUE_ID = "unique_id";
 
     public static final String FIREBASE_TOKEN = "FIREBASE_TOKEN";
-    public static final String ADMIN_CHANNEL_ID = "ADMIN_CHANNEL_ID";
+    public static final String ADMIN_CHANNEL_ID = "0465";
 
 
     public static final String M_HOTEL_ID = "M_HOTEL_ID";

@@ -55,9 +55,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Product product = productList.get ( position );
         holder.name.setText(product.getName());
-//        holder.unitMeasure.setText(product.getUnitMeasure());
         holder.price.setText("Kshs " + product.getPrice());
-        //holder.hotel.setText(product.getHotel());
         Glide.with(context)
                 .load(RetrofitInstance.BASE_URL+"images/uploads/products/thumb_"+product.getImage())
                 .into(holder.imageView);
