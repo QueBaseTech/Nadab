@@ -23,7 +23,6 @@ import com.example.karokojnr.nadab_hotels.api.HotelService;
 import com.example.karokojnr.nadab_hotels.api.RetrofitInstance;
 import com.example.karokojnr.nadab_hotels.model.Order;
 import com.example.karokojnr.nadab_hotels.model.OrderItem;
-import com.example.karokojnr.nadab_hotels.model.OrderResponse;
 import com.example.karokojnr.nadab_hotels.model.Orders;
 import com.example.karokojnr.nadab_hotels.orders.OrderList;
 import com.example.karokojnr.nadab_hotels.utils.SharedPrefManager;
@@ -74,15 +73,7 @@ public class OrderFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment OrderFragment.
-     */
-    // TODO: Rename and change types and number of parameters
+
     public static OrderFragment newInstance(String param1, String param2) {
         OrderFragment fragment = new OrderFragment ();
         Bundle args = new Bundle ();
@@ -102,11 +93,31 @@ public class OrderFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate ( R.layout.activity_order_list, container, false);
 
         context = this;
 
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult> () {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "getInstanceId failed", task.getException());
+                            return;
+                        }
+
+                        // Get new Instance ID token
+                        String token = task.getResult().getToken();
+                        utils.sendRegistrationToServer(getActivity (), token);
+                        // Log and toast
+                        Log.d(TAG, token);
+                        Toast.makeText(getActivity (), token, Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        /*Create handle for the RetrofitInstance interface*/
         HotelService service = RetrofitInstance.getRetrofitInstance ().create ( HotelService.class );
         Call<Orders> call = service.getOrders( SharedPrefManager.getInstance(getActivity ()).getToken() );
         call.enqueue ( new Callback<Orders> () {
@@ -116,13 +127,13 @@ public class OrderFragment extends Fragment {
                 for (int i = 0; i < response.body ().getOrdersList ().size (); i++) {
                     Order order = response.body ().getOrdersList().get(i);
                     if(order.getOrderStatus().equals("NEW") || order.getOrderStatus().equals("RE-ORDER")) orderLists.add ( order );
-//                    orderLists.add ( order );
                 }
-                generateOrdersList ((ArrayList<Order>) orderLists);
+                generateOrdersList ( response.body ().getOrdersList () );
             }
 
             @Override
             public void onFailure(Call<Orders> call, Throwable t) {
+                Log.wtf("LOG", "onFailure: "+t.getMessage() );
                 Toast.makeText ( getActivity (), "Something went wrong...Please try later!"+t.getMessage(), Toast.LENGTH_SHORT ).show ();
             }
         } );
@@ -155,16 +166,6 @@ public class OrderFragment extends Fragment {
             mListener.onFragmentInteraction ( uri );
         }
     }
-
-    /*@Override
-    public void onAttach(Context context) {
-        super.onAttach ( context );
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException ( context.toString () + " must implement OnFragmentInteractionListener" );
-        }
-    }*/
 
     @Override
     public void onDetach() {

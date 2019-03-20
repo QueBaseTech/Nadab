@@ -2,7 +2,6 @@ package com.example.karokojnr.nadab_hotels.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,7 @@ import java.util.ArrayList;
 
 public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.MyViewHolder>  {
     private ArrayList<Order> orders;
-    Context context;
+    private Context context;
 
     public OrdersAdapter(ArrayList<Order> empDataList, Context context) {
         this.orders = empDataList;
@@ -32,10 +31,10 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.MyViewHold
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Order order = orders.get ( position );
-        String upadtedAt = order.getUpdatedAt();
+        String updatedAt = order.getUpdatedAt();
 
         holder.name.setText(order.getCustomer().getName());
-        holder.time.setText(upadtedAt);
+        holder.time.setText(updatedAt);
         holder.price.setText(order.getTotalPrice().toString());
         holder.qty.setText(order.getTotalItems() + " items");
         holder.status.setText(order.getOrderStatus());

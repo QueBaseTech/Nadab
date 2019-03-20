@@ -1,23 +1,33 @@
 package com.example.karokojnr.nadab_hotels;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.res.ColorStateList;
+import android.content.res.XmlResourceParser;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +37,7 @@ import com.example.karokojnr.nadab_hotels.api.RetrofitInstance;
 import com.example.karokojnr.nadab_hotels.model.Hotel;
 import com.example.karokojnr.nadab_hotels.model.HotelRegister;
 import com.example.karokojnr.nadab_hotels.utils.SharedPrefManager;
+import com.example.karokojnr.nadab_hotels.utils.Utils;
 import com.example.karokojnr.nadab_hotels.utils.utils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -34,6 +45,8 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
 import java.io.File;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -49,8 +62,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     Button addHotel;
     ProgressBar mLoading;
     ImageView ivImage;
-    TextView ti_first;
+    TextView ti_first, login, readTerms;
+    CheckBox terms_conditions;
 
+    private LinearLayout linearLayout;
     private static final String TAG = "Profile";
     private static final int RESULT_LOAD_IMAGE = 1;
     private Uri selectedImage;
@@ -58,7 +73,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private static final int READ_REQUEST_CODE = 300;
     private String filePath;
     private File file;
-
+    private static Animation shakeAnimation;
     ProgressDialog progressDialog;
 
     @Override
@@ -66,11 +81,43 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate ( savedInstanceState );
         setContentView ( R.layout.activity_register );
 
+        // Initialize all views
+        linearLayout = (LinearLayout) findViewById(R.id
+                .linear_layout);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar ().setDisplayHomeAsUpEnabled ( true );
+        getSupportActionBar ().setDisplayShowHomeEnabled ( true );
+
+        toolbar.setNavigationIcon(R.drawable.ic_arrow);
+        toolbar.setNavigationOnClickListener ( new View.OnClickListener () {
+
+            @Override
+            public void onClick(View view) {
+
+                // Your code
+                finish ();
+            }
+        } );
+
+
         progressDialog = new ProgressDialog(this);
 //        TODO:: initi UI components
         ti_first = (TextView)findViewById ( R.id.ti_first );
         mLoading = (ProgressBar) findViewById(R.id.login_loading);
+        login = (TextView) findViewById(R.id.already_user);
+        login.setOnClickListener ( new View.OnClickListener () {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent ( getApplicationContext (), LoginActivity.class );
+                startActivity ( i );
+            }
+        } );
 
+        ivImage = (ImageView)findViewById ( R.id.ivImage );
+        ivImage.setOnClickListener (  this );
         mobileNumber = (EditText)findViewById ( R.id.mobileNumber );
         businessName = (EditText)findViewById ( R.id.businessName );
         applicantName = (EditText)findViewById ( R.id.applicantName );
@@ -80,29 +127,147 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         city = (EditText)findViewById ( R.id.city );
         password = (EditText)findViewById ( R.id.password );
         passwordAgain = (EditText)findViewById ( R.id.passwordAgain );
-
+        terms_conditions = (CheckBox) findViewById(R.id.terms_conditions);
         addHotel = (Button)findViewById ( R.id.addHotel );
-        ivImage = (ImageView)findViewById ( R.id.ivImage );
-        ivImage.setOnClickListener (  this );
+        readTerms = (TextView)findViewById ( R.id.read_terms_conditions );
+        readTerms.setOnClickListener ( new View.OnClickListener () {
+            @Override
+            public void onClick(View v) {
+                Intent terms = new Intent ( getApplicationContext (), Terms.class );
+                startActivity ( terms );
+            }
+        } );
 
+
+
+        // Load ShakeAnimation
+        shakeAnimation = AnimationUtils.loadAnimation(getApplicationContext (),
+                R.anim.shake);
+
+        // Setting text selector over textviews
+        @SuppressLint("ResourceType") XmlResourceParser xrp = getResources().getXml(R.drawable.text_selector);
+        try {
+            ColorStateList csl = ColorStateList.createFromXml(getResources(),
+                    xrp);
+
+            login.setTextColor(csl);
+        } catch (Exception e) {
+        }
 
 
     }
 
     public void addHotel(View view) {
-        HotelService service = RetrofitInstance.getRetrofitInstance().create(HotelService.class);
-        final Hotel hotel = new Hotel();
+        HotelService service = RetrofitInstance.getRetrofitInstance ().create ( HotelService.class );
+        final Hotel hotel = new Hotel ();
 
-        String mimage = ivImage.getDrawable().toString();
-        String mmobileNumber = mobileNumber.getText().toString();
-        String mbusinessName = businessName.getText().toString();
-        String mapplicantName = applicantName.getText().toString();
-        String mpaybillNumber = paybillNumber.getText().toString();
-        String maddress = address.getText().toString();
-        String mbusinessEmail = businessEmail.getText().toString();
-        String mcity = city.getText().toString();
-        String mpassword = password.getText().toString();
-        String mpasswordAgain = passwordAgain.getText().toString();
+        String mimage = ivImage.getDrawable ().toString ();
+        String mmobileNumber = mobileNumber.getText ().toString ();
+        String mbusinessName = businessName.getText ().toString ();
+        String mapplicantName = applicantName.getText ().toString ();
+        String mpaybillNumber = paybillNumber.getText ().toString ();
+        String maddress = address.getText ().toString ();
+        String mbusinessEmail = businessEmail.getText ().toString ();
+        String mcity = city.getText ().toString ();
+        String mpassword = password.getText ().toString ();
+        String mpasswordAgain = passwordAgain.getText ().toString ();
+
+        // Pattern match for email id
+        Pattern p = Pattern.compile ( Utils.regEx );
+        Matcher m = p.matcher ( mbusinessEmail );
+        // Check if all strings are null or not
+        if (mbusinessName.equals ( "" ) || mbusinessName.length () == 0 || mimage.equals ( "" ) || mimage.length () == 0 || mbusinessEmail.equals ( "" ) || mbusinessEmail.length () == 0 || mapplicantName.equals ( "" ) || mapplicantName.length () == 0 || mpaybillNumber.equals ( "" ) || mpaybillNumber.length () == 0 || mcity.equals ( "" ) || mcity.length () == 0 || mmobileNumber.equals ( "" ) || mmobileNumber.length () == 0 || maddress.equals ( "" ) || maddress.length () == 0 || mpassword.equals ( "" ) || mpassword.length () == 0 || mpasswordAgain.equals ( "" ) || mpasswordAgain.length () == 0) {
+            linearLayout.startAnimation ( shakeAnimation );
+
+            {
+                Snackbar snackbar = Snackbar.make ( linearLayout, "All fields are required!", Snackbar.LENGTH_LONG ).setAction ( "RETRY", new View.OnClickListener () {
+                    @Override
+                    public void onClick(View view) {
+                    }
+                } );
+                // Changing message text color
+                snackbar.setActionTextColor ( Color.GREEN );
+
+                // Changing action button text color
+                View sbView = snackbar.getView ();
+                TextView textView = (TextView) sbView.findViewById ( android.support.design.R.id.snackbar_text );
+                textView.setTextColor ( Color.RED );
+
+                snackbar.show ();
+
+            }
+        }
+
+
+            // Check if email id valid or not
+        else if (!m.find())
+           /* new CustomToast().Show_Toast(getApplicationContext (), view,
+                    "Your Email Id is Invalid.");*/ {
+            Snackbar snackbar = Snackbar.make ( linearLayout, "Your Email Id is Invalid!", Snackbar.LENGTH_LONG ).setAction ( "RETRY", new View.OnClickListener () {
+                @Override
+                public void onClick(View view) {
+                }
+            } );
+            // Changing message text color
+            snackbar.setActionTextColor ( Color.GREEN );
+
+            // Changing action button text color
+            View sbView = snackbar.getView ();
+            TextView textView = (TextView) sbView.findViewById ( android.support.design.R.id.snackbar_text );
+            textView.setTextColor ( Color.RED );
+
+            snackbar.show ();
+        }
+
+            // Check if both password should be equal
+        else if (!mpasswordAgain.equals(mpassword))
+           /* new CustomToast().Show_Toast(getApplicationContext (), view,
+                    "Both password doesn't match.");*/
+        {
+            Snackbar snackbar = Snackbar.make ( linearLayout, "Both password doesn't match!", Snackbar.LENGTH_LONG ).setAction ( "RETRY", new View.OnClickListener () {
+                @Override
+                public void onClick(View view) {
+                }
+            } );
+            // Changing message text color
+            snackbar.setActionTextColor ( Color.GREEN );
+
+            // Changing action button text color
+            View sbView = snackbar.getView ();
+            TextView textView = (TextView) sbView.findViewById ( android.support.design.R.id.snackbar_text );
+            textView.setTextColor ( Color.RED );
+
+            snackbar.show ();
+        }
+
+            // Make sure user should check Terms and Conditions checkbox
+        else if (!terms_conditions.isChecked())
+            /*new CustomToast().Show_Toast(getApplicationContext (), view,
+                    "Please select Terms and Conditions.");*/
+        {
+            Snackbar snackbar = Snackbar.make ( linearLayout, "Please select Terms and Conditions!", Snackbar.LENGTH_LONG ).setAction ( "RETRY", new View.OnClickListener () {
+                @Override
+                public void onClick(View view) {
+                }
+            } );
+            // Changing message text color
+            snackbar.setActionTextColor ( Color.GREEN );
+
+            // Changing action button text color
+            View sbView = snackbar.getView ();
+            TextView textView = (TextView) sbView.findViewById ( android.support.design.R.id.snackbar_text );
+            textView.setTextColor ( Color.RED );
+
+            snackbar.show ();
+        }
+
+
+        // Else do signup or do your stuff
+        else
+            Toast.makeText(getApplicationContext (), "Signing up......", Toast.LENGTH_SHORT)
+                    .show();
+
+
         /*//validating inputs
         if (TextUtils.isEmpty(mimage)) {
             ivImage.setImageDrawable (Drawable.createFromPath ( "Please enter your username" ) );
@@ -110,7 +275,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             return;
         }*/
         if (TextUtils.isEmpty(mbusinessEmail)) {
-            businessEmail.setError("Please enter your username");
+            businessEmail.setError("Please enter your business email");
             businessEmail.requestFocus();
             return;
         }
@@ -127,41 +292,62 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             return;
         }
         if (TextUtils.isEmpty(mmobileNumber)) {
-            mobileNumber.setError("Please enter your password");
+            mobileNumber.setError("Please enter your mobile number");
             mobileNumber.requestFocus();
             return;
         }
         if (TextUtils.isEmpty(mbusinessName)) {
-            businessName.setError("Please enter your password");
+            businessName.setError("Please enter your business name");
             businessName.requestFocus();
             return;
         }
         if (TextUtils.isEmpty(mcity)) {
-            city.setError("Please enter your password");
+            city.setError("Please enter your city");
             city.requestFocus();
             return;
         }
         if (TextUtils.isEmpty(maddress)) {
-            address.setError("Please enter your password");
+            address.setError("Please enter your address");
             address.requestFocus();
             return;
         }
         if (TextUtils.isEmpty(mapplicantName)) {
-            applicantName.setError("Please enter your password");
+            applicantName.setError("Please enter the applicant name");
             applicantName.requestFocus();
             return;
         }
         if (TextUtils.isEmpty(mpaybillNumber)) {
-            paybillNumber.setError("Please enter your password");
+            paybillNumber.setError("Please enter your paybill number");
             paybillNumber.requestFocus();
             return;
         }
         if (TextUtils.isEmpty(mpasswordAgain)) {
-            passwordAgain.setError("Please enter your password");
+            passwordAgain.setError("Please confirm your password!");
             passwordAgain.requestFocus();
             return;
         }
-       // mLoading.setVisibility(View.VISIBLE); // show progress dialog*/
+        // Make sure user should check Terms and Conditions checkbox
+        if (!terms_conditions.isChecked())
+            /*new CustomToast().Show_Toast(getApplicationContext (), view,
+                    "Please select Terms and Conditions.");*/
+        {
+            Snackbar snackbar = Snackbar.make ( linearLayout, "Please select Terms and Conditions!", Snackbar.LENGTH_LONG ).setAction ( "RETRY", new View.OnClickListener () {
+                @Override
+                public void onClick(View view) {
+                }
+            } );
+            // Changing message text color
+            snackbar.setActionTextColor ( Color.GREEN );
+
+            // Changing action button text color
+            View sbView = snackbar.getView ();
+            TextView textView = (TextView) sbView.findViewById ( android.support.design.R.id.snackbar_text );
+            textView.setTextColor ( Color.RED );
+
+            snackbar.show ();
+        }
+
+        // mLoading.setVisibility(View.VISIBLE); // show progress dialog*/
         showProgressDialogWithTitle ();
 
         String filePath = getRealPathFromURIPath(selectedImage, this);

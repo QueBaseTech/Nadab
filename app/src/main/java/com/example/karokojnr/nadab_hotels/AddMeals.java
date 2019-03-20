@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Handler;
 import android.provider.MediaStore;
@@ -16,11 +17,15 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.karokojnr.nadab_hotels.adapter.ItemsAdapter;
@@ -59,9 +64,9 @@ public class AddMeals extends AppCompatActivity implements View.OnClickListener,
     private static final int READ_REQUEST_CODE = 300;
     private String filePath;
     private File file;
-
+    LinearLayout layout_add_meals;
+    private static Animation shakeAnimation;
     private ProgressBar mLoading;
-
     private int progressStatus = 0;
     ProgressDialog progressDialog;
     private Handler handler = new Handler ();
@@ -73,6 +78,7 @@ public class AddMeals extends AppCompatActivity implements View.OnClickListener,
         setContentView ( R.layout.activity_add_meals );
 
         progressDialog = new ProgressDialog (this);
+        layout_add_meals = (LinearLayout) findViewById ( R.id.layout_add_meals );
 
 
         mLoading = (ProgressBar) findViewById(R.id.login_loading);
@@ -99,13 +105,19 @@ public class AddMeals extends AppCompatActivity implements View.OnClickListener,
         price = (EditText) findViewById ( R.id.add_item_price );
 
         image = (ImageView) findViewById ( R.id.ivImage );
+
+
+        // Load ShakeAnimation
+        shakeAnimation = AnimationUtils.loadAnimation(getApplicationContext (),
+                R.anim.shake);
+
         image.setOnClickListener (  this );
 
         //btn_okay = (Button) findViewById ( R.id.btn_ok );
         //btn_cancel = (Button) findViewById ( R.id.btn_cancel );
         final RelativeLayout container = (RelativeLayout) findViewById(R.id.container);
 
-        FloatingTextButton btn_cancel = (FloatingTextButton) findViewById(R.id.btn_cancel);
+        /*FloatingTextButton btn_cancel = (FloatingTextButton) findViewById(R.id.btn_cancel);
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -113,7 +125,7 @@ public class AddMeals extends AppCompatActivity implements View.OnClickListener,
                 Intent intent = new Intent ( getApplicationContext (), MainActivity.class );
                 startActivity ( intent );
             }
-        });
+        });*/
         FloatingTextButton btn_okay = (FloatingTextButton) findViewById(R.id.btn_ok);
         btn_okay.setOnClickListener ( new View.OnClickListener () {
             @Override
@@ -122,6 +134,31 @@ public class AddMeals extends AppCompatActivity implements View.OnClickListener,
                 String mname = name.getText().toString();
                 String mprice = price.getText().toString();
                 String mimage = image.getDrawable ().toString();
+
+                if (mname.equals("") || mname.length() == 0
+                        || mimage.equals("") || mimage.length() == 0
+                        || mprice.equals("") || mprice.length() == 0) {
+                    layout_add_meals.startAnimation ( shakeAnimation );
+
+                    {
+
+                        Snackbar snackbar = Snackbar.make ( layout_add_meals, "All fields are required!", Snackbar.LENGTH_LONG ).setAction ( "RETRY", new View.OnClickListener () {
+                            @Override
+                            public void onClick(View view) {
+                            }
+                        } );
+                        // Changing message text color
+                        snackbar.setActionTextColor ( Color.GREEN );
+
+                        // Changing action button text color
+                        View sbView = snackbar.getView ();
+                        TextView textView = (TextView) sbView.findViewById ( android.support.design.R.id.snackbar_text );
+                        textView.setTextColor ( Color.RED );
+
+                        snackbar.show ();
+
+                    }
+                }
 
                 //validating inputs
                 if (TextUtils.isEmpty(  mname )) {
@@ -137,11 +174,7 @@ public class AddMeals extends AppCompatActivity implements View.OnClickListener,
                     price.requestFocus();
                     return;
                 }
-                /*if (TextUtils.isEmpty(  mimage )) {
-                    image.setImageDrawable (Drawable.createFromPath ( "Please choose image of the Food" ) );
-                    image.requestFocus();
-                    return;
-                }*/
+
               //  mLoading.setVisibility(View.VISIBLE); // show progress dialog*/
                 showProgressDialogWithTitle (  );
 
@@ -196,12 +229,12 @@ public class AddMeals extends AppCompatActivity implements View.OnClickListener,
                 } );
             }
         } );
-        btn_cancel.setOnClickListener(new View.OnClickListener() {
+        /*btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
-        });
+        });*/
         //btn_cancel.setOnClickListener ( this );
     }
 

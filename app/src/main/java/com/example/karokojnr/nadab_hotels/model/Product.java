@@ -3,23 +3,24 @@ package com.example.karokojnr.nadab_hotels.model;
 import com.google.gson.annotations.SerializedName;
 
 public class Product {
-    @SerializedName("_id")
-    private String id;
+
+//    @SerializedName("data")
+//    private List<Product> products;
 
     @SerializedName("name")
     private String name;
-
     @SerializedName("unitMeasure")
     private String unitMeasure;
-
     @SerializedName("price")
     private String price;
-
     @SerializedName("hotel")
     private String hotel;
-
     @SerializedName("image")
     private String image;
+//    @SerializedName("sellingStatus")
+//    private String sellingStatus;
+//    @SerializedName("servedWith")
+//    private String servedWith;
 
     public Product(String name, String unitMeasure, String price) {
         this.name = name;
@@ -27,11 +28,12 @@ public class Product {
         this.price = price;
         this.hotel = hotel;
         this.image = image;
+//        this.sellingStatus = sellingStatus;
+        //this.servedWith =  servedWith;
     }
+//    @SerializedName("genre")
+//    private List<String> genre;
 
-    public String getId() {
-        return id;
-    }
 
     public String getName() {
         return name;

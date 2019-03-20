@@ -28,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.karokojnr.nadab_hotels.api.HotelService;
 import com.example.karokojnr.nadab_hotels.api.RetrofitInstance;
 import com.example.karokojnr.nadab_hotels.model.Product;
@@ -84,6 +85,23 @@ public class EditMeal extends AppCompatActivity implements EasyPermissions.Permi
         super.onCreate ( savedInstanceState );
         setContentView ( R.layout.activity_edit_meal );
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar ().setDisplayHomeAsUpEnabled ( true );
+        getSupportActionBar ().setDisplayShowHomeEnabled ( true );
+
+        toolbar.setNavigationIcon(R.drawable.ic_arrow);
+        toolbar.setNavigationOnClickListener ( new View.OnClickListener () {
+
+            @Override
+            public void onClick(View view) {
+
+                // Your code
+                finish ();
+            }
+        } );
+
         progressDialog = new ProgressDialog (this);
         mLoading = (ProgressBar) findViewById(R.id.login_loading);
 
@@ -91,7 +109,7 @@ public class EditMeal extends AppCompatActivity implements EasyPermissions.Permi
         meal_name = findViewById ( R.id.name );
         price = findViewById ( R.id.add_item_price );
         edit = findViewById ( R.id.btn_edit );
-        cancel = findViewById ( R.id.btn_cancel );
+        //cancel = findViewById ( R.id.btn_cancel );
 
         ivImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,6 +140,9 @@ public class EditMeal extends AppCompatActivity implements EasyPermissions.Permi
 //        ivImage.setImageDrawable ( Drawable.createFromPath ( pImage ) );
         meal_name.setText(pName);
         price.setText ( pPrice );
+        Glide.with(this)
+                .load(RetrofitInstance.BASE_URL+"images/uploads/products/thumb_"+pImage)
+                .into(ivImage);
 
         // you will do the rest
 
