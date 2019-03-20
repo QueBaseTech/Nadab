@@ -1,11 +1,7 @@
 package com.example.karokojnr.nadab_hotels.utils;
 
 public class HotelSharedPreference {
-    private String id, username, email, tv_applicant_name, tv_city,tv_address, tv_mobile, tv_paybill, ivImage;
-
-    public String getIvImage() {
-        return ivImage;
-    }
+    private String id, username, email, tv_applicant_name, tv_city, tv_address, tv_mobile, tv_paybill, ivImage;
 
     public HotelSharedPreference(String id, String username, String tv_applicant_name, String tv_mobile, String tv_paybill, String tv_city, String tv_address, String tv_profile, String email) {
         this.id = id;
@@ -18,6 +14,10 @@ public class HotelSharedPreference {
         this.tv_paybill = tv_paybill;
         this.ivImage = tv_profile;
 
+    }
+
+    public String getIvImage() {
+        return ivImage;
     }
 
     public String getTv_applicant_name() {

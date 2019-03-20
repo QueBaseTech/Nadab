@@ -48,8 +48,4 @@ public class utils {
         } );
     }
 
-    /*public static Task<InstanceIdResult> retriveFCMToken() {
-        return FirebaseInstanceId.getInstance().getInstanceId();
-    }*/
-
 }

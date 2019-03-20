@@ -1,17 +1,11 @@
 package com.example.karokojnr.nadab_hotels;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,13 +18,7 @@ import com.example.karokojnr.nadab_hotels.api.RetrofitInstance;
 import com.example.karokojnr.nadab_hotels.model.Order;
 import com.example.karokojnr.nadab_hotels.model.OrderItem;
 import com.example.karokojnr.nadab_hotels.model.Orders;
-import com.example.karokojnr.nadab_hotels.orders.OrderList;
 import com.example.karokojnr.nadab_hotels.utils.SharedPrefManager;
-import com.example.karokojnr.nadab_hotels.utils.utils;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +44,7 @@ public class OrderFragment extends Fragment {
 
     private List<Order> orderLists = new ArrayList<> ();
 
-    public static final String TAG = OrderList.class.getSimpleName();
+    public static final String TAG = OrderFragment.class.getSimpleName();
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -99,24 +87,6 @@ public class OrderFragment extends Fragment {
 
         context = this;
 
-        FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult> () {
-                    @Override
-                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                        if (!task.isSuccessful()) {
-                            Log.w(TAG, "getInstanceId failed", task.getException());
-                            return;
-                        }
-
-                        // Get new Instance ID token
-                        String token = task.getResult().getToken();
-                        utils.sendRegistrationToServer(getActivity (), token);
-                        // Log and toast
-                        Log.d(TAG, token);
-                        Toast.makeText(getActivity (), token, Toast.LENGTH_SHORT).show();
-                    }
-                });
-
         /*Create handle for the RetrofitInstance interface*/
         HotelService service = RetrofitInstance.getRetrofitInstance ().create ( HotelService.class );
         Call<Orders> call = service.getOrders( SharedPrefManager.getInstance(getActivity ()).getToken() );
@@ -128,7 +98,7 @@ public class OrderFragment extends Fragment {
                     Order order = response.body ().getOrdersList().get(i);
                     if(order.getOrderStatus().equals("NEW") || order.getOrderStatus().equals("RE-ORDER")) orderLists.add ( order );
                 }
-                generateOrdersList ( response.body ().getOrdersList () );
+                generateOrdersList((ArrayList<Order>) orderLists);
             }
 
             @Override

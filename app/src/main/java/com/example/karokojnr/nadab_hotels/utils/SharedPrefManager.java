@@ -2,7 +2,6 @@ package com.example.karokojnr.nadab_hotels.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.example.karokojnr.nadab_hotels.model.Hotel;
 import com.example.karokojnr.nadab_hotels.model.Product;
@@ -30,7 +29,6 @@ public class SharedPrefManager {
     private static final String KEY_IMAGE = "keyimage";
 
 
-
     private static SharedPrefManager mInstance;
     private static Context mCtx;
 
@@ -50,16 +48,16 @@ public class SharedPrefManager {
     public void userLogin(Hotel hotel, String token) {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString (KEY_ID, hotel.getId ());
-        editor.putString(KEY_USERNAME, hotel.getBusinessName ());
-        editor.putString(KEY_EMAIL, hotel.getBusinessEmail ());
-        editor.putString (KEY_APPLICANT_NAME, hotel.getApplicantName ());
-        editor.putString (KEY_CITY, hotel.getCity ());
-        editor.putString (KEY_ADDRESS, hotel.getAddress ());
-        editor.putString (KEY_PAYBILL, hotel.getPayBillNo ());
-        editor.putString (KEY_MOBILE, hotel.getMobileNumber ());
-        editor.putString (KEY_PROFILE, hotel.getImage());
-        editor.putString (Constants.M_SHARED_PREFERENCE_LOGIN_TOKEN, token);
+        editor.putString(KEY_ID, hotel.getId());
+        editor.putString(KEY_USERNAME, hotel.getBusinessName());
+        editor.putString(KEY_EMAIL, hotel.getBusinessEmail());
+        editor.putString(KEY_APPLICANT_NAME, hotel.getApplicantName());
+        editor.putString(KEY_CITY, hotel.getCity());
+        editor.putString(KEY_ADDRESS, hotel.getAddress());
+        editor.putString(KEY_PAYBILL, hotel.getPayBillNo());
+        editor.putString(KEY_MOBILE, hotel.getMobileNumber());
+        editor.putString(KEY_PROFILE, hotel.getImage());
+        editor.putString(Constants.M_SHARED_PREFERENCE_LOGIN_TOKEN, token);
         editor.apply();
         editor.commit();
     }
@@ -78,8 +76,8 @@ public class SharedPrefManager {
     //this method will give the logged in user
     public HotelSharedPreference getHotel() {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
-        return new HotelSharedPreference (
-                sharedPreferences.getString (KEY_ID, null),
+        return new HotelSharedPreference(
+                sharedPreferences.getString(KEY_ID, null),
                 sharedPreferences.getString(KEY_USERNAME, null),
                 sharedPreferences.getString(KEY_APPLICANT_NAME, null),
                 sharedPreferences.getString(KEY_MOBILE, null),
@@ -87,14 +85,14 @@ public class SharedPrefManager {
                 sharedPreferences.getString(KEY_CITY, null),
                 sharedPreferences.getString(KEY_ADDRESS, null),
                 sharedPreferences.getString(KEY_PROFILE, null),
-                sharedPreferences.getString(KEY_EMAIL, null) );
+                sharedPreferences.getString(KEY_EMAIL, null));
     }
 
 
     public Product getMeal() {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
-        return new Product (
-                sharedPreferences.getString (KEY_MEAL_NAME, null),
+        return new Product(
+                sharedPreferences.getString(KEY_MEAL_NAME, null),
                 sharedPreferences.getString(KEY_PRICE, null),
                 sharedPreferences.getString(KEY_IMAGE, null)
 

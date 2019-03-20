@@ -30,7 +30,6 @@ import com.example.karokojnr.nadab_hotels.model.Hotel;
 import com.example.karokojnr.nadab_hotels.model.Login;
 import com.example.karokojnr.nadab_hotels.utils.Constants;
 import com.example.karokojnr.nadab_hotels.utils.SharedPrefManager;
-import com.example.karokojnr.nadab_hotels.utils.Utils;
 import com.example.karokojnr.nadab_hotels.utils.utils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -113,7 +112,7 @@ public class LoginActivity extends AppCompatActivity {
                 String mPassword = password.getText().toString();
 
                 // Check patter for email id
-                Pattern p = Pattern.compile(Utils.regEx);
+                Pattern p = Pattern.compile(Constants.regEx);
 
                 Matcher m = p.matcher(mEmail);
 

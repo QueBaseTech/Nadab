@@ -15,16 +15,15 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.karokojnr.nadab_hotels.R;
 import com.example.karokojnr.nadab_hotels.api.RetrofitInstance;
-import com.example.karokojnr.nadab_hotels.model.OrderItem;
 import com.example.karokojnr.nadab_hotels.model.Product;
 
 import java.util.ArrayList;
 
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder> implements Filterable {
 
+    Context context;
     private ArrayList<Product> productList;
     private ArrayList<Product> mFilteredList;
-    Context context;
 
 
     public ItemsAdapter(ArrayList<Product> productList, Context context) {
@@ -51,17 +50,17 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.custom_list_row, parent, false);
-        return new MyViewHolder (view);
+        return new MyViewHolder(view);
     }
 
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Product product = productList.get ( position );
+        Product product = productList.get(position);
         holder.name.setText(product.getName());
         holder.price.setText("Kshs " + product.getPrice());
         Glide.with(context)
-                .load(RetrofitInstance.BASE_URL+"images/uploads/products/thumb_"+product.getImage())
+                .load(RetrofitInstance.BASE_URL + "images/uploads/products/thumb_" + product.getImage())
                 .into(holder.imageView);
     }
 
@@ -86,7 +85,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
 
                     for (Product product : productList) {
 
-                        if (product.getName ().toLowerCase().contains(charString) || product.getPrice ().toLowerCase().contains(charString) || product.getUnitMeasure ().toLowerCase().contains(charString)) {
+                        if (product.getName().toLowerCase().contains(charString) || product.getPrice().toLowerCase().contains(charString) || product.getUnitMeasure().toLowerCase().contains(charString)) {
 
                             filteredList.add(product);
                         }
@@ -102,7 +101,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                mFilteredList = (ArrayList<Product>) filterResults.values;
+//                mFilteredList = (ArrayList<Product>) filterResults.values;
                 notifyDataSetChanged();
             }
         };
@@ -117,18 +116,18 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
 
     }
 
-     class MyViewHolder extends RecyclerView.ViewHolder {
-         TextView name, unitMeasure, price, hotel, sellingStatus;
-         ImageView imageView;
+    class MyViewHolder extends RecyclerView.ViewHolder {
+        TextView name, unitMeasure, price, hotel, sellingStatus;
+        ImageView imageView;
 
-         MyViewHolder(View itemView) {
-            super ( itemView );
-            name = (TextView) itemView.findViewById ( R.id.tvName );
+        MyViewHolder(View itemView) {
+            super(itemView);
+            name = (TextView) itemView.findViewById(R.id.tvName);
             //unitMeasure = (TextView) itemView.findViewById ( R.id.tvUnitMeasure );
-            price = (TextView) itemView.findViewById ( R.id.tvPrice );
+            price = (TextView) itemView.findViewById(R.id.tvPrice);
             //hotel = (TextView) itemView.findViewById ( R.id.tvHotel );
-            imageView = (ImageView) itemView.findViewById ( R.id.tvImage );
-          //  sellingStatus = (TextView) view.findViewById ( R.id.sellingStatus );
+            imageView = (ImageView) itemView.findViewById(R.id.tvImage);
+            //  sellingStatus = (TextView) view.findViewById ( R.id.sellingStatus );
         }
     }
 

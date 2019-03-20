@@ -36,8 +36,8 @@ import com.example.karokojnr.nadab_hotels.api.HotelService;
 import com.example.karokojnr.nadab_hotels.api.RetrofitInstance;
 import com.example.karokojnr.nadab_hotels.model.Hotel;
 import com.example.karokojnr.nadab_hotels.model.HotelRegister;
+import com.example.karokojnr.nadab_hotels.utils.Constants;
 import com.example.karokojnr.nadab_hotels.utils.SharedPrefManager;
-import com.example.karokojnr.nadab_hotels.utils.Utils;
 import com.example.karokojnr.nadab_hotels.utils.utils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -173,7 +173,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         String mpasswordAgain = passwordAgain.getText ().toString ();
 
         // Pattern match for email id
-        Pattern p = Pattern.compile ( Utils.regEx );
+        Pattern p = Pattern.compile ( Constants.regEx );
         Matcher m = p.matcher ( mbusinessEmail );
         // Check if all strings are null or not
         if (mbusinessName.equals ( "" ) || mbusinessName.length () == 0 || mimage.equals ( "" ) || mimage.length () == 0 || mbusinessEmail.equals ( "" ) || mbusinessEmail.length () == 0 || mapplicantName.equals ( "" ) || mapplicantName.length () == 0 || mpaybillNumber.equals ( "" ) || mpaybillNumber.length () == 0 || mcity.equals ( "" ) || mcity.length () == 0 || mmobileNumber.equals ( "" ) || mmobileNumber.length () == 0 || maddress.equals ( "" ) || maddress.length () == 0 || mpassword.equals ( "" ) || mpassword.length () == 0 || mpasswordAgain.equals ( "" ) || mpasswordAgain.length () == 0) {

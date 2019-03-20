@@ -15,13 +15,11 @@ import android.util.Log;
 
 import com.example.karokojnr.nadab_hotels.Order;
 import com.example.karokojnr.nadab_hotels.R;
-import com.example.karokojnr.nadab_hotels.orders.OrderList;
 import com.example.karokojnr.nadab_hotels.utils.Constants;
 import com.example.karokojnr.nadab_hotels.utils.utils;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-import java.util.Random;
 
 public class OrdersNotificationsService extends FirebaseMessagingService {
     private static final String TAG = "MyFirebaseMsgService";
