@@ -98,6 +98,7 @@ public class SalesFragment extends Fragment {
             @Override
             public void onResponse(Call<Orders> call, Response<Orders> response) {
 
+                salesList.clear();
                 for (int i = 0; i < response.body ().getOrdersList ().size (); i++) {
                     Order order = response.body ().getOrdersList().get(i);
                     if(order.getOrderStatus().equals("COMPLETE") || order.getOrderStatus().equals("SALES")) salesList.add ( order );

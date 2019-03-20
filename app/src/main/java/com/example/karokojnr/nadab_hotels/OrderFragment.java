@@ -112,6 +112,7 @@ public class OrderFragment extends Fragment {
         call.enqueue ( new Callback<Orders> () {
             @Override
             public void onResponse(Call<Orders> call, Response<Orders> response) {
+                orderLists.clear();
                 for (int i = 0; i < response.body ().getOrdersList ().size (); i++) {
                     Order order = response.body ().getOrdersList().get(i);
                     if(order.getOrderStatus().equals("NEW") || order.getOrderStatus().equals("RE-ORDER")) orderLists.add ( order );

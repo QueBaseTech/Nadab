@@ -99,7 +99,7 @@ public class BillsFragment extends Fragment {
         call.enqueue ( new Callback<Orders>() {
             @Override
             public void onResponse(Call<Orders> call, Response<Orders> response) {
-
+                orderLists.clear();
                 for (int i = 0; i < response.body ().getOrdersList ().size (); i++) {
                     Order order = response.body ().getOrdersList().get(i);
                     if(order.getOrderStatus().equals("BILLS")) orderLists.add ( order );
