@@ -1,6 +1,8 @@
 package com.example.karokojnr.nadab_hotels.api;
 
 
+import android.support.annotation.Nullable;
+
 import com.example.karokojnr.nadab_hotels.model.FCMToken;
 import com.example.karokojnr.nadab_hotels.model.HotelRegister;
 import com.example.karokojnr.nadab_hotels.model.HotelsList;
@@ -56,8 +58,8 @@ public interface HotelService {
     Call<Product> productEditWithImage(@Header("x-token") String token, @Path ( "id" )String productId, @Part MultipartBody.Part file,                                                                                                                            @Part ("filename") RequestBody filename, @Part("name") RequestBody name, @Part("price")RequestBody price, @Part("unitMeasure") RequestBody unitMeasure, @Part("hotel") RequestBody hotel);
 
     @FormUrlEncoded
-    @PUT("products/edit/{id}/")
-    Call<Product> productEdit(@Header("x-token") String token, @Path ( "id" )String productId, @Field("name") String name, @Field("price") String price);
+    @PUT("products/edit/{id}")
+    Call<Product> productEdit(@Header("x-token") String token, @Path ( "id" )String productId, @Field("name") String name, @Field("price") String price, @Field("sellingStatus") String sellingStatus);
 
     @GET("products/")
     Call<Products> getProducts(@Header("x-token") String token);

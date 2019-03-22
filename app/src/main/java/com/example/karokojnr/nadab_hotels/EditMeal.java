@@ -23,9 +23,12 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -66,6 +69,7 @@ public class EditMeal extends AppCompatActivity implements EasyPermissions.Permi
     EditText meal_name, price;
     FloatingTextButton edit, cancel;
     private String pName, pPrice, pHotelId, pUnitMeasure, pProductId, pImage;
+    private Boolean pStatus;
     private ProgressBar mLoading;
     private int progressStatus = 0;
     ProgressDialog progressDialog;
@@ -78,6 +82,10 @@ public class EditMeal extends AppCompatActivity implements EasyPermissions.Permi
     private String filePath;
     private File file;
     private static final String TAG = "Items";
+    private Switch toggleSellingStatus;
+    private TextView sellingStatus;
+    private String token;
+
 
 
     @Override
@@ -102,14 +110,17 @@ public class EditMeal extends AppCompatActivity implements EasyPermissions.Permi
             }
         } );
 
+        token = SharedPrefManager.getInstance ( getApplicationContext () ).getToken ();
         progressDialog = new ProgressDialog (this);
         mLoading = (ProgressBar) findViewById(R.id.login_loading);
+        toggleSellingStatus = findViewById(R.id.selling_switch);
+        sellingStatus = findViewById(R.id.selling_status);
 
         ivImage = findViewById ( R.id.ivImage );
         meal_name = findViewById ( R.id.name );
         price = findViewById ( R.id.add_item_price );
         edit = findViewById ( R.id.btn_edit );
-        //cancel = findViewById ( R.id.btn_cancel );
+
 
         ivImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,6 +138,7 @@ public class EditMeal extends AppCompatActivity implements EasyPermissions.Permi
             pHotelId = i.getStringExtra ( Constants.M_HOTEL_ID);
             pUnitMeasure = i.getStringExtra( Constants.M_UNITMEASURE);
             pProductId = i.getStringExtra ( Constants.M_PRODUCT_ID );
+            pStatus = i.getBooleanExtra(Constants.M_STATUS, false);
         } else {
             pUnitMeasure = "";
             pHotelId = "";
@@ -134,17 +146,17 @@ public class EditMeal extends AppCompatActivity implements EasyPermissions.Permi
             pName = "";
             pImage = "";
             pProductId = "";
+            pStatus = false;
         }
 
-        // Populate with defaults
-//        ivImage.setImageDrawable ( Drawable.createFromPath ( pImage ) );
+        toggleSellingStatus.setChecked(pStatus);
+        updateSellingStatus(pStatus);
+
         meal_name.setText(pName);
         price.setText ( pPrice );
         Glide.with(this)
                 .load(RetrofitInstance.BASE_URL+"images/uploads/products/thumb_"+pImage)
                 .into(ivImage);
-
-        // you will do the rest
 
         edit.setOnClickListener ( new View.OnClickListener () {
             @Override
@@ -153,7 +165,41 @@ public class EditMeal extends AppCompatActivity implements EasyPermissions.Permi
                 updateMeal ();
             }
         } );
-//        ivImage.setOnClickListener ( this );
+
+        toggleSellingStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
+                HotelService service = RetrofitInstance.getRetrofitInstance ().create ( HotelService.class );
+                Call<Product> call = service.productEdit(token, pProductId, null, null, ""+isChecked);
+                call.enqueue ( new Callback<Product>() {
+                    @Override
+                    public void onResponse(Call<Product> call, Response<Product> response) {
+                        if (response.isSuccessful ()) {
+                            updateSellingStatus(isChecked);
+                        } else {
+                            hideProgressDialogWithTitle ();
+                            Toast.makeText ( EditMeal.this, "Error editing...", Toast.LENGTH_SHORT ).show ();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Product> call, Throwable t) {
+//                        mLoading.setVisibility(View.INVISIBLE);
+                        hideProgressDialogWithTitle ();
+                        Toast.makeText ( EditMeal.this, "Something went wrong...Error message: " + t.getMessage (), Toast.LENGTH_SHORT ).show ();
+                    }
+                } );
+            }
+        });
+    }
+
+    private void updateSellingStatus(Boolean status) {
+
+        if(status) {
+            sellingStatus.setText("Is Selling");
+        } else {
+            sellingStatus.setText("Not Selling");
+        }
     }
 
     private void updateMeal() {
@@ -188,8 +234,6 @@ public class EditMeal extends AppCompatActivity implements EasyPermissions.Permi
         RequestBody mUnitMeasure = RequestBody.create(MediaType.parse("text/plain"), pUnitMeasure);
         RequestBody mHotelId = RequestBody.create(MediaType.parse("text/plain"), pHotelId);
 
-        String token = SharedPrefManager.getInstance ( getApplicationContext () ).getToken ();
-
         if(selectedImage != null) {
             String filePath = getRealPathFromURIPath(selectedImage, EditMeal.this);
             File file = new File(filePath);
@@ -198,7 +242,7 @@ public class EditMeal extends AppCompatActivity implements EasyPermissions.Permi
 
             call = service.productEditWithImage(token, pProductId, fileToUpload, filename, mName, mPrice, mUnitMeasure, mHotelId);
         } else {
-            call = service.productEdit(token, pProductId, mealName, mealPrice);
+            call = service.productEdit(token, pProductId, mealName, mealPrice, null);
         }
 
         call.enqueue ( new Callback<Product>() {
@@ -227,9 +271,6 @@ public class EditMeal extends AppCompatActivity implements EasyPermissions.Permi
                 Toast.makeText ( EditMeal.this, "Something went wrong...Error message: " + t.getMessage (), Toast.LENGTH_SHORT ).show ();
             }
         } );
-
-
-
     }
     //Upload Image
     private String getRealPathFromURIPath(Uri contentURI, Activity activity) {

@@ -77,8 +77,9 @@ public class MealsFragment extends Fragment {
                 i.putExtra(Constants.M_PRICE, product.getPrice());
                 i.putExtra(Constants.M_IMAGE, product.getImage());
                 i.putExtra(Constants.M_HOTEL_ID, product.getHotel());
-                i.putExtra(Constants.M_PRODUCT_ID, product.getHotel());
+                i.putExtra(Constants.M_PRODUCT_ID, product.getId());
                 i.putExtra(Constants.M_UNITMEASURE, product.getUnitMeasure());
+                i.putExtra(Constants.M_STATUS, product.isSelling());
                 startActivity ( i );
             }
 
