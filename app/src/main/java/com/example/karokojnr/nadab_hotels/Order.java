@@ -73,10 +73,26 @@ public class Order extends AppCompatActivity {
             public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
                 if(response.body().isSuccess()) {
                     order = response.body().getOrder();
-                    totalPrice.setText("Total :: Kshs. " + order.getTotalPrice());
-                    customerName.setText("Customer: " +order.getCustomer().getName());
                     orderItems.addAll(Arrays.asList(order.getOrderItems()));
+                    double totalAccepted = 0;
+                    for (int i=0; i< orderItems.size(); i++ ){
+                        OrderItem orderItem = orderItems.get(i);
+                        totalAccepted += orderItem.getPrice();
+                    }
+                    totalPrice.setText("Total :: Kshs. " + totalAccepted);
+                    customerName.setText("Customer: " +order.getCustomer().getName());
                     orderStatus.setText(order.getOrderStatus());
+                    if(order.getOrderStatus().equals("COMPLETE")) {
+                        acceptAll.setVisibility(View.GONE);
+                        rejectAll.setVisibility(View.GONE);
+                        confirmPay.setVisibility(View.GONE);
+                        completeOrder.setText("Hide order");
+                    }
+
+                    if(order.getOrderStatus().equals("BILLS")) {
+                        acceptAll.setVisibility(View.GONE);
+                        rejectAll.setVisibility(View.GONE);
+                    }
                 }
 
                 recyclerView = (RecyclerView) findViewById ( R.id.order_items_recycler_view );
@@ -189,7 +205,28 @@ public class Order extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Send notification to client
-                updateOrderStatus("COMPLETE");
+                Log.wtf("status", "onClick: "+ order.getOrderStatus().equals("COMPLETE"));
+                if(order.getOrderStatus().equals("COMPLETE")) {
+                    HotelService service = RetrofitInstance.getRetrofitInstance ().create ( HotelService.class );
+                    Call<OrderResponse> call = service.acceptOrder(order.getOrderId(), "HIDDEN");
+                    call.enqueue ( new Callback<OrderResponse>() {
+                        @Override
+                        public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
+                            if(response.body().isSuccess()) {
+                                order = response.body().getOrder();
+                                orderStatus.setText(order.getOrderStatus());
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<OrderResponse> call, Throwable t) {
+                            Log.wtf("LOG", "onFailure: "+t.getMessage() );
+                            Toast.makeText (  mContext, "Something went wrong...Please try later!"+t.getMessage(), Toast.LENGTH_SHORT ).show ();
+                        }
+                    } );
+                } else {
+                    updateOrderStatus("COMPLETE");
+                }
             }
         });
 

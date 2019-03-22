@@ -68,7 +68,7 @@ public interface HotelService {
     Call<Orders> getOrders(@Header("x-token") String token);
 
     @PUT("orders/{id}/{status}")
-    Call<Order> acceptOrder(@Path("id") String orderId, @Path("status") String orderStatus);
+    Call<OrderResponse> acceptOrder(@Path("id") String orderId, @Path("status") String orderStatus);
 
     @PUT("orders/{id}/all/{status}")
     Call<OrderResponse> acceptAll(@Path("id") String orderId, @Path("status") String orderStatus);
