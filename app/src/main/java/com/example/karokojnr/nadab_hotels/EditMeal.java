@@ -77,7 +77,6 @@ public class EditMeal extends AppCompatActivity implements EasyPermissions.Permi
 
     private static final int RESULT_LOAD_IMAGE = 1;
     private Uri selectedImage;
-    private static final int REQUEST_GALLERY_CODE = 200;
     private static final int READ_REQUEST_CODE = 300;
     private String filePath;
     private File file;
@@ -104,8 +103,6 @@ public class EditMeal extends AppCompatActivity implements EasyPermissions.Permi
 
             @Override
             public void onClick(View view) {
-
-                // Your code
                 finish ();
             }
         } );
@@ -184,7 +181,6 @@ public class EditMeal extends AppCompatActivity implements EasyPermissions.Permi
 
                     @Override
                     public void onFailure(Call<Product> call, Throwable t) {
-//                        mLoading.setVisibility(View.INVISIBLE);
                         hideProgressDialogWithTitle ();
                         Toast.makeText ( EditMeal.this, "Something went wrong...Error message: " + t.getMessage (), Toast.LENGTH_SHORT ).show ();
                     }
@@ -250,15 +246,11 @@ public class EditMeal extends AppCompatActivity implements EasyPermissions.Permi
             public void onResponse(Call<Product> call, Response<Product> response) {
                 if (response.isSuccessful ()) {
                     assert response.body () != null;
-                    //mLoading.setVisibility(View.GONE);
                     hideProgressDialogWithTitle ();
                     Toast.makeText ( EditMeal.this, "Meal edited successfully...", Toast.LENGTH_SHORT ).show ();
                     Intent intent = new Intent ( getApplicationContext (), MainActivity.class );
                     startActivity ( intent );
-                    //notify data set changed in RecyclerView adapter
-//                            adapter.notifyDataSetChanged ();
                 } else {
-                    // mLoading.setVisibility(View.INVISIBLE);
                     hideProgressDialogWithTitle ();
                     Toast.makeText ( EditMeal.this, "Error editing...", Toast.LENGTH_SHORT ).show ();
                 }
@@ -266,13 +258,12 @@ public class EditMeal extends AppCompatActivity implements EasyPermissions.Permi
 
             @Override
             public void onFailure(Call<Product> call, Throwable t) {
-//                        mLoading.setVisibility(View.INVISIBLE);
                 hideProgressDialogWithTitle ();
                 Toast.makeText ( EditMeal.this, "Something went wrong...Error message: " + t.getMessage (), Toast.LENGTH_SHORT ).show ();
             }
         } );
     }
-    //Upload Image
+
     private String getRealPathFromURIPath(Uri contentURI, Activity activity) {
         Cursor cursor = activity.getContentResolver().query(contentURI, null, null, null, null);
         if (cursor == null) {
@@ -292,15 +283,13 @@ public class EditMeal extends AppCompatActivity implements EasyPermissions.Permi
                 break;
 
             case R.id.btn_ok:
-
                 break;
 
             case R.id.btn_cancel:
                 break;
         }
-
-
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult ( requestCode, resultCode, data );
@@ -321,9 +310,7 @@ public class EditMeal extends AppCompatActivity implements EasyPermissions.Permi
     }
 
     @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
-
-    }
+    public void onPointerCaptureChanged(boolean hasCapture) { }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -336,7 +323,6 @@ public class EditMeal extends AppCompatActivity implements EasyPermissions.Permi
         if (selectedImage != null) {
             filePath = getRealPathFromURIPath(selectedImage, EditMeal.this);
             file = new File(filePath);
-            Log.d(TAG, "Filename " + file.getName());
         }
     }
 
@@ -344,7 +330,7 @@ public class EditMeal extends AppCompatActivity implements EasyPermissions.Permi
     public void onPermissionsDenied(int requestCode, List<String> perms) {
         Log.d(TAG, "Permission has been denied");
     }
-    // Method to show Progress bar
+
     private void showProgressDialogWithTitle() {
         progressDialog.setTitle("Editing Meal");
         progressDialog.setMessage("Please Wait.....");

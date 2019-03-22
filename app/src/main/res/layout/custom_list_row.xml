@@ -37,10 +37,11 @@
                     android:id="@+id/tvName"
                     android:textSize="10dp"
                     android:textStyle="bold"/>
-                <!--<TextView android:layout_width="wrap_content"
+                <TextView android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/tvUnitMeasure"
-                    android:textSize="10dp"/>-->
+                    android:id="@+id/tvSellingStatus"
+                    android:textSize="10dp"/>
+
                 <TextView android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/tvPrice"

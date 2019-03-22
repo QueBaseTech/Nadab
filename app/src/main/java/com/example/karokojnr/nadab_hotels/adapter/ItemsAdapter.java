@@ -59,6 +59,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
         Product product = productList.get(position);
         holder.name.setText(product.getName());
         holder.price.setText("Kshs " + product.getPrice());
+        holder.sellingStatus.setText(product.isSelling()? "Selling": "Not Selling");
         Glide.with(context)
                 .load(RetrofitInstance.BASE_URL + "images/uploads/products/thumb_" + product.getImage())
                 .into(holder.imageView);
@@ -127,7 +128,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.MyViewHolder
             price = (TextView) itemView.findViewById(R.id.tvPrice);
             //hotel = (TextView) itemView.findViewById ( R.id.tvHotel );
             imageView = (ImageView) itemView.findViewById(R.id.tvImage);
-            //  sellingStatus = (TextView) view.findViewById ( R.id.sellingStatus );
+            sellingStatus = (TextView) itemView.findViewById ( R.id.tvSellingStatus );
         }
     }
 

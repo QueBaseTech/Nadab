@@ -2,15 +2,25 @@ package com.example.karokojnr.nadab_hotels.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.karokojnr.nadab_hotels.R;
+import com.example.karokojnr.nadab_hotels.api.HotelService;
+import com.example.karokojnr.nadab_hotels.api.RetrofitInstance;
 import com.example.karokojnr.nadab_hotels.model.Order;
+import com.example.karokojnr.nadab_hotels.model.OrderResponse;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SalesAdapter extends RecyclerView.Adapter<SalesAdapter.MyViewHolder>  {
     private ArrayList<Order> sales;
@@ -30,7 +40,7 @@ public class SalesAdapter extends RecyclerView.Adapter<SalesAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Order order = sales.get ( position );
+        final Order order = sales.get ( position );
         String upadtedAt = order.getUpdatedAt();
 
         holder.name.setText(order.getCustomer().getName());
@@ -38,6 +48,29 @@ public class SalesAdapter extends RecyclerView.Adapter<SalesAdapter.MyViewHolder
         holder.price.setText(order.getTotalPrice().toString());
         holder.qty.setText(order.getTotalItems() + " items");
         holder.status.setText(order.getOrderStatus());
+
+        holder.hideBt.setVisibility(View.GONE);
+        holder.hideBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HotelService service = RetrofitInstance.getRetrofitInstance ().create ( HotelService.class );
+                Call<OrderResponse> call = service.acceptAll(order.getOrderId(), "HIDE");
+                call.enqueue ( new Callback<OrderResponse>() {
+                    @Override
+                    public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
+                        if(response.body().isSuccess()) {
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<OrderResponse> call, Throwable t) {
+                        Log.wtf("LOG", "onFailure: "+t.getMessage() );
+                        Toast.makeText (  context, "Something went wrong...Please try later!"+t.getMessage(), Toast.LENGTH_SHORT ).show ();
+                    }
+                } );
+            }
+        });
     }
 
     @Override
@@ -46,7 +79,7 @@ public class SalesAdapter extends RecyclerView.Adapter<SalesAdapter.MyViewHolder
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView name, price, status, qty, time;
+        TextView name, price, status, qty, hideBt;
 
         MyViewHolder(View itemView) {
             super ( itemView );
@@ -56,6 +89,7 @@ public class SalesAdapter extends RecyclerView.Adapter<SalesAdapter.MyViewHolder
             qty = (TextView) itemView.findViewById ( R.id.qty_tv);
             price = (TextView) itemView.findViewById ( R.id.sale_total_price);
             status = (TextView) itemView.findViewById ( R.id.sale_item_status);
+            hideBt = itemView.findViewById(R.id.hide_item_btn);
         }
     }
 
