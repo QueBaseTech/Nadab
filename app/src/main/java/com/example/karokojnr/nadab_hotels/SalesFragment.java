@@ -91,7 +91,6 @@ public class SalesFragment extends Fragment {
 
         context = this;
 
-
         HotelService service = RetrofitInstance.getRetrofitInstance ().create ( HotelService.class );
         Call<Orders> call = service.getOrders( SharedPrefManager.getInstance(getActivity ()).getToken() );
         call.enqueue ( new Callback<Orders>() {
