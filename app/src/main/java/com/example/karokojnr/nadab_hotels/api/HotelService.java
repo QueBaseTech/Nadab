@@ -1,13 +1,10 @@
 package com.example.karokojnr.nadab_hotels.api;
 
 
-import android.support.annotation.Nullable;
-
 import com.example.karokojnr.nadab_hotels.model.FCMToken;
 import com.example.karokojnr.nadab_hotels.model.HotelRegister;
 import com.example.karokojnr.nadab_hotels.model.HotelsList;
 import com.example.karokojnr.nadab_hotels.model.Login;
-import com.example.karokojnr.nadab_hotels.model.Order;
 import com.example.karokojnr.nadab_hotels.model.OrderResponse;
 import com.example.karokojnr.nadab_hotels.model.Orders;
 import com.example.karokojnr.nadab_hotels.model.Product;

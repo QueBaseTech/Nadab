@@ -12,28 +12,10 @@
     android:background="@color/colorPrimary"
     tools:context=".MainActivity">
 
-
-
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="vertical" />
-
-        <!--<ProgressBar
-            android:id="@+id/login_loading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/recycler_view"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/button_margin"
-            android:layout_marginTop="@dimen/button_margin"
-            android:visibility="invisible" />
--->
-
-
-
-
 
 </ScrollView>

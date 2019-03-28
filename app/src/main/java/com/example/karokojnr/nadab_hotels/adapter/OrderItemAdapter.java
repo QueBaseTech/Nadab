@@ -7,20 +7,23 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
+import android.widget.*;
 
+import com.bumptech.glide.Glide;
 import com.example.karokojnr.nadab_hotels.R;
+import com.example.karokojnr.nadab_hotels.api.RetrofitInstance;
 import com.example.karokojnr.nadab_hotels.model.OrderItem;
 
 import java.util.ArrayList;
 
-public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.MyViewHolder>  {
+public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.MyViewHolder> implements Filterable {
     private ArrayList<OrderItem> orderItems;
+    private ArrayList<OrderItem> mFilteredList;
     Context context;
 
     public OrderItemAdapter(ArrayList<OrderItem> empDataList, Context context) {
         this.orderItems = empDataList;
+        mFilteredList = empDataList;
         this.context = context;
     }
 
@@ -35,6 +38,7 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.MyVi
     public void onBindViewHolder(@NonNull MyViewHolder holder, int i) {
         OrderItem item = orderItems.get ( i );
 
+
         holder.name.setText(item.getName());
         holder.price.setText("Kshs. "+ item.getPrice());
         holder.qty.setText("Qty : "+item.getQty());
@@ -45,10 +49,56 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.MyVi
         }
     }
 
+
     @Override
     public int getItemCount() {
-        return orderItems.size ();
+        return mFilteredList.size();    }
+
+
+    //Search bar filter
+
+
+    @Override
+    public Filter getFilter() {
+
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+
+                String charString = charSequence.toString();
+
+                if (charString.isEmpty()) {
+
+                    mFilteredList = orderItems;
+                } else {
+
+                    ArrayList<OrderItem> filteredList = new ArrayList<>();
+
+                    for (OrderItem orderItemList : orderItems) {
+
+                        if (orderItemList.getName ().toLowerCase().contains(charString) || charString.toLowerCase().contains(charString) ||orderItemList.getStatus ().toLowerCase().contains(charString) || charString.toLowerCase().contains(charString)) {
+
+                            filteredList.add(orderItemList);
+                        }
+                    }
+
+                    mFilteredList = filteredList;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = mFilteredList;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                mFilteredList = (ArrayList<OrderItem>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
     }
+
+    //End of Search filter
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView name, price, status, qty;

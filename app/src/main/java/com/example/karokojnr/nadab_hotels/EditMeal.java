@@ -1,5 +1,7 @@
 package com.example.karokojnr.nadab_hotels;
 
+import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.Manifest;
@@ -15,12 +17,20 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import android.util.Log;
 import android.util.Patterns;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -37,6 +47,7 @@ import com.example.karokojnr.nadab_hotels.api.RetrofitInstance;
 import com.example.karokojnr.nadab_hotels.model.Product;
 import com.example.karokojnr.nadab_hotels.model.Products;
 import com.example.karokojnr.nadab_hotels.utils.Constants;
+import com.example.karokojnr.nadab_hotels.utils.HotelSharedPreference;
 import com.example.karokojnr.nadab_hotels.utils.SharedPrefManager;
 
 import java.io.File;
@@ -64,7 +75,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import ru.dimorinny.floatingtextbutton.FloatingTextButton;
 
-public class EditMeal extends AppCompatActivity implements EasyPermissions.PermissionCallbacks{
+import static com.example.karokojnr.nadab_hotels.MainActivity.tabLayout;
+
+public class EditMeal extends AppCompatActivity implements EasyPermissions.PermissionCallbacks,
+        NavigationView.OnNavigationItemSelectedListener {
     ImageView ivImage;
     EditText meal_name, price;
     FloatingTextButton edit, cancel;
@@ -84,6 +98,7 @@ public class EditMeal extends AppCompatActivity implements EasyPermissions.Permi
     private Switch toggleSellingStatus;
     private TextView sellingStatus;
     private String token;
+    static ViewPager viewPager;
 
 
 
@@ -92,20 +107,23 @@ public class EditMeal extends AppCompatActivity implements EasyPermissions.Permi
         super.onCreate ( savedInstanceState );
         setContentView ( R.layout.activity_edit_meal );
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        Toolbar toolbar = (Toolbar) findViewById ( R.id.toolbar );
+        setSupportActionBar ( toolbar );
 
-        getSupportActionBar ().setDisplayHomeAsUpEnabled ( true );
-        getSupportActionBar ().setDisplayShowHomeEnabled ( true );
+        DrawerLayout drawer = (DrawerLayout) findViewById ( R.id.drawer_layout );
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle ( this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close );
+        drawer.setDrawerListener ( toggle );
+        toggle.syncState ();
 
-        toolbar.setNavigationIcon(R.drawable.ic_arrow);
-        toolbar.setNavigationOnClickListener ( new View.OnClickListener () {
+        NavigationView navigationView = (NavigationView) findViewById ( R.id.nav_view );
+        View headerView = navigationView.getHeaderView ( 0 );
+        TextView navUsername = (TextView) headerView.findViewById ( R.id.navTextview );
+        ImageView navImageview = (ImageView) headerView.findViewById ( R.id.imageView );
+        navigationView.setNavigationItemSelectedListener(this);
 
-            @Override
-            public void onClick(View view) {
-                finish ();
-            }
-        } );
+        HotelSharedPreference hotel = SharedPrefManager.getInstance ( this ).getHotel ();
+        navUsername.setText ( hotel.getUsername () );
+        Glide.with ( this ).load ( RetrofitInstance.BASE_URL + "images/uploads/hotels/" + String.valueOf ( hotel.getIvImage () ) ).into ( navImageview );
 
         token = SharedPrefManager.getInstance ( getApplicationContext () ).getToken ();
         progressDialog = new ProgressDialog (this);
@@ -189,12 +207,16 @@ public class EditMeal extends AppCompatActivity implements EasyPermissions.Permi
         });
     }
 
+    @SuppressLint("ResourceAsColor")
     private void updateSellingStatus(Boolean status) {
 
         if(status) {
-            sellingStatus.setText("Is Selling");
+            sellingStatus.setText("IS SELLING");
+            sellingStatus.setTextColor ( Color.GREEN );
+
         } else {
-            sellingStatus.setText("Not Selling");
+            sellingStatus.setText("NOT SELLING");
+            sellingStatus.setTextColor ( Color.RED );
         }
     }
 
@@ -369,4 +391,35 @@ public class EditMeal extends AppCompatActivity implements EasyPermissions.Permi
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.dismiss();
     }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+// Handle navigation view item clicks here.
+        int id = menuItem.getItemId();
+
+        if (id == R.id.nav_home) {
+            startActivity(new Intent(EditMeal.this, MainActivity.class));
+        } else if (id == R.id.nav_profile) {
+            startActivity(new Intent(EditMeal.this, ProfileActivity.class));
+        } else if (id == R.id.nav_add_meals) {
+            startActivity(new Intent(EditMeal.this, AddMeals.class));
+
+        } else if (id == R.id.nav_sign_out) {
+            // Log.wtf(TAG, "onOptionsItemSelected: Logout");
+            SharedPrefManager.getInstance ( getApplicationContext () ).logout ();
+            startActivity ( new Intent ( getApplicationContext (), LoginActivity.class ) );
+            finish();
+        }else if (id == R.id.terms_conditions){
+            startActivity(new Intent(EditMeal.this, Terms.class));
+
+        }
+        this.finish();
+
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+
+    }
+
 }

@@ -3,6 +3,7 @@ package com.example.karokojnr.nadab_hotels.model;
 import com.google.gson.annotations.SerializedName;
 
 public class OrderItem {
+
     @SerializedName("name")
     private String name;
 

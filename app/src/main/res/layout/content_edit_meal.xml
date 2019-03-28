@@ -78,6 +78,45 @@
             </android.support.design.widget.TextInputLayout>
 
 
+
+          <!--  <TextView
+                android:id="@+id/is_selling"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/button_margin"
+                android:layout_marginTop="@dimen/button_margin"
+                android:text="Is on display? "
+                android:layout_below="@id/ti_price"/>-->
+
+            <Switch
+                android:id="@+id/selling_switch"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Selling status: "
+                android:textColor="@color/colorAccent"
+                android:textOn="YES"
+                android:textOff="NO"
+                android:checked="true"
+                android:gravity="left"
+                android:layout_below="@id/ti_price"
+                android:layout_marginTop="@dimen/child_margin_top"/>
+
+            <TextView
+                android:id="@+id/selling_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/button_margin"
+                android:layout_marginTop="@dimen/button_margin"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:layout_below="@id/selling_switch"
+                android:layout_gravity="center"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                />
+
+
+
             <ru.dimorinny.floatingtextbutton.FloatingTextButton
                 android:id="@+id/btn_edit"
                 android:layout_width="wrap_content"
@@ -94,7 +133,9 @@
                 android:layout_centerInParent="true"
                 app:floating_title_color="@android:color/white"
                 app:layout_behavior="ru.dimorinny.floatingtextbutton.behavior.SnackbarBehavior"
-                android:layout_below="@+id/ti_price" />
+                android:layout_below="@+id/selling_status" />
+
+
 
             <ProgressBar
                 android:id="@+id/edit_loading"
@@ -106,35 +147,8 @@
                 android:layout_marginTop="@dimen/button_margin"
                 android:visibility="invisible" />
 
-            <TextView
-                android:id="@+id/selling_status"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/button_margin"
-                android:layout_marginTop="@dimen/button_margin"
-                android:layout_below="@id/btn_edit"/>
 
-            <TextView
-                android:id="@+id/is_selling"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/button_margin"
-                android:layout_marginTop="@dimen/button_margin"
-                android:text="Is on display? "
-                android:layout_below="@id/selling_status"/>
-
-            <Switch
-                android:id="@+id/selling_switch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/button_margin"
-                android:layout_marginTop="@dimen/button_margin"
-                android:layout_below="@id/selling_status"
-                android:layout_alignEnd="@id/is_selling"
-                android:layout_alignRight="@id/is_selling" />
 
         </RelativeLayout>
     </LinearLayout>
 </RelativeLayout>
-
-

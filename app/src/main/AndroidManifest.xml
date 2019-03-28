@@ -40,6 +40,15 @@
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
         </activity>
+
+
+        <!--<activity
+            android:name=".Terms"
+            android:theme="@style/AppTheme" />-->
+       <!-- <activity
+            android:name=".LoginActivity"
+            android:theme="@style/AppTheme" />-->
+
         <activity android:name=".ProfileActivity" />
         <activity android:name=".RegisterActivity" />
         <activity

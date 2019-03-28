@@ -2,14 +2,18 @@ package com.example.karokojnr.nadab_hotels;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.XmlResourceParser;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -168,7 +172,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     // Else do login and do your stuff
                 else
-                    Toast.makeText(getApplicationContext (), "Do Login.", Toast.LENGTH_SHORT)
+                    Toast.makeText(getApplicationContext (), "Logging In....", Toast.LENGTH_SHORT)
                             .show();
 
 
@@ -277,16 +281,21 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.dismiss();
     }
     //Styling for double press back button
-    private static long back_pressed;
     @Override
     public void onBackPressed(){
-        if (back_pressed + 2000 > System.currentTimeMillis()){
-            super.onBackPressed();
-        }
-        else{
-            Toast.makeText(this, "Press once again to exit", Toast.LENGTH_SHORT).show();
-            back_pressed = System.currentTimeMillis();
-        }
+
+            new AlertDialog.Builder(this)
+                    .setTitle("Really Exit?")
+                    .setMessage("Are you sure you want to exit?")
+                    .setNegativeButton(android.R.string.no, null)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener () {
+
+                        @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+                        public void onClick(DialogInterface arg0, int arg1) {
+                            finishAffinity();
+                        }
+                    }).create().show();
+
     }
 
 
