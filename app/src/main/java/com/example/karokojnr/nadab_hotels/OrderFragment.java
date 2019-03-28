@@ -163,7 +163,6 @@ public class OrderFragment extends Fragment {
 
         adapter = new OrdersAdapter( empDataList, getActivity ());
         recyclerView.setLayoutManager(layoutManager);
-        Log.wtf("noadap", String.valueOf(adapter));
         recyclerView.setAdapter (adapter);
     }
 }
