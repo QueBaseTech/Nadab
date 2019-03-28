@@ -10,7 +10,7 @@
     tools:showIn="@layout/activity_items"
     android:scrollbars="vertical"
     android:background="@color/colorPrimary"
-    tools:context=".MainActivity">
+    tools:context=".MealsFragment">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"
