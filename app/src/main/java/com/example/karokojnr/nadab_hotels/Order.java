@@ -179,9 +179,9 @@ public class Order extends AppCompatActivity implements  NavigationView.OnNaviga
             }
 
             private void updateOrderItemStatus(String itemId, boolean accept, int position) {
-                String orderStatus = accept? "ACCEPTED": "REJECTED";
+                String status = accept? "ACCEPTED": "REJECTED";
                 HotelService service = RetrofitInstance.getRetrofitInstance ().create ( HotelService.class );
-                Call<OrderResponse> call = service.updateOrderItemStatus(order.getOrderId(), itemId, orderStatus);
+                Call<OrderResponse> call = service.updateOrderItemStatus(order.getOrderId(), itemId, status);
                 call.enqueue ( new Callback<OrderResponse>() {
                     @Override
                     public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
@@ -189,6 +189,7 @@ public class Order extends AppCompatActivity implements  NavigationView.OnNaviga
                             orderItems.clear();
                             orderItems.addAll(Arrays.asList(response.body().getOrder().getOrderItems()));
                             adapter.notifyDataSetChanged();
+                            orderStatus.setText(response.body().getOrder().getOrderStatus());
                         }
                     }
 
@@ -209,14 +210,14 @@ public class Order extends AppCompatActivity implements  NavigationView.OnNaviga
         acceptAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateOrderStatus("ACCEPTED"+ GREEN);
+                updateOrderStatus("ACCEPTED");
             }
         });
 
         rejectAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateOrderStatus("REJECTED"+ Color.RED);
+                updateOrderStatus("REJECTED");
             }
         });
 
