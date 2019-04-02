@@ -17,6 +17,9 @@ public class Order {
     @SerializedName("totalPrice")
     private Double totalPrice;
 
+    @SerializedName("totalBill")
+    private Double totalBill;
+
     @SerializedName("totalItems")
     private int totalItems;
 
@@ -54,6 +57,10 @@ public class Order {
 
     public void setOrderId(String orderId) {
         this.orderId = orderId;
+    }
+
+    public Double getTotalBill() {
+        return totalBill;
     }
 
     public String getOrderStatus() {

@@ -101,25 +101,8 @@ public class Order extends AppCompatActivity implements  NavigationView.OnNaviga
                 if(response.body().isSuccess()) {
                     order = response.body().getOrder();
                     orderItems.addAll(Arrays.asList(order.getOrderItems()));
-                    double totalAccepted = 0;
-                    for (int i=0; i< orderItems.size(); i++ ){
-                        OrderItem orderItem = orderItems.get(i);
-                        totalAccepted += orderItem.getPrice();
-                    }
-                    totalPrice.setText("Total :: Kshs. " + totalAccepted);
                     customerName.setText("CUSTOMER NAME: \n " +order.getCustomer().getName());
-                    orderStatus.setText(order.getOrderStatus());
-                    if(order.getOrderStatus().equals("COMPLETE")) {
-                        acceptAll.setVisibility(View.GONE);
-                        rejectAll.setVisibility(View.GONE);
-                        confirmPay.setVisibility(View.GONE);
-                        completeOrder.setText("Hide order");
-                    }
-
-                    if(order.getOrderStatus().equals("BILLS")) {
-                        acceptAll.setVisibility(View.GONE);
-                        rejectAll.setVisibility(View.GONE);
-                    }
+                    updatedButtonStatus();
                 }
 
                 recyclerView = (RecyclerView) findViewById ( R.id.order_items_recycler_view );
@@ -187,9 +170,10 @@ public class Order extends AppCompatActivity implements  NavigationView.OnNaviga
                     public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
                         if(response.body().isSuccess()) {
                             orderItems.clear();
+                            order = response.body().getOrder();
                             orderItems.addAll(Arrays.asList(response.body().getOrder().getOrderItems()));
                             adapter.notifyDataSetChanged();
-                            orderStatus.setText(response.body().getOrder().getOrderStatus());
+                            updatedButtonStatus();
                         }
                     }
 
@@ -242,7 +226,7 @@ public class Order extends AppCompatActivity implements  NavigationView.OnNaviga
                         public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
                             if(response.body().isSuccess()) {
                                 order = response.body().getOrder();
-                                orderStatus.setText(order.getOrderStatus());
+                                updatedButtonStatus();
                             }
                         }
 
@@ -253,11 +237,45 @@ public class Order extends AppCompatActivity implements  NavigationView.OnNaviga
                         }
                     } );
                 } else {
-                    updateOrderStatus("COMPLETE");
+                    if(!order.getOrderStatus().equals("SALES")){
+                        Toast.makeText(mContext, "You need to Confirm Payment before completing the order", Toast.LENGTH_LONG).show();
+                    }else{
+                        updateOrderStatus("COMPLETE");
+                    }
                 }
             }
         });
 
+    }
+
+    private void updatedButtonStatus() {
+        orderStatus.setText(order.getOrderStatus());
+        totalPrice.setText("Total :: Kshs. " + order.getTotalBill());
+        // Hide all buttons
+        acceptAll.setVisibility(View.GONE);
+        rejectAll.setVisibility(View.GONE);
+        confirmPay.setVisibility(View.GONE);
+        completeOrder.setVisibility(View.GONE);
+
+        // Show Accept & Reject All
+        if(order.getOrderStatus().equals("NEW")) {
+            acceptAll.setVisibility(View.VISIBLE);
+            rejectAll.setVisibility(View.VISIBLE);
+        }
+
+        if(order.getOrderStatus().equals("BILLS") || order.getOrderStatus().equals("RE-ORDER")) {
+            confirmPay.setVisibility(View.VISIBLE);
+            completeOrder.setVisibility(View.VISIBLE);
+        }
+
+        if(order.getOrderStatus().equals("SALES")) {
+            completeOrder.setVisibility(View.VISIBLE);
+        }
+
+        if(order.getOrderStatus().equals("COMPLETE")) {
+            completeOrder.setVisibility(View.VISIBLE);
+            completeOrder.setText("Hide order");
+        }
     }
 
     private void updateOrderStatus(String status) {
@@ -268,9 +286,10 @@ public class Order extends AppCompatActivity implements  NavigationView.OnNaviga
             public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
                 if(response.body().isSuccess()) {
                     orderItems.clear();
+                    order = response.body().getOrder();
                     orderItems.addAll(Arrays.asList(response.body().getOrder().getOrderItems()));
                     adapter.notifyDataSetChanged();
-                    orderStatus.setText(response.body().getOrder().getOrderStatus());
+                    updatedButtonStatus();
                 }
             }
 
