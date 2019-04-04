@@ -194,54 +194,31 @@ public class Order extends AppCompatActivity implements  NavigationView.OnNaviga
         acceptAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateOrderStatus("ACCEPTED");
+                updateAllOrderItemsStatus("ACCEPTED");
             }
         });
 
         rejectAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateOrderStatus("REJECTED");
+                updateAllOrderItemsStatus("REJECTED");
             }
         });
 
         confirmPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Send notification to client
-                updateOrderStatus("PAID");
+                updateAllOrderItemsStatus("PAID");
             }
         });
 
         completeOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Send notification to client
-                Log.wtf("status", "onClick: "+ order.getOrderStatus().equals("COMPLETE"));
-                if(order.getOrderStatus().equals("COMPLETE")) {
-                    HotelService service = RetrofitInstance.getRetrofitInstance ().create ( HotelService.class );
-                    Call<OrderResponse> call = service.acceptOrder(order.getOrderId(), "HIDDEN");
-                    call.enqueue ( new Callback<OrderResponse>() {
-                        @Override
-                        public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
-                            if(response.body().isSuccess()) {
-                                order = response.body().getOrder();
-                                updatedButtonStatus();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<OrderResponse> call, Throwable t) {
-                            Log.wtf("LOG", "onFailure: "+t.getMessage() );
-                            Toast.makeText (  mContext, "Something went wrong...Please try later!"+t.getMessage(), Toast.LENGTH_SHORT ).show ();
-                        }
-                    } );
-                } else {
-                    if(!order.getOrderStatus().equals("SALES")){
-                        Toast.makeText(mContext, "You need to Confirm Payment before completing the order", Toast.LENGTH_LONG).show();
-                    }else{
-                        updateOrderStatus("COMPLETE");
-                    }
+                if(!order.getOrderStatus().equals("SALES")){
+                    Toast.makeText(mContext, "You need to Confirm Payment before completing the order", Toast.LENGTH_LONG).show();
+                }else{
+                    updatedOrderStatus("COMPLETE");
                 }
             }
         });
@@ -272,13 +249,12 @@ public class Order extends AppCompatActivity implements  NavigationView.OnNaviga
             completeOrder.setVisibility(View.VISIBLE);
         }
 
-        if(order.getOrderStatus().equals("COMPLETE")) {
-            completeOrder.setVisibility(View.VISIBLE);
-            completeOrder.setText("Hide order");
-        }
     }
 
-    private void updateOrderStatus(String status) {
+    /*
+    * Used for all items in order, bulk update
+    * */
+    private void updateAllOrderItemsStatus(String status) {
         HotelService service = RetrofitInstance.getRetrofitInstance ().create ( HotelService.class );
         Call<OrderResponse> call = service.acceptAll(order.getOrderId(), status);
         call.enqueue ( new Callback<OrderResponse>() {
@@ -289,6 +265,29 @@ public class Order extends AppCompatActivity implements  NavigationView.OnNaviga
                     order = response.body().getOrder();
                     orderItems.addAll(Arrays.asList(response.body().getOrder().getOrderItems()));
                     adapter.notifyDataSetChanged();
+                    updatedButtonStatus();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<OrderResponse> call, Throwable t) {
+                Log.wtf("LOG", "onFailure: "+t.getMessage() );
+                Toast.makeText (  mContext, "Something went wrong...Please try later!"+t.getMessage(), Toast.LENGTH_SHORT ).show ();
+            }
+        } );
+    }
+
+    /*
+    * Updated the order object status
+    * */
+    private void updatedOrderStatus(String status) {
+        HotelService service = RetrofitInstance.getRetrofitInstance ().create ( HotelService.class );
+        Call<OrderResponse> call = service.updateOrder(order.getOrderId(), status);
+        call.enqueue ( new Callback<OrderResponse>() {
+            @Override
+            public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
+                if(response.body().isSuccess()) {
+                    order = response.body().getOrder();
                     updatedButtonStatus();
                 }
             }

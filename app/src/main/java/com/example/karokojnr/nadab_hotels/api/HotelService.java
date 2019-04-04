@@ -65,12 +65,12 @@ public interface HotelService {
     Call<Orders> getOrders(@Header("x-token") String token);
 
     @PUT("orders/{id}/{status}")
-    Call<OrderResponse> acceptOrder(@Path("id") String orderId, @Path("status") String orderStatus);
+    Call<OrderResponse> updateOrder(@Path("id") String orderId, @Path("status") String orderStatus);
 
     @PUT("orders/{id}/all/{status}")
     Call<OrderResponse> acceptAll(@Path("id") String orderId, @Path("status") String orderStatus);
 
-    // Send app token to server everytime it changes
+    // Send app token to server every time it changes
     @FormUrlEncoded
     @PUT("hotel/token")
     Call<FCMToken> sendTokenToServer(@Header("x-token") String authToken, @Field("token") String token);
