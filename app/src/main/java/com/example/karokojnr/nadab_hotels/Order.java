@@ -208,7 +208,11 @@ public class Order extends AppCompatActivity implements  NavigationView.OnNaviga
         confirmPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateAllOrderItemsStatus("PAID");
+                boolean allNew = true;
+                for(OrderItem item : order.getOrderItems()) if(!item.getStatus().equals("NEW")) allNew = false;
+                if(allNew) Toast.makeText(mContext, "You need to accept or reject some items first.", Toast.LENGTH_LONG).show();
+                else updateAllOrderItemsStatus("PAID");
+
             }
         });
 

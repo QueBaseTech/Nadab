@@ -11,3 +11,4 @@
 .externalNativeBuild
 ./app/google-services.json
 google-services.json
+.idea/misc.xml
