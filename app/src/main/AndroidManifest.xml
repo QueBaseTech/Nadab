@@ -92,6 +92,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.karokojnr.nadab_hotels.MainActivity" />
         </activity>
+        <activity
+                android:name="com.example.karokojnr.nadab_hotels.FeesActivity"
+                android:label="Fees"
+                android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>

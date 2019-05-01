@@ -1,14 +1,7 @@
 package com.example.karokojnr.nadab_hotels.api;
 
 
-import com.example.karokojnr.nadab_hotels.model.FCMToken;
-import com.example.karokojnr.nadab_hotels.model.HotelRegister;
-import com.example.karokojnr.nadab_hotels.model.HotelsList;
-import com.example.karokojnr.nadab_hotels.model.Login;
-import com.example.karokojnr.nadab_hotels.model.OrderResponse;
-import com.example.karokojnr.nadab_hotels.model.Orders;
-import com.example.karokojnr.nadab_hotels.model.Product;
-import com.example.karokojnr.nadab_hotels.model.Products;
+import com.example.karokojnr.nadab_hotels.model.*;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -80,6 +73,9 @@ public interface HotelService {
 
     @PUT("orders/{orderId}/{itemId}/{status}")
     Call<OrderResponse> updateOrderItemStatus(@Path("orderId") String orderId, @Path("itemId") String itemId, @Path("status") String orderStatus);
+
+    @GET("hotel/fees")
+    Call<Fees> getFees(@Header("x-token") String token);
 
 /*
     /**

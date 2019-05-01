@@ -18,7 +18,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -227,7 +226,10 @@ public class MainActivity extends AppCompatActivity
         }else if (id == R.id.terms_conditions){
             startActivity(new Intent(MainActivity.this, Terms.class));
 
-        }
+        }else if (id == R.id.nav_fees){
+        startActivity(new Intent(MainActivity.this, FeesActivity.class));
+
+    }
         /*    this.finish();
         } else if (id == R.id.nav_item5) {
             viewPager.setCurrentItem(4);
