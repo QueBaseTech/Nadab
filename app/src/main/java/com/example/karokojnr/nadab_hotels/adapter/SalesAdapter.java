@@ -65,7 +65,7 @@ public class SalesAdapter extends RecyclerView.Adapter<SalesAdapter.MyViewHolder
 
                     @Override
                     public void onFailure(Call<OrderResponse> call, Throwable t) {
-                        Log.wtf("LOG", "onFailure: "+t.getMessage() );
+                        Log.wtf("LOG", "onFailure: sales.."+t.getMessage() );
                         Toast.makeText (  context, "Something went wrong...Please try later!"+t.getMessage(), Toast.LENGTH_SHORT ).show ();
                     }
                 } );

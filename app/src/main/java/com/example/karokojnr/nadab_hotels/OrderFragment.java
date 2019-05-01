@@ -103,7 +103,7 @@ public class OrderFragment extends Fragment {
 
             @Override
             public void onFailure(Call<Orders> call, Throwable t) {
-                Log.wtf("LOG", "onFailure: "+t.getMessage() );
+                Log.wtf("LOG", "onFailure: orders "+t.getMessage() );
                 Toast.makeText ( getActivity (), "Something went wrong...Please try later!"+t.getMessage(), Toast.LENGTH_SHORT ).show ();
             }
         } );
