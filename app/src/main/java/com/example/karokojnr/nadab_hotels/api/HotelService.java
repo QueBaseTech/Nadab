@@ -77,6 +77,12 @@ public interface HotelService {
     @GET("hotel/fees")
     Call<Fees> getFees(@Header("x-token") String token);
 
+
+    @FormUrlEncoded
+    @PUT("hotels/edit/{id}")
+    Call<HotelResponse> profileEdit(@Header("x-token") String token, @Path ( "id" )String hotelId, @Field("businessName") RequestBody businessName, @Field("fullName") RequestBody fullName, @Field("payBillNo") RequestBody payBillNo , @Field("mobileNumber") RequestBody mobileNumber, @Field("city") RequestBody city, @Field("address") RequestBody address, @Field("businessEmail") RequestBody businessEmail);
+
+
 /*
     /**
      * URL MANIPULATION

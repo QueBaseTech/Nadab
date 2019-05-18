@@ -127,7 +127,7 @@ public class EditMeal extends AppCompatActivity implements EasyPermissions.Permi
 
         token = SharedPrefManager.getInstance ( getApplicationContext () ).getToken ();
         progressDialog = new ProgressDialog (this);
-        mLoading = (ProgressBar) findViewById(R.id.login_loading);
+        mLoading = (ProgressBar) findViewById(R.id.edit_loading);
         toggleSellingStatus = findViewById(R.id.selling_switch);
         sellingStatus = findViewById(R.id.selling_status);
 

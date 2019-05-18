@@ -41,6 +41,8 @@ public class OrderFragment extends Fragment {
     private OrdersAdapter adapter;
     private OrderFragment context;
     RecyclerView recyclerView;
+    private RecyclerView.LayoutManager mLayoutManager;
+
 
     private List<Order> orderLists = new ArrayList<> ();
 
@@ -93,12 +95,17 @@ public class OrderFragment extends Fragment {
         call.enqueue ( new Callback<Orders> () {
             @Override
             public void onResponse(Call<Orders> call, Response<Orders> response) {
+                Log.wtf(TAG, "onResponse: "+ response.body().toString());
                 orderLists.clear();
                 for (int i = 0; i < response.body ().getOrdersList ().size (); i++) {
                     Order order = response.body ().getOrdersList().get(i);
+                    Log.wtf(TAG, "onResponse: "+ order.toString() );
                     if(order.getOrderStatus().equals("NEW") || order.getOrderStatus().equals("RE-ORDER")) orderLists.add ( order );
                 }
                 generateOrdersList((ArrayList<Order>) orderLists);
+
+               // generateOrdersList ( response.body ().getOrdersList () );
+
             }
 
             @Override
@@ -110,6 +117,10 @@ public class OrderFragment extends Fragment {
 
 
         recyclerView = (RecyclerView) view.findViewById ( R.id.orderslist_recycler_view );
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager ( getActivity () );
+       // recyclerView.setHasFixedSize(false);
+        recyclerView.setLayoutManager(layoutManager);
+        //recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addOnItemTouchListener ( new RecyclerTouchListener( getActivity (), recyclerView, new RecyclerTouchListener.ClickListener () {
             @Override
             public void onClick(View view, final int position) {
@@ -159,10 +170,11 @@ public class OrderFragment extends Fragment {
     }
 
     private void generateOrdersList(ArrayList<Order> empDataList) {
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager ( getActivity () );
 
         adapter = new OrdersAdapter( empDataList, getActivity ());
-        recyclerView.setLayoutManager(layoutManager);
+        //adapter.notifyDataSetChanged();
+
         recyclerView.setAdapter (adapter);
+
     }
 }

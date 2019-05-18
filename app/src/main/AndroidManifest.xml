@@ -52,8 +52,9 @@
         <activity android:name=".ProfileActivity" />
         <activity android:name=".RegisterActivity" />
         <activity
-            android:name=".Items"
+            android:name=".ChangeProfile"
             android:theme="@style/AppTheme" />
+
         <activity android:name=".AddMeals" />
         <activity android:name=".ItemDetails" />
         <activity

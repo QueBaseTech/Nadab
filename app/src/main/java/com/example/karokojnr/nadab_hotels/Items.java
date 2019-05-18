@@ -1,3 +1,4 @@
+/*
 package com.example.karokojnr.nadab_hotels;
 
 
@@ -77,11 +78,17 @@ public class Items extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
-        /*Create handle for the RetrofitInstance interface*/
+        */
+/*Create handle for the RetrofitInstance interface*//*
+
         HotelService service = RetrofitInstance.getRetrofitInstance ().create ( HotelService.class );
-        /*Call the method with parameter in the interface to get the employee data*/
+        */
+/*Call the method with parameter in the interface to get the employee data*//*
+
         Call<Products> call = service.getProducts(utils.getToken(getApplicationContext()));
-        /*Log the URL called*/
+        */
+/*Log the URL called*//*
+
         Log.wtf ( "URL Called", call.request ().url () + "" );
 
         call.enqueue ( new Callback<Products> () {
@@ -222,7 +229,9 @@ public class Items extends AppCompatActivity {
         builder.show();
     }
 
-    /*Method to generate List of employees using RecyclerView with custom adapter*/
+    */
+/*Method to generate List of employees using RecyclerView with custom adapter*//*
+
     private void generateProductsList(ArrayList<Product> empDataList) {
         recyclerView = (RecyclerView) findViewById ( R.id.recycler_view );
 
@@ -341,7 +350,8 @@ public class Items extends AppCompatActivity {
         startActivityForResult(intent, REQUEST_CAMERA);
     }
 
-    /*@Override
+    */
+/*@Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -351,7 +361,8 @@ public class Items extends AppCompatActivity {
             else if (requestCode == REQUEST_CAMERA)
                 onCaptureImageResult(data);
         }
-    }*/
+    }*//*
+
 
     private void onCaptureImageResult(Intent data) {
         Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
@@ -395,3 +406,4 @@ public class Items extends AppCompatActivity {
 
 
 
+*/
