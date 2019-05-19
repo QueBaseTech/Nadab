@@ -45,7 +45,20 @@ public interface HotelService {
 
     @Multipart
     @PUT("products/edit/{id}/image")
-    Call<Product> productEditWithImage(@Header("x-token") String token, @Path ( "id" )String productId, @Part MultipartBody.Part file,                                                                                                                            @Part ("filename") RequestBody filename, @Part("name") RequestBody name, @Part("price")RequestBody price, @Part("unitMeasure") RequestBody unitMeasure, @Part("hotel") RequestBody hotel);
+    Call<Product> productEditWithImage(@Header("x-token") String token, @Path ( "id" )String productId,
+                                       @Part MultipartBody.Part file,@Part ("filename") RequestBody filename,
+                                       @Part("name") RequestBody name, @Part("price")RequestBody price,
+                                       @Part("unitMeasure") RequestBody unitMeasure, @Part("hotel") RequestBody hotel);
+
+    @Multipart
+    @PUT("hotels/edit/{id}/image")
+    Call<HotelResponse> hotelEditWithImage(@Header("x-token") String token, @Path ( "id" )String hotelId,
+                                   @Part MultipartBody.Part file,@Part ("filename") RequestBody filename,
+                                   @Part("applicantName") String applicantName, @Part("businessEmail") String businessEmail,
+                                   @Part("mobileNumber") String mobileNumber , @Part("businessName") String businessName,
+                                   @Part("city") String city, @Part("address") String address, @Part("payBillNo") String payBillNo);
+
+
 
     @FormUrlEncoded
     @PUT("products/edit/{id}")
@@ -80,8 +93,18 @@ public interface HotelService {
 
     @FormUrlEncoded
     @PUT("hotels/edit/{id}")
-    Call<HotelResponse> profileEdit(@Header("x-token") String token, @Path ( "id" )String hotelId, @Field("businessName") RequestBody businessName, @Field("fullName") RequestBody fullName, @Field("payBillNo") RequestBody payBillNo , @Field("mobileNumber") RequestBody mobileNumber, @Field("city") RequestBody city, @Field("address") RequestBody address, @Field("businessEmail") RequestBody businessEmail);
+    Call<HotelResponse> profileEdit(@Header("x-token") String token, @Path ( "id" )String hotelId,
+                                    @Field("applicantName") String applicantName,
+                                    @Field("businessEmail") String businessEmail,
+                                    @Field("mobileNumber") String mobileNumber ,
+                                    @Field("businessName") String businessName,
+                                    @Field("city") String city, @Field("address") String address,
+                                    @Field("payBillNo") String payBillNo);
 
+   /* @Multipart
+    @PUT("hotels/edit/{id}/image")
+    Call<Hotel> hotelEditWithImage(@Header("x-token") String token, @Path("id") String hotelId, @Part MultipartBody.Part file, RequestBody requestBody, RequestBody mbusinessName, RequestBody mapplicantName, RequestBody mbusinessEmail, @Part("filename") RequestBody filename, @Part("name") RequestBody name, @Part("price") RequestBody price, @Part("unitMeasure") RequestBody unitMeasure, @Part("hotel") RequestBody hotel);
+   */
 
 /*
     /**
@@ -137,7 +160,7 @@ public interface HotelService {
     *//**
      * FORM ENCODED AND MULTIPART
      * Form-encoded data is sent when @FormUrlEncoded is present on the method.
-     * Each key-value pair is annotated with @Field containing the name and the object providing the value
+     * Each key-value pair is annotated with @Part containing the name and the object providing the value
      * *//*
     @FormUrlEncoded
     @POST("notice/edit")
