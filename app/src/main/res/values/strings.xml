@@ -78,7 +78,6 @@
     <string name="already_user">Already have Account? Login here.</string>
 
 
-
     <string name="conditions" formatted="true"> conitions
 
     </string>
@@ -87,5 +86,10 @@
 
     <string name="default_notification_channel_id">0465</string>
     <string name="emoji"> &amp;#x128522</string>
+    <string name="title_activity_hotel_sales">HotelSales</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="hotel_sales">Hotel Sales</string>
+    <string name="fees">Fees</string>
 
 </resources>
