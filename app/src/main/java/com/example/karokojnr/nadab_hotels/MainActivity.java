@@ -219,8 +219,8 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(MainActivity.this, ProfileActivity.class));
         } else if (id == R.id.nav_add_meals) {
             startActivity(new Intent(MainActivity.this, AddMeals.class));
-        } else if (id == R.id.nav_hotel_sales) {
-            startActivity(new Intent(MainActivity.this, HotelSales.class));
+        } else if (id == R.id.nav_sales) {
+            startActivity(new Intent(MainActivity.this, Sales.class));
         } else if (id == R.id.nav_sign_out) {
             // Log.wtf(TAG, "onOptionsItemSelected: Logout");
             SharedPrefManager.getInstance ( getApplicationContext () ).logout ();

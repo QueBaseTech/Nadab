@@ -21,7 +21,7 @@
             android:icon="@drawable/meals"
             android:title="@string/add_meals" />
         <item
-            android:id="@+id/nav_hotel_sales"
+            android:id="@+id/nav_sales"
             android:icon="@drawable/make_order"
             android:title="@string/hotel_sales" />
 
