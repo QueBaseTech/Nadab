@@ -15,11 +15,16 @@
         <item
                 android:id="@+id/nav_fees"
                 android:icon="@drawable/ic_bills"
-                android:title="Fees" />
+                android:title="@string/fees" />
         <item
             android:id="@+id/nav_add_meals"
             android:icon="@drawable/meals"
             android:title="@string/add_meals" />
+        <item
+            android:id="@+id/nav_hotel_sales"
+            android:icon="@drawable/make_order"
+            android:title="@string/hotel_sales" />
+
         <item
             android:id="@+id/nav_sign_out"
             android:icon="@drawable/ic_sign_out"

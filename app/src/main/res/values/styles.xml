@@ -13,10 +13,12 @@
         <item name="actionBarStyle">@style/MyActionBar</item>
         <item name="windowNoTitle">true</item>
     </style>
+
     <style name="MyActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:background">@color/colorPrimary</item>
         <item name="android:titleTextStyle">@style/MyActionBarTitleText</item>
     </style>
+
     <style name="MyActionBarTitleText" parent="android:TextAppearance.Holo.Widget.ActionBar.Title">
         <item name="android:textColor">#FFFFFF</item>
     </style>
@@ -61,6 +63,11 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 
 
 </resources>

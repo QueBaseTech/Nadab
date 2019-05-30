@@ -19,6 +19,9 @@
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning"
         tools:replace="android:label">
+        <activity
+            android:name=".HotelSales"
+            android:theme="@style/AppTheme" />
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,25 +39,26 @@
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
+
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
         </activity>
-
-
-        <!--<activity
+        <!--
+<activity
             android:name=".Terms"
-            android:theme="@style/AppTheme" />-->
-       <!-- <activity
+            android:theme="@style/AppTheme" />
+        -->
+        <!--
+ <activity
             android:name=".LoginActivity"
-            android:theme="@style/AppTheme" />-->
-
+            android:theme="@style/AppTheme" />
+        -->
         <activity android:name=".ProfileActivity" />
         <activity android:name=".RegisterActivity" />
         <activity
             android:name=".ChangeProfile"
             android:theme="@style/AppTheme" />
-
         <activity android:name=".AddMeals" />
         <activity android:name=".ItemDetails" />
         <activity
@@ -94,9 +98,9 @@
                 android:value="com.example.karokojnr.nadab_hotels.MainActivity" />
         </activity>
         <activity
-                android:name="com.example.karokojnr.nadab_hotels.FeesActivity"
-                android:label="Fees"
-                android:theme="@style/AppTheme"/>
+            android:name=".FeesActivity"
+            android:label="Fees"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>
