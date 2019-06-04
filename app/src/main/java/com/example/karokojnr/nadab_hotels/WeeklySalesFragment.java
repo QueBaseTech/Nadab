@@ -15,6 +15,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
 import com.example.karokojnr.nadab_hotels.adapter.ItemsAdapter;
 import com.example.karokojnr.nadab_hotels.model.Product;
 
@@ -23,18 +25,16 @@ import java.util.List;
 
 public class WeeklySalesFragment extends Fragment {
 
-    RecyclerView recyclerView;
-
+    TextView totalOrders, totalSales;
 
     @Nullable
     @Override
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate ( R.layout.fragment_weekly_sales, container, false );
+        View view = inflater.inflate ( R.layout.fragment_daily_sales, container, false );
 
-        recyclerView = (RecyclerView) view.findViewById ( R.id.recycler_view );
-        // white background notification bar
-        whiteNotificationBar(recyclerView);
+        totalOrders = (TextView) view.findViewById ( R.id.total_orders );
+        totalSales = (TextView) view.findViewById ( R.id.total_sales );
 
 
         return view;
@@ -59,14 +59,6 @@ public class WeeklySalesFragment extends Fragment {
     }
 
 
-    private void whiteNotificationBar(View view) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            int flags = view.getSystemUiVisibility();
-            flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-            view.setSystemUiVisibility(flags);
-            getActivity ().getWindow().setStatusBarColor(Color.WHITE);
-        }
-    }
 
 
 }
