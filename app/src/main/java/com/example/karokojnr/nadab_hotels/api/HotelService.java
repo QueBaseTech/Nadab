@@ -5,31 +5,22 @@ import com.example.karokojnr.nadab_hotels.model.*;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
-import retrofit2.http.Body;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Multipart;
-import retrofit2.http.POST;
-import retrofit2.http.PUT;
-import retrofit2.http.Part;
-import retrofit2.http.Path;
+import retrofit2.http.*;
 
 public interface HotelService {
 
     /*
-    * Pull all the hotels
-    * */
+     * Pull all the hotels
+     * */
     @GET("hotels/")
     Call<HotelsList> getHotels();
 
     /*
-    * Post a new hotel
-    * */
+     * Post a new hotel
+     * */
     @Multipart
     @POST("register/")
-    Call<HotelRegister> addHotel(@Part MultipartBody.Part file,@Part("filename") RequestBody filename, @Part("businessName") RequestBody businessName, @Part("applicantName") RequestBody applicantName, @Part("payBillNo") RequestBody payBillNo, @Part("mobileNumber") RequestBody mobileNumber, @Part("city") RequestBody city, @Part("address") RequestBody address, @Part("businessEmail") RequestBody businessEmail, @Part("password") RequestBody password);
+    Call<HotelRegister> addHotel(@Part MultipartBody.Part file, @Part("filename") RequestBody filename, @Part("businessName") RequestBody businessName, @Part("applicantName") RequestBody applicantName, @Part("payBillNo") RequestBody payBillNo, @Part("mobileNumber") RequestBody mobileNumber, @Part("city") RequestBody city, @Part("address") RequestBody address, @Part("businessEmail") RequestBody businessEmail, @Part("password") RequestBody password);
 
     @FormUrlEncoded
     @POST("products/add")
@@ -45,24 +36,23 @@ public interface HotelService {
 
     @Multipart
     @PUT("products/edit/{id}/image")
-    Call<Product> productEditWithImage(@Header("x-token") String token, @Path ( "id" )String productId,
-                                       @Part MultipartBody.Part file,@Part ("filename") RequestBody filename,
-                                       @Part("name") RequestBody name, @Part("price")RequestBody price,
+    Call<Product> productEditWithImage(@Header("x-token") String token, @Path("id") String productId,
+                                       @Part MultipartBody.Part file, @Part("filename") RequestBody filename,
+                                       @Part("name") RequestBody name, @Part("price") RequestBody price,
                                        @Part("unitMeasure") RequestBody unitMeasure, @Part("hotel") RequestBody hotel);
 
     @Multipart
     @PUT("hotels/edit/{id}/image")
-    Call<HotelResponse> hotelEditWithImage(@Header("x-token") String token, @Path ( "id" )String hotelId,
-                                   @Part MultipartBody.Part file,@Part ("filename") RequestBody filename,
-                                   @Part("applicantName") String applicantName, @Part("businessEmail") String businessEmail,
-                                   @Part("mobileNumber") String mobileNumber , @Part("businessName") String businessName,
-                                   @Part("city") String city, @Part("address") String address, @Part("payBillNo") String payBillNo);
-
+    Call<HotelResponse> hotelEditWithImage(@Header("x-token") String token, @Path("id") String hotelId,
+                                           @Part MultipartBody.Part file, @Part("filename") RequestBody filename,
+                                           @Part("applicantName") String applicantName, @Part("businessEmail") String businessEmail,
+                                           @Part("mobileNumber") String mobileNumber, @Part("businessName") String businessName,
+                                           @Part("city") String city, @Part("address") String address, @Part("payBillNo") String payBillNo);
 
 
     @FormUrlEncoded
     @PUT("products/edit/{id}")
-    Call<Product> productEdit(@Header("x-token") String token, @Path ( "id" )String productId, @Field("name") String name, @Field("price") String price, @Field("sellingStatus") String sellingStatus);
+    Call<Product> productEdit(@Header("x-token") String token, @Path("id") String productId, @Field("name") String name, @Field("price") String price, @Field("sellingStatus") String sellingStatus);
 
     @GET("products/")
     Call<Products> getProducts(@Header("x-token") String token);
@@ -90,13 +80,15 @@ public interface HotelService {
     @GET("hotel/fees")
     Call<Fees> getFees(@Header("x-token") String token);
 
+    @GET("stats")
+    Call<Stats> getStats(@Header("x-token") String token);
 
     @FormUrlEncoded
     @PUT("hotels/edit/{id}")
-    Call<HotelResponse> profileEdit(@Header("x-token") String token, @Path ( "id" )String hotelId,
+    Call<HotelResponse> profileEdit(@Header("x-token") String token, @Path("id") String hotelId,
                                     @Field("applicantName") String applicantName,
                                     @Field("businessEmail") String businessEmail,
-                                    @Field("mobileNumber") String mobileNumber ,
+                                    @Field("mobileNumber") String mobileNumber,
                                     @Field("businessName") String businessName,
                                     @Field("city") String city, @Field("address") String address,
                                     @Field("payBillNo") String payBillNo);

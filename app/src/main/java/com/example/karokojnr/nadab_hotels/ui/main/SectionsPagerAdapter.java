@@ -6,7 +6,6 @@ import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-
 import com.example.karokojnr.nadab_hotels.R;
 
 /**
@@ -20,7 +19,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     private final Context mContext;
 
     public SectionsPagerAdapter(Context context, FragmentManager fm) {
-        super ( fm );
+        super(fm);
         mContext = context;
     }
 
@@ -28,13 +27,13 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         // getItem is called to instantiate the fragment for the given page.
         // Return a PlaceholderFragment (defined as a static inner class below).
-        return PlaceholderFragment.newInstance ( position + 1 );
+        return PlaceholderFragment.newInstance(position + 1);
     }
 
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        return mContext.getResources ().getString ( TAB_TITLES[position] );
+        return mContext.getResources().getString(TAB_TITLES[position]);
     }
 
     @Override
