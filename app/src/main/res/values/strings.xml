@@ -91,5 +91,8 @@
     <string name="tab_text_2">Tab 2</string>
     <string name="hotel_sales">Hotel Sales</string>
     <string name="fees">Fees</string>
+    <string name="total_orders">Total Orders</string>
+    <string name="total_sales">Total Sales</string>
+
 
 </resources>
