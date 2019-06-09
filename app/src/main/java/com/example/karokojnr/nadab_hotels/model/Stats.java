@@ -12,9 +12,6 @@ public class Stats {
     @SerializedName("currentMonth")
     private Stat currentMonth;
 
-    @SerializedName("weekly")
-    private Stat weekly;
-
     @SerializedName("2018")
     private Year year2018;
 
@@ -37,10 +34,6 @@ public class Stats {
 
     public Stat getCurrentMonth() {
         return currentMonth;
-    }
-
-    public Stat getWeekly() {
-        return weekly;
     }
 
     public Year getYear2018() {

@@ -81,7 +81,7 @@ public interface HotelService {
     Call<Fees> getFees(@Header("x-token") String token);
 
     @GET("stats")
-    Call<Stats> getStats(@Header("x-token") String token);
+    Call<StatsResponse> getStats(@Header("x-token") String token);
 
     @FormUrlEncoded
     @PUT("hotels/edit/{id}")

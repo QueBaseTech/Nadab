@@ -17,19 +17,33 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import android.widget.Toast;
 import com.bumptech.glide.Glide;
+import com.example.karokojnr.nadab_hotels.adapter.OrderItemAdapter;
+import com.example.karokojnr.nadab_hotels.api.HotelService;
 import com.example.karokojnr.nadab_hotels.api.RetrofitInstance;
+import com.example.karokojnr.nadab_hotels.model.OrderResponse;
+import com.example.karokojnr.nadab_hotels.model.Stats;
+import com.example.karokojnr.nadab_hotels.model.StatsResponse;
 import com.example.karokojnr.nadab_hotels.utils.HotelSharedPreference;
 import com.example.karokojnr.nadab_hotels.utils.SharedPrefManager;
+import com.example.karokojnr.nadab_hotels.utils.utils;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Sales extends AppCompatActivity
@@ -72,7 +86,7 @@ public class Sales extends AppCompatActivity
 
 
         viewPager = (ViewPager) findViewById ( R.id.viewpager );
-        PagerAdapter pagerAdapter = new Adapter ( getSupportFragmentManager () );
+        final PagerAdapter pagerAdapter = new Adapter ( getSupportFragmentManager () );
         viewPager.setAdapter ( pagerAdapter );
         tabLayout = (TabLayout) findViewById ( R.id.tabs );
 
@@ -173,6 +187,7 @@ public class Sales extends AppCompatActivity
     class Adapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragments = new ArrayList<> ();
         private final List<String> mFragmentTitles = new ArrayList<>();
+        public Stats stats = new Stats();
 
         public Adapter(FragmentManager fm) {
             super(fm);
@@ -185,9 +200,11 @@ public class Sales extends AppCompatActivity
 
         @Override
         public Fragment getItem(int position) {
+            Bundle bundle = new Bundle();
+            Fragment frag;
             switch (position) {
                 case 0:
-                    return new DailySalesFragment ();
+                    return new DailySalesFragment();
                 case 1:
                     return new WeeklySalesFragment ();
                 case 2:
@@ -208,10 +225,10 @@ public class Sales extends AppCompatActivity
         public CharSequence getPageTitle(int position) {
             switch (position){
                 //Tab titles
-                case 0: return  "Daily Sales";
-                case 1: return "Weekly Sales";
-                case 2: return "Monthly Sales";
-                case 3: return "Total Sales";
+                case 0: return  "Daily";
+                case 1: return "Weekly";
+                case 2: return "Monthly";
+                case 3: return "Total";
                 default: return null;
             }
         }
