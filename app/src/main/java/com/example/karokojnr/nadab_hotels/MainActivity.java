@@ -220,7 +220,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_add_meals) {
             startActivity(new Intent(MainActivity.this, AddMeals.class));
         } else if (id == R.id.nav_sales) {
-            startActivity(new Intent(MainActivity.this, Sales.class));
+            startActivity(new Intent(MainActivity.this, TotalSales.class));
         } else if (id == R.id.nav_sign_out) {
             // Log.wtf(TAG, "onOptionsItemSelected: Logout");
             SharedPrefManager.getInstance ( getApplicationContext () ).logout ();
