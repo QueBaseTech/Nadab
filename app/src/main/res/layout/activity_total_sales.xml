@@ -43,49 +43,36 @@
 
 
             <TextView
-                android:id="@+id/details"
+                android:id="@+id/duration"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="#b0b0b0"
+                android:gravity="center"
+                android:padding="20dip"
+                android:text="Duration"
+                android:textColor="#000000"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/orders"
+                android:layout_weight="1"
                 android:background="#dcdcdc"
                 android:gravity="center"
                 android:padding="20dip"
-                android:text="Details"
-                android:textColor="#000000" />
+                android:text="Orders"
+                android:textColor="#000000"
+                android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/dailySales"
+                android:id="@+id/sales"
                 android:layout_weight="1"
                 android:background="#dcdcdc"
                 android:gravity="center"
                 android:padding="20dip"
-                android:text="Daily Sales"
-                android:textColor="#000000" />
+                android:text="Sales"
+                android:textColor="#000000"
+                android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/weeklySales"
-                android:layout_weight="1"
-                android:background="#d3d3d3"
-                android:gravity="center"
-                android:padding="20dip"
-                android:text="Weekly Sales"
-                android:textColor="#000000" />
-
-            <TextView
-                android:id="@+id/monthlySales"
-                android:layout_weight="1"
-                android:background="#cac9c9"
-                android:gravity="center"
-                android:padding="20dip"
-                android:text="Monthly Sales"
-                android:textColor="#000000" />
-            <TextView
-                android:id="@+id/totalSales"
-                android:layout_weight="1"
-                android:background="#cac9c9"
-                android:gravity="center"
-                android:padding="20dip"
-                android:text="Total Sales"
-                android:textColor="#000000" />
 
         </TableRow>
 
@@ -96,16 +83,16 @@
             android:gravity="center_horizontal">
 
             <TextView
-                android:id="@+id/orders"
+                android:id="@+id/daily"
                 android:layout_width="92dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="#b0b0b0"
+                android:background="#dcdcdc"
                 android:gravity="center"
                 android:padding="18dip"
-                android:text="Orders"
+                android:text="Daily"
                 android:textColor="#000000"
-                android:textSize="8sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/dailyOrders"
@@ -116,29 +103,14 @@
                 android:padding="18dip"
                 android:gravity="center"/>
             <TextView
-                android:id="@+id/weeklyOrders"
+                android:id="@+id/dailySales"
                 android:hint="0"
                 android:layout_weight="1"
                 android:background="#b0b0b0"
                 android:textColor="#000000"
                 android:padding="18dip"
                 android:gravity="center"/>
-            <TextView
-                android:id="@+id/monthlyOrders"
-                android:hint="0"
-                android:layout_weight="1"
-                android:background="#b0b0b0"
-                android:textColor="#000000"
-                android:padding="18dip"
-                android:gravity="center"/>
-            <TextView
-                android:id="@+id/totalOrders"
-                android:hint="0"
-                android:layout_weight="1"
-                android:background="#b0b0b0"
-                android:textColor="#000000"
-                android:padding="18dip"
-                android:gravity="center"/>
+
         </TableRow>
 
         <!-- Row 3 with 2 columns -->
@@ -148,19 +120,19 @@
             android:gravity="center_horizontal">
 
             <TextView
-                android:id="@+id/price"
+                android:id="@+id/weekly"
                 android:layout_width="92dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="#b0b0b0"
+                android:background="#dcdcdc"
                 android:gravity="center"
                 android:padding="18dip"
-                android:text="Price"
+                android:text="Weekly"
                 android:textColor="#000000"
-                android:textSize="8sp" />
+                android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/dailyPrice"
+                android:id="@+id/weeklyOrders"
                 android:hint="0"
                 android:layout_weight="1"
                 android:background="#b0b0b0"
@@ -168,7 +140,35 @@
                 android:padding="18dip"
                 android:gravity="center"/>
             <TextView
-                android:id="@+id/weeklyPrice"
+                android:id="@+id/weeklySales"
+                android:hint="0"
+                android:layout_weight="1"
+                android:background="#b0b0b0"
+                android:textColor="#000000"
+                android:padding="18dip"
+                android:gravity="center"/>
+
+        </TableRow>
+
+        <TableRow
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/monthly"
+                android:layout_width="92dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#dcdcdc"
+                android:gravity="center"
+                android:padding="18dip"
+                android:text="Monthly"
+                android:textColor="#000000"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/monthlyOrders"
                 android:hint="0"
                 android:layout_weight="1"
                 android:background="#b0b0b0"
@@ -176,7 +176,34 @@
                 android:padding="18dip"
                 android:gravity="center"/>
             <TextView
-                android:id="@+id/monthlyPrice"
+                android:id="@+id/monthlySales"
+                android:hint="0"
+                android:layout_weight="1"
+                android:background="#b0b0b0"
+                android:textColor="#000000"
+                android:padding="18dip"
+                android:gravity="center"/>
+
+        </TableRow>
+        <TableRow
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/yearly"
+                android:layout_width="92dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#dcdcdc"
+                android:gravity="center"
+                android:padding="18dip"
+                android:text="Yearly"
+                android:textColor="#000000"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/yearlyOrders"
                 android:hint="0"
                 android:layout_weight="1"
                 android:background="#b0b0b0"
@@ -184,13 +211,53 @@
                 android:padding="18dip"
                 android:gravity="center"/>
             <TextView
-                android:id="@+id/totalPrice"
+                android:id="@+id/yearlySales"
                 android:hint="0"
                 android:layout_weight="1"
                 android:background="#b0b0b0"
                 android:textColor="#000000"
                 android:padding="18dip"
                 android:gravity="center"/>
+
+        </TableRow>
+
+        <TableRow
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/total"
+                android:layout_width="92dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#dcdcdc"
+                android:gravity="center"
+                android:padding="18dip"
+                android:text="Total"
+                android:textColor="#000000"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/totalOrders"
+                android:layout_weight="1"
+                android:background="#b0b0b0"
+                android:gravity="center"
+                android:hint="0"
+                android:padding="18dip"
+                android:textColor="#000000"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/totalSales"
+                android:layout_weight="1"
+                android:background="#b0b0b0"
+                android:gravity="center"
+                android:hint="0"
+                android:padding="18dip"
+                android:textColor="#000000"
+                android:textSize="18sp" />
+
         </TableRow>
 
     </TableLayout>
