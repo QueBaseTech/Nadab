@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TotalSales">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:shrinkColumns="*"  android:stretchColumns="*" android:background="#ffffff">
+
+
+        <!-- Row 1 with single column -->
+        <TableRow
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:gravity="center_horizontal">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_span="3"
+                android:background="#b0b0b0"
+                android:padding="18dip"
+                android:text="@string/total_sales"
+                android:textAlignment="center"
+                android:textColor="#000"
+                android:textSize="18dp" />
+
+
+        </TableRow>
+
+        <!-- Row 2 with 3 columns -->
+
+
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
+
+
+            <TextView
+                android:id="@+id/details"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#dcdcdc"
+                android:gravity="center"
+                android:padding="20dip"
+                android:text="Details"
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/dailySales"
+                android:layout_weight="1"
+                android:background="#dcdcdc"
+                android:gravity="center"
+                android:padding="20dip"
+                android:text="Daily Sales"
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/weeklySales"
+                android:layout_weight="1"
+                android:background="#d3d3d3"
+                android:gravity="center"
+                android:padding="20dip"
+                android:text="Weekly Sales"
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/monthlySales"
+                android:layout_weight="1"
+                android:background="#cac9c9"
+                android:gravity="center"
+                android:padding="20dip"
+                android:text="Monthly Sales"
+                android:textColor="#000000" />
+            <TextView
+                android:id="@+id/totalSales"
+                android:layout_weight="1"
+                android:background="#cac9c9"
+                android:gravity="center"
+                android:padding="20dip"
+                android:text="Total Sales"
+                android:textColor="#000000" />
+
+        </TableRow>
+
+        <!-- Row 3 with 2 columns -->
+        <TableRow
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/orders"
+                android:layout_width="92dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#b0b0b0"
+                android:gravity="center"
+                android:padding="18dip"
+                android:text="Orders"
+                android:textColor="#000000"
+                android:textSize="8sp" />
+
+            <TextView
+                android:id="@+id/dailyOrders"
+                android:hint="0"
+                android:layout_weight="1"
+                android:background="#b0b0b0"
+                android:textColor="#000000"
+                android:padding="18dip"
+                android:gravity="center"/>
+            <TextView
+                android:id="@+id/weeklyOrders"
+                android:hint="0"
+                android:layout_weight="1"
+                android:background="#b0b0b0"
+                android:textColor="#000000"
+                android:padding="18dip"
+                android:gravity="center"/>
+            <TextView
+                android:id="@+id/monthlyOrders"
+                android:hint="0"
+                android:layout_weight="1"
+                android:background="#b0b0b0"
+                android:textColor="#000000"
+                android:padding="18dip"
+                android:gravity="center"/>
+            <TextView
+                android:id="@+id/totalOrders"
+                android:hint="0"
+                android:layout_weight="1"
+                android:background="#b0b0b0"
+                android:textColor="#000000"
+                android:padding="18dip"
+                android:gravity="center"/>
+        </TableRow>
+
+        <!-- Row 3 with 2 columns -->
+        <TableRow
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/price"
+                android:layout_width="92dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#b0b0b0"
+                android:gravity="center"
+                android:padding="18dip"
+                android:text="Price"
+                android:textColor="#000000"
+                android:textSize="8sp" />
+
+            <TextView
+                android:id="@+id/dailyPrice"
+                android:hint="0"
+                android:layout_weight="1"
+                android:background="#b0b0b0"
+                android:textColor="#000000"
+                android:padding="18dip"
+                android:gravity="center"/>
+            <TextView
+                android:id="@+id/weeklyPrice"
+                android:hint="0"
+                android:layout_weight="1"
+                android:background="#b0b0b0"
+                android:textColor="#000000"
+                android:padding="18dip"
+                android:gravity="center"/>
+            <TextView
+                android:id="@+id/monthlyPrice"
+                android:hint="0"
+                android:layout_weight="1"
+                android:background="#b0b0b0"
+                android:textColor="#000000"
+                android:padding="18dip"
+                android:gravity="center"/>
+            <TextView
+                android:id="@+id/totalPrice"
+                android:hint="0"
+                android:layout_weight="1"
+                android:background="#b0b0b0"
+                android:textColor="#000000"
+                android:padding="18dip"
+                android:gravity="center"/>
+        </TableRow>
+
+    </TableLayout>
+
+</android.support.constraint.ConstraintLayout>
