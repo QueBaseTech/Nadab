@@ -12,6 +12,12 @@ public class Stats {
     @SerializedName("currentMonth")
     private Stat currentMonth;
 
+    @SerializedName("currentYear")
+    private Stat currentYear;
+
+    @SerializedName("allTime")
+    private Stat total;
+
     @SerializedName("2018")
     private Year year2018;
 
@@ -50,6 +56,14 @@ public class Stats {
 
     public Year getYear2021() {
         return year2021;
+    }
+
+    public Stat getCurrentYear() {
+        return currentYear;
+    }
+
+    public Stat getTotal() {
+        return total;
     }
 }
 
